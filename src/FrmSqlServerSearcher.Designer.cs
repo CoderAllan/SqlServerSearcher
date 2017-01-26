@@ -1,6 +1,6 @@
 ﻿namespace SQLServerSearcher
 {
-    partial class SqlServerSearcherForm
+    partial class FrmSqlServerSearcher
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tables");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Views");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Stored procedures");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Tables");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Views");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Stored procedures");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Functions");
             this.btnFind = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFindText = new System.Windows.Forms.ComboBox();
@@ -148,19 +148,19 @@
             this.tvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvResults.Location = new System.Drawing.Point(0, 0);
             this.tvResults.Name = "tvResults";
-            treeNode1.Name = "NodeTables";
-            treeNode1.Text = "Tables";
-            treeNode2.Name = "ViewsNode";
-            treeNode2.Text = "Views";
-            treeNode3.Name = "StoredProceduresNode";
-            treeNode3.Text = "Stored procedures";
-            treeNode4.Name = "FunctionsNode";
-            treeNode4.Text = "Functions";
+            treeNode5.Name = "NodeTables";
+            treeNode5.Text = "Tables";
+            treeNode6.Name = "ViewsNode";
+            treeNode6.Text = "Views";
+            treeNode7.Name = "StoredProceduresNode";
+            treeNode7.Text = "Stored procedures";
+            treeNode8.Name = "FunctionsNode";
+            treeNode8.Text = "Functions";
             this.tvResults.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4});
+            treeNode5,
+            treeNode6,
+            treeNode7,
+            treeNode8});
             this.tvResults.Size = new System.Drawing.Size(292, 550);
             this.tvResults.TabIndex = 11;
             // 
@@ -198,7 +198,7 @@
             this.splitContainer1.SplitterDistance = 292;
             this.splitContainer1.TabIndex = 14;
             // 
-            // SqlServerSearcherForm
+            // FrmSqlServerSearcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -215,8 +215,10 @@
             this.Controls.Add(this.cmbFindText);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnFind);
-            this.Name = "SqlServerSearcherForm";
+            this.Name = "FrmSqlServerSearcher";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Sql Server Searcher";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSqlServerSearcher_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
