@@ -1,7 +1,6 @@
 ﻿namespace SQLServerSearcher
 {
     using System;
-    using System.Drawing;
     using System.Windows.Forms;
 
     using Model;
@@ -20,12 +19,7 @@
 
             InitializeComponent();
 
-            var eventArgs = new BaseFormEventArgs
-            {
-                Height = _appState.FrmSqlServerSearcherHeight,
-                Width = _appState.FrmSqlServerSearcherWidth,
-                Location = new Point(_appState.FrmSqlServerSearcherPosX, _appState.FrmSqlServerSearcherPosY)
-            };
+            var eventArgs = _appState.GetFormLocationAndPosition(this);
             DoFormLoad(this, eventArgs);
         }
 
@@ -49,7 +43,7 @@
 
         private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            _appState.PersistFormLocationAndPosition(this);
         }
     }
 }

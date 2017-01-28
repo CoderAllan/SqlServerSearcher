@@ -61,6 +61,11 @@
     <Compile Include="FrmSqlServerSearcher.Designer.cs">
       <DependentUpon>FrmSqlServerSearcher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\BaseFormEventArgs.cs" />
+    <Compile Include="Model\ConnectEventArgs.cs" />
+    <Compile Include="Model\FindEventArgs.cs" />
+    <Compile Include="Model\FormLocationAndPosition.cs" />
+    <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Presenters\BaseFormPresenter.cs" />
     <Compile Include="Presenters\FrmSqlServerSearcherPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

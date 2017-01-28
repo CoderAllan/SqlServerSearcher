@@ -6,6 +6,7 @@ namespace SQLServerSearcher.Presenters
     using System.Text;
     using System.Threading.Tasks;
 
+    using Model;
     using Views;
 
     public class FrmSqlServerSearcherPresenter

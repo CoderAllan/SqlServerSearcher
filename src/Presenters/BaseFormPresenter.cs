@@ -3,6 +3,7 @@ namespace SQLServerSearcher.Presenters
     using System.Drawing;
     using System.Windows.Forms;
 
+    using Model;
     using Views;
 
     public class BaseFormPresenter
@@ -41,7 +42,6 @@ namespace SQLServerSearcher.Presenters
             {
                 locationY = 1;
             }
-
 
             theForm.Location = new Point(locationX, locationY);
         }

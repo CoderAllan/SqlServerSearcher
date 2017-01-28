@@ -3,6 +3,8 @@ namespace SQLServerSearcher.Views
     using System;
     using System.Drawing;
 
+    using Model;
+
     public interface IBaseForm
     {
         int Width { get; set; }
@@ -11,12 +13,5 @@ namespace SQLServerSearcher.Views
 
         event EventHandler<BaseFormEventArgs> DoFormLoad;
         //event EventHandler<BasicFormEventArgs> DoFormClosing;
-    }
-
-    public class BaseFormEventArgs : EventArgs
-    {
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public Point Location { get; set; }
     }
 }

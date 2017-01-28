@@ -2,6 +2,7 @@ namespace SQLServerSearcher.Model
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
@@ -15,10 +16,6 @@ namespace SQLServerSearcher.Model
         public static readonly string AppFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SQLServerSearcher");
 
         public string ApplicationLocale;
-        public int FrmSqlServerSearcherWidth;
-        public int FrmSqlServerSearcherHeight;
-        public int FrmSqlServerSearcherPosX;
-        public int FrmSqlServerSearcherPosY;
         public bool MatchCase;
         public bool LookInTables;
         public bool LookInViews;
@@ -26,6 +23,7 @@ namespace SQLServerSearcher.Model
         public bool LookInStoredProcedures;
         public List<string> Servers;
         public List<string> PreviousSearches;
+        public List<FormLocationAndPosition> FormLocationsAndPositions;
 
         public static void WriteApplicationState(ApplicationState state)
         {
@@ -100,13 +98,35 @@ namespace SQLServerSearcher.Model
                 }
             }
         }
-        
-        internal void PersistFrmStandaloneReview(FrmSqlServerSearcher form)
+
+        internal BaseFormEventArgs GetFormLocationAndPosition(Form form)
         {
-            FrmSqlServerSearcherHeight = form.Height;
-            FrmSqlServerSearcherWidth = form.Width;
-            FrmSqlServerSearcherPosX = form.Location.X;
-            FrmSqlServerSearcherPosY = form.Location.Y;
+            if (FormLocationsAndPositions == null)
+            {
+                FormLocationsAndPositions = new List<FormLocationAndPosition>();
+            }
+            var formLocAndPos = FormLocationsAndPositions.FirstOrDefault(p => p.FormName.Equals(form.Name));
+            var locAndPos = new BaseFormEventArgs
+            {
+                Height = formLocAndPos == null ? 0 : formLocAndPos.Height,
+                Width = formLocAndPos == null ? 0 : formLocAndPos.Width,
+                Location = new Point(formLocAndPos == null ? 0 : formLocAndPos.PosX, formLocAndPos == null ? 0 : formLocAndPos.PosY)
+            };
+            return locAndPos;
+        }
+
+        internal void PersistFormLocationAndPosition(Form form)
+        {
+            FormLocationsAndPositions.RemoveAll(p => p.FormName.Equals(form.Name));
+            var locAndPos = new FormLocationAndPosition
+            {
+                FormName = form.Name,
+                Height = form.Height,
+                Width = form.Width,
+                PosX = form.Location.X,
+                PosY = form.Location.Y
+            };
+            FormLocationsAndPositions.Add(locAndPos);
         }
     }
 }
