@@ -56,8 +56,10 @@
       <DependentUpon>FrmSqlServerSearcher.cs</DependentUpon>
     </Compile>
     <Compile Include="Presenters\BaseFormPresenter.cs" />
+    <Compile Include="Presenters\FrmSqlServerSearcherPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IBaseForm.cs" />
+    <Compile Include="Views\IFrmSqlServerSearcher.cs" />
     <EmbeddedResource Include="FrmSqlServerSearcher.resx">
       <DependentUpon>FrmSqlServerSearcher.cs</DependentUpon>
     </EmbeddedResource>

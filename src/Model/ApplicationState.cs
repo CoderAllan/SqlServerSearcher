@@ -19,6 +19,13 @@ namespace SQLServerSearcher.Model
         public int FrmSqlServerSearcherHeight;
         public int FrmSqlServerSearcherPosX;
         public int FrmSqlServerSearcherPosY;
+        public bool MatchCase;
+        public bool LookInTables;
+        public bool LookInViews;
+        public bool LookInFunctions;
+        public bool LookInStoredProcedures;
+        public List<string> Servers;
+        public List<string> PreviousSearches;
 
         public static void WriteApplicationState(ApplicationState state)
         {
@@ -82,6 +89,18 @@ namespace SQLServerSearcher.Model
             }
         }
 
+        public void PersistComboBox(ComboBox combobox, List<string> appStateList)
+        {
+            if (appStateList != null)
+            {
+                appStateList.Clear();
+                for (int i = combobox.Items.Count - 1; i >= 0; i--)
+                {
+                    appStateList.Add(combobox.Items[i].ToString());
+                }
+            }
+        }
+        
         internal void PersistFrmStandaloneReview(FrmSqlServerSearcher form)
         {
             FrmSqlServerSearcherHeight = form.Height;

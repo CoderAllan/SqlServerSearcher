@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Tables");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Views");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Stored procedures");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Tables");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Views");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Stored procedures");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Functions");
             this.btnFind = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFindText = new System.Windows.Forms.ComboBox();
@@ -45,6 +45,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cmbServer = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnConnect = new System.Windows.Forms.Button();
+            this.cmdDatabase = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -59,11 +62,12 @@
             this.btnFind.TabIndex = 0;
             this.btnFind.Text = "Find";
             this.btnFind.UseVisualStyleBackColor = true;
+            this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 58);
+            this.label1.Location = new System.Drawing.Point(12, 85);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 20);
             this.label1.TabIndex = 1;
@@ -74,16 +78,16 @@
             this.cmbFindText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbFindText.FormattingEnabled = true;
-            this.cmbFindText.Location = new System.Drawing.Point(12, 82);
+            this.cmbFindText.Location = new System.Drawing.Point(97, 85);
             this.cmbFindText.Name = "cmbFindText";
-            this.cmbFindText.Size = new System.Drawing.Size(557, 28);
+            this.cmbFindText.Size = new System.Drawing.Size(472, 28);
             this.cmbFindText.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(583, 7);
+            this.label2.Location = new System.Drawing.Point(583, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 20);
             this.label2.TabIndex = 3;
@@ -93,7 +97,7 @@
             // 
             this.chkTables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkTables.AutoSize = true;
-            this.chkTables.Location = new System.Drawing.Point(587, 31);
+            this.chkTables.Location = new System.Drawing.Point(586, 41);
             this.chkTables.Name = "chkTables";
             this.chkTables.Size = new System.Drawing.Size(82, 24);
             this.chkTables.TabIndex = 4;
@@ -104,7 +108,7 @@
             // 
             this.chkStoredProcedures.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkStoredProcedures.AutoSize = true;
-            this.chkStoredProcedures.Location = new System.Drawing.Point(690, 35);
+            this.chkStoredProcedures.Location = new System.Drawing.Point(689, 41);
             this.chkStoredProcedures.Name = "chkStoredProcedures";
             this.chkStoredProcedures.Size = new System.Drawing.Size(167, 24);
             this.chkStoredProcedures.TabIndex = 6;
@@ -115,7 +119,7 @@
             // 
             this.chkViews.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkViews.AutoSize = true;
-            this.chkViews.Location = new System.Drawing.Point(587, 65);
+            this.chkViews.Location = new System.Drawing.Point(586, 71);
             this.chkViews.Name = "chkViews";
             this.chkViews.Size = new System.Drawing.Size(77, 24);
             this.chkViews.TabIndex = 7;
@@ -126,7 +130,7 @@
             // 
             this.chkFunctions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkFunctions.AutoSize = true;
-            this.chkFunctions.Location = new System.Drawing.Point(690, 65);
+            this.chkFunctions.Location = new System.Drawing.Point(689, 71);
             this.chkFunctions.Name = "chkFunctions";
             this.chkFunctions.Size = new System.Drawing.Size(105, 24);
             this.chkFunctions.TabIndex = 8;
@@ -136,7 +140,7 @@
             // chkMatchCase
             // 
             this.chkMatchCase.AutoSize = true;
-            this.chkMatchCase.Location = new System.Drawing.Point(12, 116);
+            this.chkMatchCase.Location = new System.Drawing.Point(16, 118);
             this.chkMatchCase.Name = "chkMatchCase";
             this.chkMatchCase.Size = new System.Drawing.Size(117, 24);
             this.chkMatchCase.TabIndex = 10;
@@ -148,26 +152,26 @@
             this.tvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvResults.Location = new System.Drawing.Point(0, 0);
             this.tvResults.Name = "tvResults";
-            treeNode5.Name = "NodeTables";
-            treeNode5.Text = "Tables";
-            treeNode6.Name = "ViewsNode";
-            treeNode6.Text = "Views";
-            treeNode7.Name = "StoredProceduresNode";
-            treeNode7.Text = "Stored procedures";
-            treeNode8.Name = "FunctionsNode";
-            treeNode8.Text = "Functions";
+            treeNode9.Name = "NodeTables";
+            treeNode9.Text = "Tables";
+            treeNode10.Name = "ViewsNode";
+            treeNode10.Text = "Views";
+            treeNode11.Name = "StoredProceduresNode";
+            treeNode11.Text = "Stored procedures";
+            treeNode12.Name = "FunctionsNode";
+            treeNode12.Text = "Functions";
             this.tvResults.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6,
-            treeNode7,
-            treeNode8});
+            treeNode9,
+            treeNode10,
+            treeNode11,
+            treeNode12});
             this.tvResults.Size = new System.Drawing.Size(292, 550);
             this.tvResults.TabIndex = 11;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 4);
+            this.label3.Location = new System.Drawing.Point(12, 17);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 20);
             this.label3.TabIndex = 12;
@@ -178,9 +182,9 @@
             this.cmbServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbServer.FormattingEnabled = true;
-            this.cmbServer.Location = new System.Drawing.Point(12, 27);
+            this.cmbServer.Location = new System.Drawing.Point(97, 17);
             this.cmbServer.Name = "cmbServer";
-            this.cmbServer.Size = new System.Drawing.Size(557, 28);
+            this.cmbServer.Size = new System.Drawing.Size(346, 28);
             this.cmbServer.TabIndex = 13;
             // 
             // splitContainer1
@@ -198,11 +202,44 @@
             this.splitContainer1.SplitterDistance = 292;
             this.splitContainer1.TabIndex = 14;
             // 
+            // btnConnect
+            // 
+            this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnConnect.Location = new System.Drawing.Point(450, 12);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(119, 32);
+            this.btnConnect.TabIndex = 15;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
+            // cmdDatabase
+            // 
+            this.cmdDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdDatabase.FormattingEnabled = true;
+            this.cmdDatabase.Location = new System.Drawing.Point(97, 51);
+            this.cmdDatabase.Name = "cmdDatabase";
+            this.cmdDatabase.Size = new System.Drawing.Size(472, 28);
+            this.cmdDatabase.TabIndex = 17;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 51);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 20);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Database:";
+            // 
             // FrmSqlServerSearcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(911, 710);
+            this.Controls.Add(this.cmdDatabase);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.cmbServer);
             this.Controls.Add(this.label3);
@@ -242,6 +279,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbServer;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.ComboBox cmdDatabase;
+        private System.Windows.Forms.Label label4;
     }
 }
 
