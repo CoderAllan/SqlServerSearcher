@@ -67,6 +67,7 @@
     <Compile Include="Model\FormLocationAndPosition.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Presenters\BaseFormPresenter.cs" />
+    <Compile Include="Presenters\FrmLoginPresenter.cs" />
     <Compile Include="Presenters\FrmSqlServerSearcherPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IBaseForm.cs" />

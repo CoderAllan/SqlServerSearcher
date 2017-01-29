@@ -2,6 +2,7 @@ namespace SQLServerSearcher.Model
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.SqlClient;
     using System.Drawing;
     using System.IO;
     using System.Linq;
@@ -12,6 +13,11 @@ namespace SQLServerSearcher.Model
     [XmlRoot("AppState")]
     public class ApplicationState
     {
+        public enum LastUsedLoginMethods
+        {
+            WindowsLogon,
+            SqlServerLogon
+        };
         [XmlIgnore]
         public static readonly string AppFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SQLServerSearcher");
 
@@ -21,9 +27,14 @@ namespace SQLServerSearcher.Model
         public bool LookInViews;
         public bool LookInFunctions;
         public bool LookInStoredProcedures;
+        public LastUsedLoginMethods LastUsedLoginMethod;
+        public string LastUsedLogin;
         public List<string> Servers;
         public List<string> PreviousSearches;
         public List<FormLocationAndPosition> FormLocationsAndPositions;
+
+        [XmlIgnore]
+        public SqlConnection CurrentConnection;
 
         public static void WriteApplicationState(ApplicationState state)
         {

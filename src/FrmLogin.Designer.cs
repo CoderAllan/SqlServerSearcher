@@ -31,14 +31,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rbWindowsLogon = new System.Windows.Forms.RadioButton();
             this.rbSqlServerLogon = new System.Windows.Forms.RadioButton();
+            this.rbWindowsLogon = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtLogin = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -76,17 +77,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Login method";
             // 
-            // rbWindowsLogon
-            // 
-            this.rbWindowsLogon.AutoSize = true;
-            this.rbWindowsLogon.Location = new System.Drawing.Point(6, 25);
-            this.rbWindowsLogon.Name = "rbWindowsLogon";
-            this.rbWindowsLogon.Size = new System.Drawing.Size(179, 24);
-            this.rbWindowsLogon.TabIndex = 3;
-            this.rbWindowsLogon.TabStop = true;
-            this.rbWindowsLogon.Text = "Windows credentials";
-            this.rbWindowsLogon.UseVisualStyleBackColor = true;
-            // 
             // rbSqlServerLogon
             // 
             this.rbSqlServerLogon.AutoSize = true;
@@ -94,9 +84,22 @@
             this.rbSqlServerLogon.Name = "rbSqlServerLogon";
             this.rbSqlServerLogon.Size = new System.Drawing.Size(197, 24);
             this.rbSqlServerLogon.TabIndex = 4;
-            this.rbSqlServerLogon.TabStop = true;
             this.rbSqlServerLogon.Text = "SQL Server credentials";
             this.rbSqlServerLogon.UseVisualStyleBackColor = true;
+            this.rbSqlServerLogon.CheckedChanged += new System.EventHandler(this.rbSqlServerLogon_CheckedChanged);
+            // 
+            // rbWindowsLogon
+            // 
+            this.rbWindowsLogon.AutoSize = true;
+            this.rbWindowsLogon.Checked = true;
+            this.rbWindowsLogon.Location = new System.Drawing.Point(6, 25);
+            this.rbWindowsLogon.Name = "rbWindowsLogon";
+            this.rbWindowsLogon.Size = new System.Drawing.Size(179, 24);
+            this.rbWindowsLogon.TabIndex = 3;
+            this.rbWindowsLogon.TabStop = true;
+            this.rbWindowsLogon.Text = "Windows credentials";
+            this.rbWindowsLogon.UseVisualStyleBackColor = true;
+            this.rbWindowsLogon.CheckedChanged += new System.EventHandler(this.rbWindowsLogon_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -113,23 +116,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Credentials";
             // 
-            // label2
+            // txtLogin
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 20);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Login:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 56);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 20);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Password:";
+            this.txtLogin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLogin.Location = new System.Drawing.Point(87, 20);
+            this.txtLogin.Name = "txtLogin";
+            this.txtLogin.Size = new System.Drawing.Size(215, 26);
+            this.txtLogin.TabIndex = 3;
             // 
             // txtPassword
             // 
@@ -141,19 +135,28 @@
             this.txtPassword.Size = new System.Drawing.Size(215, 26);
             this.txtPassword.TabIndex = 2;
             // 
-            // txtLogin
+            // label3
             // 
-            this.txtLogin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLogin.Location = new System.Drawing.Point(87, 20);
-            this.txtLogin.Name = "txtLogin";
-            this.txtLogin.PasswordChar = '*';
-            this.txtLogin.Size = new System.Drawing.Size(215, 26);
-            this.txtLogin.TabIndex = 3;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 56);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(82, 20);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Password:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 26);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 20);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Login:";
             // 
             // btnLogin
             // 
             this.btnLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLogin.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnLogin.Location = new System.Drawing.Point(170, 254);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(154, 37);
@@ -162,11 +165,24 @@
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(17, 254);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(136, 37);
+            this.btnCancel.TabIndex = 6;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(337, 303);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -176,6 +192,7 @@
             this.Name = "FrmLogin";
             this.Text = "Login";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmLogin_FormClosing);
+            this.Load += new System.EventHandler(this.FrmLogin_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -198,5 +215,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtLogin;
         private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

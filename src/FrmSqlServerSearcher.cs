@@ -1,13 +1,6 @@
 ﻿namespace SQLServerSearcher
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
-    using System.Drawing;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
 
     using Model;
@@ -28,26 +21,44 @@
 
         private readonly ApplicationState _appState;
         private readonly BaseFormPresenter _baseFormPresenter;
+        private readonly FrmSqlServerSearcherPresenter _frmSqlServerSearcherPresenter;
 
         public FrmSqlServerSearcher()
         {
             _appState = ApplicationState.ReadApplicationState();
             _baseFormPresenter = new BaseFormPresenter(this);
+            _frmSqlServerSearcherPresenter = new FrmSqlServerSearcherPresenter(this);
 
             InitializeComponent();
 
             var eventArgs = _appState.GetFormLocationAndPosition(this);
             DoFormLoad(this, eventArgs);
+            if (EnableDisableBtnConnect != null)
+            {
+                EnableDisableBtnConnect(null, EventArgs.Empty);
+            }
         }
+
+        public event EventHandler<BaseFormEventArgs> DoFormLoad;
+        public event EventHandler<ConnectEventArgs> BtnConnectClick;
+        public event EventHandler<FindEventArgs> BtnFindClick;
+        public event EventHandler<EventArgs> EnableDisableBtnConnect;
 
         public ApplicationState AppState
         {
             get { return _appState; }
         }
 
-        public event EventHandler<BaseFormEventArgs> DoFormLoad;
-        public event EventHandler<ConnectEventArgs> BtnConnectClick;
-        public event EventHandler<FindEventArgs> BtnFindClick;
+        public bool BtnConnectEnabled
+        {
+            get { return btnConnect.Enabled; }
+            set { btnConnect.Enabled = value; }
+        }
+
+        public string CmbServerText
+        {
+            get { return cmbServer.Text; }
+        }
 
         public void CloseApplication()
         {
@@ -93,6 +104,21 @@
                     Server = cmbServer.Text,
                 };
                 BtnConnectClick(sender, connectEventArgs);
+            }
+        }
+
+        public bool ShowLoginDialog(string server)
+        {
+            var frmLogin = new FrmLogin(server, _appState);
+            var result = frmLogin.ShowDialog();
+            return (result == DialogResult.OK);
+        }
+
+        private void cmbServer_TextChanged(object sender, EventArgs e)
+        {
+            if (EnableDisableBtnConnect != null)
+            {
+                EnableDisableBtnConnect(sender, e);
             }
         }
     }

@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Tables");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Views");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Stored procedures");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tables");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Views");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Stored procedures");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Functions");
             this.btnFind = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFindText = new System.Windows.Forms.ComboBox();
@@ -152,19 +152,19 @@
             this.tvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvResults.Location = new System.Drawing.Point(0, 0);
             this.tvResults.Name = "tvResults";
-            treeNode9.Name = "NodeTables";
-            treeNode9.Text = "Tables";
-            treeNode10.Name = "ViewsNode";
-            treeNode10.Text = "Views";
-            treeNode11.Name = "StoredProceduresNode";
-            treeNode11.Text = "Stored procedures";
-            treeNode12.Name = "FunctionsNode";
-            treeNode12.Text = "Functions";
+            treeNode1.Name = "NodeTables";
+            treeNode1.Text = "Tables";
+            treeNode2.Name = "ViewsNode";
+            treeNode2.Text = "Views";
+            treeNode3.Name = "StoredProceduresNode";
+            treeNode3.Text = "Stored procedures";
+            treeNode4.Name = "FunctionsNode";
+            treeNode4.Text = "Functions";
             this.tvResults.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
             this.tvResults.Size = new System.Drawing.Size(292, 550);
             this.tvResults.TabIndex = 11;
             // 
@@ -186,6 +186,7 @@
             this.cmbServer.Name = "cmbServer";
             this.cmbServer.Size = new System.Drawing.Size(346, 28);
             this.cmbServer.TabIndex = 13;
+            this.cmbServer.TextChanged += new System.EventHandler(this.cmbServer_TextChanged);
             // 
             // splitContainer1
             // 
