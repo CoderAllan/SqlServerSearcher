@@ -37,6 +37,7 @@
             {
                 EnableDisableBtnConnect(null, EventArgs.Empty);
             }
+            _appState.ReadComboBoxElements(cmbServer, _appState.Servers, (server, i) => cmbServer.Items.Add(server));
         }
 
         public event EventHandler<BaseFormEventArgs> DoFormLoad;
@@ -120,6 +121,13 @@
             {
                 EnableDisableBtnConnect(sender, e);
             }
+        }
+
+        public void InsertServerIntoCombobox(string server)
+        {
+            cmbServer.Items.Remove(server);
+            cmbServer.Items.Insert(0, server);
+            cmbServer.SelectedIndex = 0;
         }
     }
 }

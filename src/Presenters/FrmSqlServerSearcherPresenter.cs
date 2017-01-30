@@ -28,14 +28,15 @@ namespace SQLServerSearcher.Presenters
         {
             if (_view.ShowLoginDialog(args.Server))
             {
-                //_view.AppState.CurrentConnection.Open();
-                //DataTable databases = _view.AppState.CurrentConnection.GetSchema("Databases");
-                //foreach (DataRow database in databases.Rows)
-                //{
-                //    String databaseName = database.Field<String>("database_name");
-                //    short dbID = database.Field<short>("dbid");
-                //    DateTime creationDate = database.Field<DateTime>("create_date");
-                //}
+                _view.AppState.CurrentConnection.Open();
+                DataTable databases = _view.AppState.CurrentConnection.GetSchema("Databases");
+                foreach (DataRow database in databases.Rows)
+                {
+                    String databaseName = database.Field<String>("database_name");
+                    short dbID = database.Field<short>("dbid");
+                    DateTime creationDate = database.Field<DateTime>("create_date");
+                }
+                _view.InsertServerIntoCombobox(args.Server);
             }
         }
 

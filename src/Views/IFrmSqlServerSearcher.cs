@@ -16,5 +16,6 @@
         string CmbServerText { get; }
 
         bool ShowLoginDialog(string server);
+        void InsertServerIntoCombobox(string server);
     }
 }
