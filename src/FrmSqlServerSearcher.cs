@@ -129,5 +129,23 @@
             cmbServer.Items.Insert(0, server);
             cmbServer.SelectedIndex = 0;
         }
+
+        public void InsertDatabaseIntoCombobox(string database)
+        {
+            cmbDatabase.Items.Add(database);
+            cmbDatabase.SelectedIndex = 0;
+        }
+
+        public void InsertSearchQueryIntoCombobox(string searchQuery)
+        {
+            cmbFindText.Items.Remove(searchQuery);
+            cmbFindText.Items.Insert(0, searchQuery);
+            cmbFindText.SelectedIndex = 0;
+        }
+
+        public void SetLblServerVersion(string text)
+        {
+            lblServerVersion.Text = text;
+        }
     }
 }

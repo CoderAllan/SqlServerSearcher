@@ -17,5 +17,8 @@
 
         bool ShowLoginDialog(string server);
         void InsertServerIntoCombobox(string server);
+        void InsertDatabaseIntoCombobox(string database);
+        void InsertSearchQueryIntoCombobox(string searchQuery);
+        void SetLblServerVersion(string text);
     }
 }

@@ -46,10 +46,12 @@
             this.cmbServer = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnConnect = new System.Windows.Forms.Button();
-            this.cmdDatabase = new System.Windows.Forms.ComboBox();
+            this.cmbDatabase = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.lblServerVersion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -199,6 +201,10 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.tvResults);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.lblServerVersion);
             this.splitContainer1.Size = new System.Drawing.Size(878, 550);
             this.splitContainer1.SplitterDistance = 292;
             this.splitContainer1.TabIndex = 14;
@@ -214,15 +220,15 @@
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
-            // cmdDatabase
+            // cmbDatabase
             // 
-            this.cmdDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.cmbDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdDatabase.FormattingEnabled = true;
-            this.cmdDatabase.Location = new System.Drawing.Point(97, 51);
-            this.cmdDatabase.Name = "cmdDatabase";
-            this.cmdDatabase.Size = new System.Drawing.Size(472, 28);
-            this.cmdDatabase.TabIndex = 17;
+            this.cmbDatabase.FormattingEnabled = true;
+            this.cmbDatabase.Location = new System.Drawing.Point(97, 51);
+            this.cmbDatabase.Name = "cmbDatabase";
+            this.cmbDatabase.Size = new System.Drawing.Size(472, 28);
+            this.cmbDatabase.TabIndex = 17;
             // 
             // label4
             // 
@@ -233,12 +239,21 @@
             this.label4.TabIndex = 16;
             this.label4.Text = "Database:";
             // 
+            // lblServerVersion
+            // 
+            this.lblServerVersion.AutoSize = true;
+            this.lblServerVersion.Location = new System.Drawing.Point(4, 4);
+            this.lblServerVersion.Name = "lblServerVersion";
+            this.lblServerVersion.Size = new System.Drawing.Size(113, 20);
+            this.lblServerVersion.TabIndex = 0;
+            this.lblServerVersion.Text = "Server version:";
+            // 
             // FrmSqlServerSearcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(911, 710);
-            this.Controls.Add(this.cmdDatabase);
+            this.Controls.Add(this.cmbDatabase);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.splitContainer1);
@@ -258,6 +273,8 @@
             this.Text = "Sql Server Searcher";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSqlServerSearcher_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -281,8 +298,9 @@
         private System.Windows.Forms.ComboBox cmbServer;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnConnect;
-        private System.Windows.Forms.ComboBox cmdDatabase;
+        private System.Windows.Forms.ComboBox cmbDatabase;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblServerVersion;
     }
 }
 
