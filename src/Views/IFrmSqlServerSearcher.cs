@@ -23,6 +23,7 @@
         void SetLblServerVersion(string text);
         void SetText(string text);
         void ClearResults();
-        void InsertTableIntoTreeview(List<Table> table);
+        void InsertTableIntoTreeview(List<Table> tables);
+        void InsertViewIntoTreeview(List<View> views);
     }
 }

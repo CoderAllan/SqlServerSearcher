@@ -230,5 +230,25 @@
                 tvResults.EndUpdate();
             }
         }
+
+        public void InsertViewIntoTreeview(List<Model.View> views)
+        {
+            if (views != null && views.Count > 0)
+            {
+                tvResults.BeginUpdate();
+                var viewNodes = tvResults.Nodes["ViewsNode"];
+                foreach (var view in views)
+                {
+                    var newViewNode = new TreeNode
+                    {
+                        Text = string.Format("{0}.{1}", view.SchemaName, view.Name),
+                        Tag = view
+                    };
+                    viewNodes.Nodes.Add(newViewNode);
+                }
+                viewNodes.ExpandAll();
+                tvResults.EndUpdate();
+            }
+        }
     }
 }

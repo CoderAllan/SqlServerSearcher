@@ -72,10 +72,40 @@ namespace SQLServerSearcher.DAL
             return tables;
         }
 
-        public List<string> FindViews(string database, string query = null)
+        public List<View> FindViews(string database, string query = null)
         {
-            var schemaCollection = new List<string>();
-            return schemaCollection;
+            var views = new List<View>();
+            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, v.name, v.create_date, v.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
+                                            FROM {0}.sys.views v
+                                           INNER JOIN {0}.sys.schemas s ON s.schema_id = v.schema_id
+                                           OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = v.object_id) iu", database);
+            if (!string.IsNullOrEmpty(query))
+            {
+                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON v.object_id = c.object_id
+                                            WHERE v.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
+            }
+            using (var reader = ExecuteSql(sql))
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var view = new View
+                        {
+                            SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
+                            Name = reader.GetString(reader.GetOrdinal("name")),
+                            CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
+                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modify_date")),
+                            LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
+                            LastScan = reader.GetDateTime(reader.GetOrdinal("lastScan")),
+                            LastLookup = reader.GetDateTime(reader.GetOrdinal("lastLookup")),
+                            LastUpdate = reader.GetDateTime(reader.GetOrdinal("lastUpdate")),
+                        };
+                        views.Add(view);
+                    }
+                }
+            }
+            return views;
         }
 
         public List<string> FindProcedures(string database, string query = null)
