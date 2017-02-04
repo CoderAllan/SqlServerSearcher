@@ -1,18 +1,21 @@
 namespace SQLServerSearcher.Presenters
 {
     using System;
-    using System.Data;
+    using System.Linq;
 
+    using DAL;
     using Model;
     using Views;
 
     public class FrmSqlServerSearcherPresenter
     {
         private readonly IFrmSqlServerSearcher _view;
+        private readonly ISearches _searches;
 
-        public FrmSqlServerSearcherPresenter(IFrmSqlServerSearcher view)
+        public FrmSqlServerSearcherPresenter(IFrmSqlServerSearcher view, ISearches searches)
         {
             _view = view;
+            _searches = searches;
 
             Initialize();
         }
@@ -31,20 +34,23 @@ namespace SQLServerSearcher.Presenters
                 _view.InsertServerIntoCombobox(args.Server);
                 _view.AppState.CurrentConnection.Open();
                 _view.SetLblServerVersion(string.Format("Server version: {0}", _view.AppState.CurrentConnection.ServerVersion));
-                DataTable databases = _view.AppState.CurrentConnection.GetSchema("Databases");
-                foreach (DataRow database in databases.Rows)
+                var databases = _searches.GetDatabases();
+                foreach (var database in databases.OrderBy(p => p.Name))
                 {
-                    var databaseName = database.Field<String>("database_name");
-                    _view.InsertDatabaseIntoCombobox(databaseName);
-                    short dbID = database.Field<short>("dbid");
-                    DateTime creationDate = database.Field<DateTime>("create_date");
+                    _view.InsertDatabaseIntoCombobox(database.Name);
                 }
             }
         }
 
         private void DoBtnFindClick(object sender, FindEventArgs args)
         {
-            
+            _view.ClearResults();
+            if (args.LookInTables)
+            {
+                var tables = _searches.FindTables(args.Database, args.FindWhat);
+                _view.InsertTableIntoTreeview(tables);
+            }
+            _view.InsertSearchQueryIntoCombobox(args.FindWhat);
         }
 
         private void DoEnableDisableBtnConnect(object sender, EventArgs e)

@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\ISearches.cs" />
+    <Compile Include="DAL\Searches.cs" />
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,9 +65,11 @@
     </Compile>
     <Compile Include="Model\BaseFormEventArgs.cs" />
     <Compile Include="Model\ConnectEventArgs.cs" />
+    <Compile Include="Model\Database.cs" />
     <Compile Include="Model\FindEventArgs.cs" />
     <Compile Include="Model\FormLocationAndPosition.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
+    <Compile Include="Model\Table.cs" />
     <Compile Include="Presenters\BaseFormPresenter.cs" />
     <Compile Include="Presenters\FrmLoginPresenter.cs" />
     <Compile Include="Presenters\FrmSqlServerSearcherPresenter.cs" />

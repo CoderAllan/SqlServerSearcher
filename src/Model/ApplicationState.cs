@@ -27,6 +27,7 @@ namespace SQLServerSearcher.Model
         public bool LookInViews;
         public bool LookInFunctions;
         public bool LookInStoredProcedures;
+        public bool LookInIndexes;
         public LastUsedLoginMethods LastUsedLoginMethod;
         public string LastUsedLogin;
         public List<string> Servers;

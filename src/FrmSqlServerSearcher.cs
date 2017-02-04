@@ -1,6 +1,8 @@
 ﻿namespace SQLServerSearcher
 {
     using System;
+    using System.Collections.Generic;
+    using System.Data;
     using System.Windows.Forms;
 
     using Model;
@@ -27,7 +29,8 @@
         {
             _appState = ApplicationState.ReadApplicationState();
             _baseFormPresenter = new BaseFormPresenter(this);
-            _frmSqlServerSearcherPresenter = new FrmSqlServerSearcherPresenter(this);
+            var searches = new DAL.Searches(_appState);
+            _frmSqlServerSearcherPresenter = new FrmSqlServerSearcherPresenter(this, searches);
 
             InitializeComponent();
 
@@ -38,6 +41,13 @@
                 EnableDisableBtnConnect(null, EventArgs.Empty);
             }
             _appState.ReadComboBoxElements(cmbServer, _appState.Servers, (server, i) => cmbServer.Items.Add(server));
+            chkTables.Checked = _appState.LookInTables;
+            chkIndexes.Checked = _appState.LookInIndexes;
+            chkViews.Checked = _appState.LookInViews;
+            chkStoredProcedures.Checked = _appState.LookInStoredProcedures;
+            chkFunctions.Checked = _appState.LookInFunctions;
+            chkMatchCase.Checked = _appState.MatchCase;
+            EnableDisableControls();
         }
 
         public event EventHandler<BaseFormEventArgs> DoFormLoad;
@@ -61,6 +71,11 @@
             get { return cmbServer.Text; }
         }
 
+        public void SetText(string text)
+        {
+            textBox1.Text = text;
+        }
+
         public void CloseApplication()
         {
             _appState.PersistFormLocationAndPosition(this);
@@ -69,6 +84,7 @@
             _appState.LookInViews = chkViews.Checked;
             _appState.LookInStoredProcedures = chkStoredProcedures.Checked;
             _appState.LookInFunctions = chkFunctions.Checked;
+            _appState.LookInIndexes = chkIndexes.Checked;
             _appState.PersistComboBox(cmbServer, _appState.Servers);
             _appState.PersistComboBox(cmbFindText, _appState.PreviousSearches);
             ApplicationState.WriteApplicationState(_appState);
@@ -85,12 +101,14 @@
             {
                 var findArgs = new FindEventArgs
                 {
+                    Database = cmbDatabase.SelectedItem.ToString(),
                     FindWhat = cmbFindText.Text,
                     MatchCase = chkMatchCase.Checked,
                     LookInTables = chkTables.Checked,
                     LookInViews = chkViews.Checked,
                     LookInStoredProcedures = chkStoredProcedures.Checked,
-                    LookInFunctions = chkFunctions.Checked
+                    LookInFunctions = chkFunctions.Checked,
+                    LookInIndexes = chkIndexes.Checked
                 };
                 BtnFindClick(sender, findArgs);
             }
@@ -105,6 +123,7 @@
                     Server = cmbServer.Text,
                 };
                 BtnConnectClick(sender, connectEventArgs);
+                EnableDisableControls();
             }
         }
 
@@ -113,6 +132,22 @@
             var frmLogin = new FrmLogin(server, _appState);
             var result = frmLogin.ShowDialog();
             return (result == DialogResult.OK);
+        }
+
+        public void EnableDisableControls()
+        {
+            var enabled = _appState.CurrentConnection != null && _appState.CurrentConnection.State == ConnectionState.Open;
+            btnFind.Enabled = enabled;
+            cmbDatabase.Enabled = enabled;
+            cmbFindText.Enabled = enabled;
+            chkFunctions.Checked = enabled;
+            chkIndexes.Enabled = enabled;
+            chkTables.Enabled = enabled;
+            chkViews.Enabled = enabled;
+            chkStoredProcedures.Enabled = enabled;
+            chkFunctions.Enabled = enabled;
+            chkMatchCase.Enabled = enabled;
+            tvResults.Enabled = enabled;
         }
 
         private void cmbServer_TextChanged(object sender, EventArgs e)
@@ -141,11 +176,49 @@
             cmbFindText.Items.Remove(searchQuery);
             cmbFindText.Items.Insert(0, searchQuery);
             cmbFindText.SelectedIndex = 0;
+            if (cmbFindText.Items.Count > 20)
+            {
+                cmbFindText.Items.RemoveAt(20);
+            }
         }
 
         public void SetLblServerVersion(string text)
         {
             lblServerVersion.Text = text;
+        }
+
+        public void ClearResults()
+        {
+            var tableNodes = tvResults.Nodes["TablesNode"];
+            tableNodes.Nodes.Clear();
+            var viewsNodes = tvResults.Nodes["ViewsNode"];
+            viewsNodes.Nodes.Clear();
+            var storedProcedureNodes = tvResults.Nodes["StoredProceduresNode"];
+            storedProcedureNodes.Nodes.Clear();
+            var functionsNodes = tvResults.Nodes["FunctionsNode"];
+            functionsNodes.Nodes.Clear();
+            var indexesNodes = tvResults.Nodes["IndexesNode"];
+            indexesNodes.Nodes.Clear();
+        }
+
+        public void InsertTableIntoTreeview(List<Table> tables)
+        {
+            if (tables != null && tables.Count > 0)
+            {
+                tvResults.BeginUpdate();
+                var tableNodes = tvResults.Nodes["TablesNode"];
+                foreach (var table in tables)
+                {
+                    var newTableNode = new TreeNode
+                    {
+                        Text = table.Name,
+                        Tag = table
+                    };
+                    tableNodes.Nodes.Add(newTableNode);
+                }
+                tableNodes.ExpandAll();
+                tvResults.EndUpdate();
+            }
         }
     }
 }

@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tables");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Views");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Stored procedures");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Tables");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Views");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Stored procedures");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Indexes");
             this.btnFind = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFindText = new System.Windows.Forms.ComboBox();
@@ -45,10 +46,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cmbServer = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lblServerVersion = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
             this.cmbDatabase = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.lblServerVersion = new System.Windows.Forms.Label();
+            this.chkIndexes = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -154,19 +157,22 @@
             this.tvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvResults.Location = new System.Drawing.Point(0, 0);
             this.tvResults.Name = "tvResults";
-            treeNode1.Name = "NodeTables";
-            treeNode1.Text = "Tables";
-            treeNode2.Name = "ViewsNode";
-            treeNode2.Text = "Views";
-            treeNode3.Name = "StoredProceduresNode";
-            treeNode3.Text = "Stored procedures";
-            treeNode4.Name = "FunctionsNode";
-            treeNode4.Text = "Functions";
+            treeNode6.Name = "TablesNode";
+            treeNode6.Text = "Tables";
+            treeNode7.Name = "ViewsNode";
+            treeNode7.Text = "Views";
+            treeNode8.Name = "StoredProceduresNode";
+            treeNode8.Text = "Stored procedures";
+            treeNode9.Name = "FunctionsNode";
+            treeNode9.Text = "Functions";
+            treeNode10.Name = "IndexesNode";
+            treeNode10.Text = "Indexes";
             this.tvResults.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4});
+            treeNode6,
+            treeNode7,
+            treeNode8,
+            treeNode9,
+            treeNode10});
             this.tvResults.Size = new System.Drawing.Size(292, 550);
             this.tvResults.TabIndex = 11;
             // 
@@ -204,10 +210,28 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Panel2.Controls.Add(this.lblServerVersion);
             this.splitContainer1.Size = new System.Drawing.Size(878, 550);
             this.splitContainer1.SplitterDistance = 292;
             this.splitContainer1.TabIndex = 14;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(8, 28);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(571, 519);
+            this.textBox1.TabIndex = 1;
+            // 
+            // lblServerVersion
+            // 
+            this.lblServerVersion.AutoSize = true;
+            this.lblServerVersion.Location = new System.Drawing.Point(4, 4);
+            this.lblServerVersion.Name = "lblServerVersion";
+            this.lblServerVersion.Size = new System.Drawing.Size(113, 20);
+            this.lblServerVersion.TabIndex = 0;
+            this.lblServerVersion.Text = "Server version:";
             // 
             // btnConnect
             // 
@@ -239,20 +263,23 @@
             this.label4.TabIndex = 16;
             this.label4.Text = "Database:";
             // 
-            // lblServerVersion
+            // chkIndexes
             // 
-            this.lblServerVersion.AutoSize = true;
-            this.lblServerVersion.Location = new System.Drawing.Point(4, 4);
-            this.lblServerVersion.Name = "lblServerVersion";
-            this.lblServerVersion.Size = new System.Drawing.Size(113, 20);
-            this.lblServerVersion.TabIndex = 0;
-            this.lblServerVersion.Text = "Server version:";
+            this.chkIndexes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkIndexes.AutoSize = true;
+            this.chkIndexes.Location = new System.Drawing.Point(586, 101);
+            this.chkIndexes.Name = "chkIndexes";
+            this.chkIndexes.Size = new System.Drawing.Size(91, 24);
+            this.chkIndexes.TabIndex = 18;
+            this.chkIndexes.Text = "Indexes";
+            this.chkIndexes.UseVisualStyleBackColor = true;
             // 
             // FrmSqlServerSearcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(911, 710);
+            this.Controls.Add(this.chkIndexes);
             this.Controls.Add(this.cmbDatabase);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnConnect);
@@ -301,6 +328,8 @@
         private System.Windows.Forms.ComboBox cmbDatabase;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblServerVersion;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.CheckBox chkIndexes;
     }
 }
 

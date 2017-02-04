@@ -1,6 +1,7 @@
 ﻿namespace SQLServerSearcher.Views
 {
     using System;
+    using System.Collections.Generic;
 
     using Model;
 
@@ -20,5 +21,8 @@
         void InsertDatabaseIntoCombobox(string database);
         void InsertSearchQueryIntoCombobox(string searchQuery);
         void SetLblServerVersion(string text);
+        void SetText(string text);
+        void ClearResults();
+        void InsertTableIntoTreeview(List<Table> table);
     }
 }
