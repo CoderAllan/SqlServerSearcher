@@ -41,6 +41,7 @@
                 EnableDisableBtnConnect(null, EventArgs.Empty);
             }
             _appState.ReadComboBoxElements(cmbServer, _appState.Servers, (server, i) => cmbServer.Items.Add(server));
+            _appState.ReadComboBoxElements(cmbFindText, _appState.PreviousSearches, (query, i) => cmbFindText.Items.Add(query));
             chkTables.Checked = _appState.LookInTables;
             chkIndexes.Checked = _appState.LookInIndexes;
             chkViews.Checked = _appState.LookInViews;
@@ -86,6 +87,7 @@
             _appState.LookInFunctions = chkFunctions.Checked;
             _appState.LookInIndexes = chkIndexes.Checked;
             _appState.PersistComboBox(cmbServer, _appState.Servers);
+            _appState.LastUsedBatabase = cmbDatabase.SelectedItem.ToString();
             _appState.PersistComboBox(cmbFindText, _appState.PreviousSearches);
             ApplicationState.WriteApplicationState(_appState);
         }
@@ -123,6 +125,14 @@
                     Server = cmbServer.Text,
                 };
                 BtnConnectClick(sender, connectEventArgs);
+                if (!string.IsNullOrEmpty(_appState.LastUsedBatabase))
+                {
+                    int dbId = cmbDatabase.Items.IndexOf(_appState.LastUsedBatabase);
+                    if (dbId >= 0)
+                    {
+                        cmbDatabase.SelectedIndex = dbId;
+                    }
+                }
                 EnableDisableControls();
             }
         }
@@ -211,7 +221,7 @@
                 {
                     var newTableNode = new TreeNode
                     {
-                        Text = table.Name,
+                        Text = string.Format("{0}.{1}", table.SchemaName, table.Name),
                         Tag = table
                     };
                     tableNodes.Nodes.Add(newTableNode);

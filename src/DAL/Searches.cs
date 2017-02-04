@@ -39,8 +39,9 @@ namespace SQLServerSearcher.DAL
         public List<Table> FindTables(string database, string query = null)
         {
             var tables = new List<Table>();
-            string sql = string.Format(@" SELECT distinct t.name, t.create_date, t.modify_date, iu.lastSeek, iu.lastScan, iu.lastLookup, iu.lastUpdate
+            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, t.name, t.create_date, t.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
                                             FROM {0}.sys.tables t
+                                           INNER JOIN {0}.sys.schemas s ON s.schema_id = t.schema_id
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = t.object_id) iu", database);
             if (!string.IsNullOrEmpty(query))
             {
@@ -55,6 +56,7 @@ namespace SQLServerSearcher.DAL
                     {
                         var table = new Table
                         {
+                            SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modify_date")),

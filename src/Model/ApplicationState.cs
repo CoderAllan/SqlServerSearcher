@@ -30,6 +30,7 @@ namespace SQLServerSearcher.Model
         public bool LookInIndexes;
         public LastUsedLoginMethods LastUsedLoginMethod;
         public string LastUsedLogin;
+        public string LastUsedBatabase;
         public List<string> Servers;
         public List<string> PreviousSearches;
         public List<FormLocationAndPosition> FormLocationsAndPositions;
