@@ -2,10 +2,10 @@ namespace SQLServerSearcher.Model
 {
     using System;
 
-    public class Database : BasicObject
+    public class Database
     {
-        private new string SchemaName { get; set; }
-        private new DateTime ModifiedDate { get; set; }
+        public string Name { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string CollationName { get; set; }
         public string OnlineState { get; set; }
     }

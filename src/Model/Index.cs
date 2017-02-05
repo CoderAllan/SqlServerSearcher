@@ -2,13 +2,12 @@ namespace SQLServerSearcher.Model
 {
     using System;
 
-    public class Table
+    public class Index
     {
-        public string SchemaName { get; set; }
+        public string TableName { get; set; }
         public string Name { get; set; }
         public string ColumnName { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public string TypeDescription { get; set; }
         public DateTime LastScan { get; set; }
         public DateTime LastSeek { get; set; }
         public DateTime LastLookup { get; set; }

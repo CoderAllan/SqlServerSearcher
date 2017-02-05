@@ -9,5 +9,6 @@
         List<Database> GetDatabases();
         List<Table> FindTables(string database, string query = null);
         List<View> FindViews(string database, string query = null);
+        List<Index> FindIndexes(string database, string query = null);
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Linq;
     using System.Windows.Forms;
 
     using Model;
@@ -219,12 +220,17 @@
                 var tableNodes = tvResults.Nodes["TablesNode"];
                 foreach (var table in tables)
                 {
-                    var newTableNode = new TreeNode
+                    var nodeName = !string.IsNullOrEmpty(table.ColumnName) ? string.Format("{0}.{1}.{2}", table.SchemaName, table.Name, table.ColumnName) : string.Format("{0}.{1}", table.SchemaName, table.Name);
+                    if (!tableNodes.Nodes.ContainsKey(nodeName))
                     {
-                        Text = string.Format("{0}.{1}", table.SchemaName, table.Name),
-                        Tag = table
-                    };
-                    tableNodes.Nodes.Add(newTableNode);
+                        var newTableNode = new TreeNode
+                        {
+                            Name = nodeName,
+                            Text = nodeName,
+                            Tag = table
+                        };
+                        tableNodes.Nodes.Add(newTableNode);
+                    }
                 }
                 tableNodes.ExpandAll();
                 tvResults.EndUpdate();
@@ -239,12 +245,42 @@
                 var viewNodes = tvResults.Nodes["ViewsNode"];
                 foreach (var view in views)
                 {
-                    var newViewNode = new TreeNode
+                    var nodeName = !string.IsNullOrEmpty(view.ColumnName) ? string.Format("{0}.{1}.{2}", view.SchemaName, view.Name, view.ColumnName) : string.Format("{0}.{1}", view.SchemaName, view.Name);
+                    if (!viewNodes.Nodes.ContainsKey(nodeName))
                     {
-                        Text = string.Format("{0}.{1}", view.SchemaName, view.Name),
-                        Tag = view
-                    };
-                    viewNodes.Nodes.Add(newViewNode);
+                        var newViewNode = new TreeNode
+                        {
+                            Name = nodeName,
+                            Text = nodeName,
+                            Tag = view
+                        };
+                        viewNodes.Nodes.Add(newViewNode);
+                    }
+                }
+                viewNodes.ExpandAll();
+                tvResults.EndUpdate();
+            }
+        }
+
+        public void InsertIndexIntoTreeview(List<Index> indexes)
+        {
+            if (indexes != null && indexes.Count > 0)
+            {
+                tvResults.BeginUpdate();
+                var viewNodes = tvResults.Nodes["IndexesNode"];
+                foreach (var index in indexes)
+                {
+                    var nodeName = !string.IsNullOrEmpty(index.ColumnName) ? string.Format("{0}.{1}.{2}", index.TableName, index.Name, index.ColumnName) : string.Format("{0}.{1}", index.TableName, index.Name);
+                    if (!viewNodes.Nodes.ContainsKey(nodeName))
+                    {
+                        var newViewNode = new TreeNode
+                        {
+                            Name = nodeName,
+                            Text = nodeName,
+                            Tag = index
+                        };
+                        viewNodes.Nodes.Add(newViewNode);
+                    }
                 }
                 viewNodes.ExpandAll();
                 tvResults.EndUpdate();

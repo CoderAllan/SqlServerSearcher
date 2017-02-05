@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Tables");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Views");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Stored procedures");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Functions");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Indexes");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tables");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Views");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Stored procedures");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Indexes");
             this.btnFind = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFindText = new System.Windows.Forms.ComboBox();
@@ -145,6 +145,7 @@
             // chkMatchCase
             // 
             this.chkMatchCase.AutoSize = true;
+            this.chkMatchCase.Enabled = false;
             this.chkMatchCase.Location = new System.Drawing.Point(16, 118);
             this.chkMatchCase.Name = "chkMatchCase";
             this.chkMatchCase.Size = new System.Drawing.Size(117, 24);
@@ -157,22 +158,22 @@
             this.tvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvResults.Location = new System.Drawing.Point(0, 0);
             this.tvResults.Name = "tvResults";
-            treeNode6.Name = "TablesNode";
-            treeNode6.Text = "Tables";
-            treeNode7.Name = "ViewsNode";
-            treeNode7.Text = "Views";
-            treeNode8.Name = "StoredProceduresNode";
-            treeNode8.Text = "Stored procedures";
-            treeNode9.Name = "FunctionsNode";
-            treeNode9.Text = "Functions";
-            treeNode10.Name = "IndexesNode";
-            treeNode10.Text = "Indexes";
+            treeNode1.Name = "TablesNode";
+            treeNode1.Text = "Tables";
+            treeNode2.Name = "ViewsNode";
+            treeNode2.Text = "Views";
+            treeNode3.Name = "StoredProceduresNode";
+            treeNode3.Text = "Stored procedures";
+            treeNode4.Name = "FunctionsNode";
+            treeNode4.Text = "Functions";
+            treeNode5.Name = "IndexesNode";
+            treeNode5.Text = "Indexes";
             this.tvResults.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode7,
-            treeNode8,
-            treeNode9,
-            treeNode10});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5});
             this.tvResults.Size = new System.Drawing.Size(292, 550);
             this.tvResults.TabIndex = 11;
             // 

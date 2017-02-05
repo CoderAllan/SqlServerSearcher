@@ -55,6 +55,11 @@ namespace SQLServerSearcher.Presenters
                 var views = _searches.FindViews(args.Database, args.FindWhat);
                 _view.InsertViewIntoTreeview(views);
             }
+            if (args.LookInIndexes)
+            {
+                var indexes = _searches.FindIndexes(args.Database, args.FindWhat);
+                _view.InsertIndexIntoTreeview(indexes);
+            }
             _view.InsertSearchQueryIntoCombobox(args.FindWhat);
         }
 
