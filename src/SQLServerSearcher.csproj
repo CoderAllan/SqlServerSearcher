@@ -68,6 +68,7 @@
     <Compile Include="Model\Database.cs" />
     <Compile Include="Model\FindEventArgs.cs" />
     <Compile Include="Model\FormLocationAndPosition.cs" />
+    <Compile Include="Model\Function.cs" />
     <Compile Include="Model\Index.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\Procedure.cs" />

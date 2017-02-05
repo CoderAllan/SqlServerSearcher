@@ -320,5 +320,21 @@
                 tvResults.EndUpdate();
             }
         }
+
+        public void InsertFunctionIntoTreeview(List<Function> functions)
+        {
+            if (functions != null && functions.Count > 0)
+            {
+                tvResults.BeginUpdate();
+                var functionsNode = tvResults.Nodes["FunctionsNode"];
+                foreach (var function in functions)
+                {
+                    var nodeName = FormatNodeName(function.SchemaName, function.Name, function.ParameterName);
+                    AddNewResultNode(nodeName, functionsNode, function);
+                }
+                functionsNode.ExpandAll();
+                tvResults.EndUpdate();
+            }
+        }
     }
 }

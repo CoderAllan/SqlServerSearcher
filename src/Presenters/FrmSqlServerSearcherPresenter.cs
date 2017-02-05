@@ -72,6 +72,12 @@ namespace SQLServerSearcher.Presenters
                 _view.InsertProcedureIntoTreeview(procedures);
                 rowCount += procedures.Count;
             }
+            if (args.LookInFunctions)
+            {
+                var functions = _searches.FindFunctions(args.Database, args.FindWhat);
+                _view.InsertFunctionIntoTreeview(functions);
+                rowCount += functions.Count;
+            }
             _view.InsertSearchQueryIntoCombobox(args.FindWhat);
             var executionTime = DateTime.Now - startTime;
             _view.SetExecutionTime(executionTime);

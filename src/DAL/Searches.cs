@@ -47,8 +47,8 @@ namespace SQLServerSearcher.DAL
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = t.object_id) iu", database);
             if (!string.IsNullOrEmpty(query))
             {
-                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON t.object_id = c.object_id
-                                            WHERE t.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
+                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON t.object_id = c.object_id AND c.name LIKE '%{1}%'
+                                            WHERE t.name LIKE '%{1}%'", database, query);
             }
             using (var reader = ExecuteSql(sql))
             {
@@ -61,7 +61,7 @@ namespace SQLServerSearcher.DAL
                         {
                             SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
-                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.Ordinal) >= 0 ? colName : null,
+                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modify_date")),
                             LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
@@ -85,8 +85,8 @@ namespace SQLServerSearcher.DAL
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = v.object_id) iu", database);
             if (!string.IsNullOrEmpty(query))
             {
-                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON v.object_id = c.object_id
-                                            WHERE v.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
+                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON v.object_id = c.object_id AND c.name LIKE '%{1}%'
+                                            WHERE v.name LIKE '%{1}%'", database, query);
             }
             using (var reader = ExecuteSql(sql))
             {
@@ -99,7 +99,7 @@ namespace SQLServerSearcher.DAL
                         {
                             SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
-                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.Ordinal) >= 0 ? colName : null,
+                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modify_date")),
                             LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
@@ -124,8 +124,8 @@ namespace SQLServerSearcher.DAL
             if (!string.IsNullOrEmpty(query))
             {
                 sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.index_columns ic ON i.object_id = ic.object_id
-										     LEFT OUTER JOIN {0}.sys.columns c on ic.object_id=c.object_id AND ic.column_id=c.column_id
-                                             WHERE i.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
+										     LEFT OUTER JOIN {0}.sys.columns c on ic.object_id=c.object_id AND ic.column_id=c.column_id AND c.name LIKE '%{1}%'
+                                             WHERE i.name LIKE '%{1}%'", database, query);
             }
             using (var reader = ExecuteSql(sql))
             {
@@ -138,7 +138,7 @@ namespace SQLServerSearcher.DAL
                         {
                             TableName = reader.GetString(reader.GetOrdinal("tableName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
-                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.Ordinal) >= 0 ? colName : null,
+                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
                             TypeDescription = reader.GetString(reader.GetOrdinal("type_desc")),
                             LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
                             LastScan = reader.GetDateTime(reader.GetOrdinal("lastScan")),
@@ -160,9 +160,10 @@ namespace SQLServerSearcher.DAL
                                           INNER JOIN {0}.sys.schemas s ON pr.schema_id = s.schema_id
                                           INNER JOIN {0}.sys.sql_modules m ON pr.object_id = m.object_id
                                            LEFT OUTER JOIN {0}.sys.dm_exec_procedure_stats st on pr.object_id = st.object_id", database);
-            if(!string.IsNullOrEmpty(query)){
-                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.parameters pa ON pr.object_id = pa.object_id
-                                            WHERE s.name LIKE '%{1}%' OR pa.name LIKE '%{1}%' OR m.definition LIKE '%{1}%'", database, query);
+            if(!string.IsNullOrEmpty(query))
+            {
+                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.parameters pa ON pr.object_id = pa.object_id AND pa.name LIKE '%{1}%' 
+                                            WHERE s.name LIKE '%{1}%' OR m.definition LIKE '%{1}%'", database, query);
             }
             using (var reader = ExecuteSql(sql))
             {
@@ -175,7 +176,7 @@ namespace SQLServerSearcher.DAL
                         {
                             SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
-                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, System.StringComparison.Ordinal) >= 0 ? parameterName : null,
+                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
                             LastExecutionTime = reader.GetDateTime(reader.GetOrdinal("lastExecutionTime")),
@@ -187,9 +188,39 @@ namespace SQLServerSearcher.DAL
             return procedures;
         }
 
-        public List<string> FindFunctions(string database, string query = null)
+        public List<Function> FindFunctions(string database, string query = null)
         {
-            return new List<string>();
+            var functions = new List<Function>();
+            string sql = string.Format(@"SELECT s.name AS schemaName, o.name, ISNULL(pa.name,'') AS parameterName, o.create_date, ISNULL(o.modify_date,'') AS modifyDate
+                                           FROM {0}.sys.objects o
+                                          INNER JOIN {0}.sys.schemas s ON o.schema_id = s.schema_id
+                                          INNER JOIN {0}.sys.sql_modules m ON o.object_id = m.object_id
+                                           LEFT OUTER JOIN {0}.sys.dm_exec_procedure_stats st on o.object_id = st.object_id", database);
+            if (!string.IsNullOrEmpty(query))
+            {
+                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.parameters pa ON o.object_id = pa.object_id AND pa.name LIKE '%{1}%' 
+                                            WHERE o.type_desc like '%FUNCTION%' AND (s.name LIKE '%{1}%' OR m.definition LIKE '%{1}%')", database, query);
+            }
+            using (var reader = ExecuteSql(sql))
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var parameterName = reader.GetString(reader.GetOrdinal("parameterName"));
+                        var function = new Function()
+                        {
+                            SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
+                            Name = reader.GetString(reader.GetOrdinal("name")),
+                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
+                            CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
+                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
+                        };
+                        functions.Add(function);
+                    }
+                }
+            }
+            return functions;
         }
 
         public List<string> GetSchemas()

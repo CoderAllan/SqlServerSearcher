@@ -31,5 +31,6 @@
         void InsertViewIntoTreeview(List<View> views);
         void InsertIndexIntoTreeview(List<Index> indexes);
         void InsertProcedureIntoTreeview(List<Procedure> procedures);
+        void InsertFunctionIntoTreeview(List<Function> functions);
     }
 }
