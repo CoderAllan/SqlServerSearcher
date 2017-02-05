@@ -70,6 +70,7 @@
     <Compile Include="Model\FormLocationAndPosition.cs" />
     <Compile Include="Model\Index.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
+    <Compile Include="Model\Procedure.cs" />
     <Compile Include="Model\Table.cs" />
     <Compile Include="Model\View.cs" />
     <Compile Include="Presenters\BaseFormPresenter.cs" />

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Linq;
     using System.Windows.Forms;
 
     using Model;
@@ -212,6 +211,25 @@
             indexesNodes.Nodes.Clear();
         }
 
+        private static void AddNewResultNode(string nodeName, TreeNode resultNode, object result)
+        {
+            if (!resultNode.Nodes.ContainsKey(nodeName))
+            {
+                var newResultNode = new TreeNode
+                {
+                    Name = nodeName,
+                    Text = nodeName,
+                    Tag = result
+                };
+                resultNode.Nodes.Add(newResultNode);
+            }
+        }
+        
+        private static string FormatNodeName(string part1, string part2, string part3){
+            var nodeName = !string.IsNullOrEmpty(part3) ? string.Format("{0}.{1}.{2}", part1, part2, part3) : string.Format("{0}.{1}", part1, part2);
+            return nodeName;
+        }
+
         public void InsertTableIntoTreeview(List<Table> tables)
         {
             if (tables != null && tables.Count > 0)
@@ -220,17 +238,8 @@
                 var tableNodes = tvResults.Nodes["TablesNode"];
                 foreach (var table in tables)
                 {
-                    var nodeName = !string.IsNullOrEmpty(table.ColumnName) ? string.Format("{0}.{1}.{2}", table.SchemaName, table.Name, table.ColumnName) : string.Format("{0}.{1}", table.SchemaName, table.Name);
-                    if (!tableNodes.Nodes.ContainsKey(nodeName))
-                    {
-                        var newTableNode = new TreeNode
-                        {
-                            Name = nodeName,
-                            Text = nodeName,
-                            Tag = table
-                        };
-                        tableNodes.Nodes.Add(newTableNode);
-                    }
+                    var nodeName = FormatNodeName(table.SchemaName, table.Name, table.ColumnName);
+                    AddNewResultNode(nodeName, tableNodes, table);
                 }
                 tableNodes.ExpandAll();
                 tvResults.EndUpdate();
@@ -242,22 +251,13 @@
             if (views != null && views.Count > 0)
             {
                 tvResults.BeginUpdate();
-                var viewNodes = tvResults.Nodes["ViewsNode"];
+                var viewsNodes = tvResults.Nodes["ViewsNode"];
                 foreach (var view in views)
                 {
-                    var nodeName = !string.IsNullOrEmpty(view.ColumnName) ? string.Format("{0}.{1}.{2}", view.SchemaName, view.Name, view.ColumnName) : string.Format("{0}.{1}", view.SchemaName, view.Name);
-                    if (!viewNodes.Nodes.ContainsKey(nodeName))
-                    {
-                        var newViewNode = new TreeNode
-                        {
-                            Name = nodeName,
-                            Text = nodeName,
-                            Tag = view
-                        };
-                        viewNodes.Nodes.Add(newViewNode);
-                    }
+                    var nodeName = FormatNodeName(view.SchemaName, view.Name, view.ColumnName);
+                    AddNewResultNode(nodeName, viewsNodes, view);
                 }
-                viewNodes.ExpandAll();
+                viewsNodes.ExpandAll();
                 tvResults.EndUpdate();
             }
         }
@@ -267,22 +267,29 @@
             if (indexes != null && indexes.Count > 0)
             {
                 tvResults.BeginUpdate();
-                var viewNodes = tvResults.Nodes["IndexesNode"];
+                var indexesNodes = tvResults.Nodes["IndexesNode"];
                 foreach (var index in indexes)
                 {
-                    var nodeName = !string.IsNullOrEmpty(index.ColumnName) ? string.Format("{0}.{1}.{2}", index.TableName, index.Name, index.ColumnName) : string.Format("{0}.{1}", index.TableName, index.Name);
-                    if (!viewNodes.Nodes.ContainsKey(nodeName))
-                    {
-                        var newViewNode = new TreeNode
-                        {
-                            Name = nodeName,
-                            Text = nodeName,
-                            Tag = index
-                        };
-                        viewNodes.Nodes.Add(newViewNode);
-                    }
+                    var nodeName = FormatNodeName(index.TableName, index.Name, index.ColumnName);
+                    AddNewResultNode(nodeName, indexesNodes, index);
                 }
-                viewNodes.ExpandAll();
+                indexesNodes.ExpandAll();
+                tvResults.EndUpdate();
+            }
+        }
+
+        public void InsertProcedureIntoTreeview(List<Procedure> procedures)
+        {
+            if (procedures != null && procedures.Count > 0)
+            {
+                tvResults.BeginUpdate();
+                var proceduresNode = tvResults.Nodes["StoredProceduresNode"];
+                foreach (var procedure in procedures)
+                {
+                    var nodeName = FormatNodeName(procedure.SchemaName, procedure.Name, procedure.ParameterName);
+                    AddNewResultNode(nodeName, proceduresNode, procedure);
+                }
+                proceduresNode.ExpandAll();
                 tvResults.EndUpdate();
             }
         }

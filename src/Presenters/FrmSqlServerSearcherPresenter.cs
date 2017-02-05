@@ -60,6 +60,11 @@ namespace SQLServerSearcher.Presenters
                 var indexes = _searches.FindIndexes(args.Database, args.FindWhat);
                 _view.InsertIndexIntoTreeview(indexes);
             }
+            if (args.LookInStoredProcedures)
+            {
+                var procedures = _searches.FindProcedures(args.Database, args.FindWhat);
+                _view.InsertProcedureIntoTreeview(procedures);
+            }
             _view.InsertSearchQueryIntoCombobox(args.FindWhat);
         }
 

@@ -26,5 +26,6 @@
         void InsertTableIntoTreeview(List<Table> tables);
         void InsertViewIntoTreeview(List<View> views);
         void InsertIndexIntoTreeview(List<Index> indexes);
+        void InsertProcedureIntoTreeview(List<Procedure> procedures);
     }
 }

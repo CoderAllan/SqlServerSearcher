@@ -150,9 +150,39 @@ namespace SQLServerSearcher.DAL
             return indexes;
         }
 
-        public List<string> FindProcedures(string database, string query = null)
+        public List<Procedure> FindProcedures(string database, string query = null)
         {
-            return new List<string>();
+            var procedures = new List<Procedure>();
+            string sql = string.Format(@"SELECT s.name AS schemaName, pr.name, pa.name AS parameterName, pr.create_date, ISNULL(pr.modify_date,'') AS modifyDate, ISNULL(st.last_execution_time,'') AS lastExecutionTime
+                                           FROM {0}.sys.procedures pr
+                                          INNER JOIN {0}.sys.schemas s ON pr.schema_id = s.schema_id
+                                          INNER JOIN {0}.sys.sql_modules m ON pr.object_id = m.object_id
+                                           LEFT OUTER JOIN {0}.sys.dm_exec_procedure_stats st on pr.object_id = st.object_id", database);
+            if(!string.IsNullOrEmpty(query)){
+                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.parameters pa ON pr.object_id = pa.object_id
+                                            WHERE s.name LIKE '%{1}%' OR pa.name LIKE '%{1}%' OR m.definition LIKE '%{1}%'", database, query);
+            }
+            using (var reader = ExecuteSql(sql))
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var parameterName = reader.GetString(reader.GetOrdinal("parameterName"));
+                        var procedure = new Procedure()
+                        {
+                            SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
+                            Name = reader.GetString(reader.GetOrdinal("name")),
+                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, System.StringComparison.Ordinal) >= 0 ? parameterName : null,
+                            CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
+                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
+                            LastExecutionTime = reader.GetDateTime(reader.GetOrdinal("lastExecutionTime")),
+                        };
+                        procedures.Add(procedure);
+                    }
+                }
+            }
+            return procedures;
         }
 
         public List<string> FindFunctions(string database, string query = null)
