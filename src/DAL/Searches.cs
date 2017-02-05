@@ -18,19 +18,21 @@ namespace SQLServerSearcher.DAL
         public List<Database> GetDatabases()
         {
             var databases = new List<Database>();
-            var reader = ExecuteSql("SELECT d.name, d.create_date, d.collation_name, d.state_desc FROM sys.databases d");
-            if (reader.HasRows)
+            using (var reader = ExecuteSql("SELECT d.name, d.create_date, d.collation_name, d.state_desc FROM sys.databases d"))
             {
-                while(reader.Read())
+                if (reader.HasRows)
                 {
-                    var database = new Database
+                    while (reader.Read())
                     {
-                        Name = reader.GetString(reader.GetOrdinal("name")),
-                        CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
-                        CollationName = reader.GetString(reader.GetOrdinal("collation_name")),
-                        OnlineState = reader.GetString(reader.GetOrdinal("state_desc"))
-                    };
-                    databases.Add(database);
+                        var database = new Database
+                        {
+                            Name = reader.GetString(reader.GetOrdinal("name")),
+                            CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
+                            CollationName = reader.GetString(reader.GetOrdinal("collation_name")),
+                            OnlineState = reader.GetString(reader.GetOrdinal("state_desc"))
+                        };
+                        databases.Add(database);
+                    }
                 }
             }
             return databases;
@@ -153,7 +155,7 @@ namespace SQLServerSearcher.DAL
         public List<Procedure> FindProcedures(string database, string query = null)
         {
             var procedures = new List<Procedure>();
-            string sql = string.Format(@"SELECT s.name AS schemaName, pr.name, pa.name AS parameterName, pr.create_date, ISNULL(pr.modify_date,'') AS modifyDate, ISNULL(st.last_execution_time,'') AS lastExecutionTime
+            string sql = string.Format(@"SELECT s.name AS schemaName, pr.name, ISNULL(pa.name,'') AS parameterName, pr.create_date, ISNULL(pr.modify_date,'') AS modifyDate, ISNULL(st.last_execution_time,'') AS lastExecutionTime
                                            FROM {0}.sys.procedures pr
                                           INNER JOIN {0}.sys.schemas s ON pr.schema_id = s.schema_id
                                           INNER JOIN {0}.sys.sql_modules m ON pr.object_id = m.object_id

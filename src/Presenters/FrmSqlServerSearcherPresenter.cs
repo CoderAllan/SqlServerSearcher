@@ -39,33 +39,43 @@ namespace SQLServerSearcher.Presenters
                 {
                     _view.InsertDatabaseIntoCombobox(database.Name);
                 }
+                _view.SetLblServerName();
             }
         }
 
         private void DoBtnFindClick(object sender, FindEventArgs args)
         {
             _view.ClearResults();
+            var startTime = DateTime.Now;
+            int rowCount = 0;
             if (args.LookInTables)
             {
                 var tables = _searches.FindTables(args.Database, args.FindWhat);
                 _view.InsertTableIntoTreeview(tables);
+                rowCount += tables.Count;
             }
             if (args.LookInViews)
             {
                 var views = _searches.FindViews(args.Database, args.FindWhat);
                 _view.InsertViewIntoTreeview(views);
+                rowCount += views.Count;
             }
             if (args.LookInIndexes)
             {
                 var indexes = _searches.FindIndexes(args.Database, args.FindWhat);
                 _view.InsertIndexIntoTreeview(indexes);
+                rowCount += indexes.Count;
             }
             if (args.LookInStoredProcedures)
             {
                 var procedures = _searches.FindProcedures(args.Database, args.FindWhat);
                 _view.InsertProcedureIntoTreeview(procedures);
+                rowCount += procedures.Count;
             }
             _view.InsertSearchQueryIntoCombobox(args.FindWhat);
+            var executionTime = DateTime.Now - startTime;
+            _view.SetExecutionTime(executionTime);
+            _view.SetLblRowCount(rowCount);
         }
 
         private void DoEnableDisableBtnConnect(object sender, EventArgs e)

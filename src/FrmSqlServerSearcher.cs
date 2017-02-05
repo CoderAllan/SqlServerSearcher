@@ -168,6 +168,11 @@
             }
         }
 
+        private void cmbDatabase_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetLblDatabase();
+        }
+
         public void InsertServerIntoCombobox(string server)
         {
             cmbServer.Items.Remove(server);
@@ -196,6 +201,28 @@
         {
             lblServerVersion.Text = text;
         }
+
+        public void SetLblServerName()
+        {
+            tsLblServer.Text = cmbServer.SelectedItem.ToString();
+        }
+
+        public void SetLblDatabase()
+        {
+            var databaseName = cmbDatabase.SelectedItem == null ? "N/A" : cmbDatabase.SelectedItem.ToString();
+            tsLblDatabase.Text = databaseName;
+        }
+
+        public void SetExecutionTime(TimeSpan executionTime)
+        {
+            tsLblExecutionTime.Text = executionTime.ToString(@"hh\:mm\:ss\.fff");
+        }
+
+        public void SetLblRowCount(int rowCount)
+        {
+            tsLblRowCount.Text = @"Rows: " + rowCount.ToString();
+        }
+
 
         public void ClearResults()
         {
