@@ -1,13 +1,12 @@
 namespace SQLServerSearcher.Model
 {
-    using System;
+    using System.Collections.Generic;
 
-    public class Function
+    public class Function : ProcedureObject, IDatabaseObject
     {
-        public string SchemaName { get; set; }
-        public string Name { get; set; }
-        public string ParameterName { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public new List<string[]> ToArrayList()
+        {
+            return base.ToArrayList();
+        }
     }
 }

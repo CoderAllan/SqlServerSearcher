@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Tables");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Views");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Stored procedures");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Functions");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Indexes");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tables");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Views");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Stored procedures");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Indexes");
             this.btnFind = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFindText = new System.Windows.Forms.ComboBox();
@@ -46,17 +46,19 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cmbServer = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lvObjectInformation = new System.Windows.Forms.ListView();
+            this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblServerVersion = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
             this.cmbDatabase = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.chkIndexes = new System.Windows.Forms.CheckBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tsLblServer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsLblExecutionTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblRowCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsLblExecutionTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblDatabase = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsLblServer = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -164,24 +166,25 @@
             this.tvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvResults.Location = new System.Drawing.Point(0, 0);
             this.tvResults.Name = "tvResults";
-            treeNode6.Name = "TablesNode";
-            treeNode6.Text = "Tables";
-            treeNode7.Name = "ViewsNode";
-            treeNode7.Text = "Views";
-            treeNode8.Name = "StoredProceduresNode";
-            treeNode8.Text = "Stored procedures";
-            treeNode9.Name = "FunctionsNode";
-            treeNode9.Text = "Functions";
-            treeNode10.Name = "IndexesNode";
-            treeNode10.Text = "Indexes";
+            treeNode1.Name = "TablesNode";
+            treeNode1.Text = "Tables";
+            treeNode2.Name = "ViewsNode";
+            treeNode2.Text = "Views";
+            treeNode3.Name = "StoredProceduresNode";
+            treeNode3.Text = "Stored procedures";
+            treeNode4.Name = "FunctionsNode";
+            treeNode4.Text = "Functions";
+            treeNode5.Name = "IndexesNode";
+            treeNode5.Text = "Indexes";
             this.tvResults.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode7,
-            treeNode8,
-            treeNode9,
-            treeNode10});
-            this.tvResults.Size = new System.Drawing.Size(292, 550);
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5});
+            this.tvResults.Size = new System.Drawing.Size(292, 525);
             this.tvResults.TabIndex = 11;
+            this.tvResults.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvResults_NodeMouseClick);
             // 
             // label3
             // 
@@ -217,19 +220,39 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.lvObjectInformation);
             this.splitContainer1.Panel2.Controls.Add(this.lblServerVersion);
-            this.splitContainer1.Size = new System.Drawing.Size(878, 550);
+            this.splitContainer1.Size = new System.Drawing.Size(878, 525);
             this.splitContainer1.SplitterDistance = 292;
             this.splitContainer1.TabIndex = 14;
             // 
-            // textBox1
+            // lvObjectInformation
             // 
-            this.textBox1.Location = new System.Drawing.Point(8, 28);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(571, 519);
-            this.textBox1.TabIndex = 1;
+            this.lvObjectInformation.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colName,
+            this.colValue});
+            this.lvObjectInformation.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lvObjectInformation.FullRowSelect = true;
+            this.lvObjectInformation.GridLines = true;
+            this.lvObjectInformation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvObjectInformation.HideSelection = false;
+            this.lvObjectInformation.Location = new System.Drawing.Point(0, 27);
+            this.lvObjectInformation.MultiSelect = false;
+            this.lvObjectInformation.Name = "lvObjectInformation";
+            this.lvObjectInformation.Size = new System.Drawing.Size(582, 498);
+            this.lvObjectInformation.TabIndex = 1;
+            this.lvObjectInformation.UseCompatibleStateImageBehavior = false;
+            this.lvObjectInformation.View = System.Windows.Forms.View.Details;
+            // 
+            // colName
+            // 
+            this.colName.Text = "Name";
+            this.colName.Width = 140;
+            // 
+            // colValue
+            // 
+            this.colValue.Text = "Value";
+            this.colValue.Width = 140;
             // 
             // lblServerVersion
             // 
@@ -296,11 +319,12 @@
             this.statusStrip1.TabIndex = 19;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // tsLblServer
+            // tsLblRowCount
             // 
-            this.tsLblServer.Name = "tsLblServer";
-            this.tsLblServer.Size = new System.Drawing.Size(102, 29);
-            this.tsLblServer.Text = "Server: N/A";
+            this.tsLblRowCount.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.tsLblRowCount.Name = "tsLblRowCount";
+            this.tsLblRowCount.Size = new System.Drawing.Size(77, 29);
+            this.tsLblRowCount.Text = "Rows: 0";
             // 
             // tsLblExecutionTime
             // 
@@ -309,19 +333,18 @@
             this.tsLblExecutionTime.Size = new System.Drawing.Size(84, 29);
             this.tsLblExecutionTime.Text = "00:00:00";
             // 
-            // tsLblRowCount
-            // 
-            this.tsLblRowCount.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.tsLblRowCount.Name = "tsLblRowCount";
-            this.tsLblRowCount.Size = new System.Drawing.Size(77, 29);
-            this.tsLblRowCount.Text = "Rows: 0";
-            // 
             // tsLblDatabase
             // 
             this.tsLblDatabase.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.tsLblDatabase.Name = "tsLblDatabase";
             this.tsLblDatabase.Size = new System.Drawing.Size(48, 29);
             this.tsLblDatabase.Text = "N/A";
+            // 
+            // tsLblServer
+            // 
+            this.tsLblServer.Name = "tsLblServer";
+            this.tsLblServer.Size = new System.Drawing.Size(102, 29);
+            this.tsLblServer.Text = "Server: N/A";
             // 
             // FrmSqlServerSearcher
             // 
@@ -380,13 +403,15 @@
         private System.Windows.Forms.ComboBox cmbDatabase;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblServerVersion;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.CheckBox chkIndexes;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tsLblRowCount;
         private System.Windows.Forms.ToolStripStatusLabel tsLblExecutionTime;
         private System.Windows.Forms.ToolStripStatusLabel tsLblDatabase;
         private System.Windows.Forms.ToolStripStatusLabel tsLblServer;
+        private System.Windows.Forms.ListView lvObjectInformation;
+        private System.Windows.Forms.ColumnHeader colName;
+        private System.Windows.Forms.ColumnHeader colValue;
     }
 }
 

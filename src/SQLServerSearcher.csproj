@@ -69,10 +69,14 @@
     <Compile Include="Model\FindEventArgs.cs" />
     <Compile Include="Model\FormLocationAndPosition.cs" />
     <Compile Include="Model\Function.cs" />
+    <Compile Include="Model\IDatabaseObject.cs" />
     <Compile Include="Model\Index.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\Procedure.cs" />
+    <Compile Include="Model\ProcedureObject.cs" />
     <Compile Include="Model\Table.cs" />
+    <Compile Include="Model\TableObject.cs" />
+    <Compile Include="Model\TreeviewNodeClickEventArgs.cs" />
     <Compile Include="Model\View.cs" />
     <Compile Include="Presenters\BaseFormPresenter.cs" />
     <Compile Include="Presenters\FrmLoginPresenter.cs" />

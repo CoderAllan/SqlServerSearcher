@@ -1,14 +1,18 @@
 namespace SQLServerSearcher.Model
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
 
-    public class Procedure
+    public class Procedure : ProcedureObject, IDatabaseObject
     {
-        public string SchemaName { get; set; }
-        public string Name { get; set; }
-        public string ParameterName { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
         public DateTime LastExecutionTime { get; set; }
+
+        public new List<string[]> ToArrayList()
+        {
+            var result = base.ToArrayList();
+            result.Add(new[] {"Last execution time: ", LastExecutionTime.ToString(CultureInfo.InvariantCulture)});
+            return result;
+        }
     }
 }

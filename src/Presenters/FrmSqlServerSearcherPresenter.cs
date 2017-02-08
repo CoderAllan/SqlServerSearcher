@@ -25,6 +25,7 @@ namespace SQLServerSearcher.Presenters
             _view.BtnFindClick += DoBtnFindClick;
             _view.BtnConnectClick += DoBtnConnectClick;
             _view.EnableDisableBtnConnect += DoEnableDisableBtnConnect;
+            _view.TreeviewNodeClick += DoTreeviewNodeClick;
         }
 
         private void DoBtnConnectClick(object sender, ConnectEventArgs args)
@@ -89,5 +90,33 @@ namespace SQLServerSearcher.Presenters
             _view.BtnConnectEnabled = !String.IsNullOrEmpty(_view.CmbServerText);
         }
 
+        public void DoTreeviewNodeClick(object sender, TreeviewNodeClickEventArgs args)
+        {
+            switch (args.ParentNodeName)
+            {
+                case "ViewsNode":
+                    var view = (View)args.NodeTag;
+                    _view.ShowViewInfo(view);
+                    break;
+                case "TablesNode":
+                    var table = (Table)args.NodeTag;
+                    _view.ShowTableInfo(table);
+                    break;
+                case "IndexesNode":
+                    var index = (Index)args.NodeTag;
+                    _view.ShowIndexInfo(index);
+                    break;
+                case "StoredProceduresNode":
+                    var procedure = (Procedure)args.NodeTag;
+                    _view.ShowProcedureInfo(procedure);
+                    break;
+                case "FunctionsNode":
+                    var function = (Function)args.NodeTag;
+                    _view.ShowFunctionInfo(function);
+                    break;
+                default:
+                    return;
+            }
+        }
     }
 }

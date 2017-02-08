@@ -48,6 +48,14 @@
             chkStoredProcedures.Checked = _appState.LookInStoredProcedures;
             chkFunctions.Checked = _appState.LookInFunctions;
             chkMatchCase.Checked = _appState.MatchCase;
+            if (_appState.NameColumnWith > 0)
+            {
+                colName.Width = _appState.NameColumnWith;
+            }
+            if (_appState.ValueColumnWith > 0)
+            {
+                colValue.Width = _appState.ValueColumnWith;
+            }
             EnableDisableControls();
         }
 
@@ -55,6 +63,7 @@
         public event EventHandler<ConnectEventArgs> BtnConnectClick;
         public event EventHandler<FindEventArgs> BtnFindClick;
         public event EventHandler<EventArgs> EnableDisableBtnConnect;
+        public event EventHandler<TreeviewNodeClickEventArgs> TreeviewNodeClick;
 
         public ApplicationState AppState
         {
@@ -72,11 +81,6 @@
             get { return cmbServer.Text; }
         }
 
-        public void SetText(string text)
-        {
-            textBox1.Text = text;
-        }
-
         public void CloseApplication()
         {
             _appState.PersistFormLocationAndPosition(this);
@@ -86,8 +90,13 @@
             _appState.LookInStoredProcedures = chkStoredProcedures.Checked;
             _appState.LookInFunctions = chkFunctions.Checked;
             _appState.LookInIndexes = chkIndexes.Checked;
+            _appState.NameColumnWith = colName.Width;
+            _appState.ValueColumnWith = colValue.Width;
             _appState.PersistComboBox(cmbServer, _appState.Servers);
-            _appState.LastUsedBatabase = cmbDatabase.SelectedItem.ToString();
+            if (cmbDatabase.SelectedItem != null)
+            {
+                _appState.LastUsedBatabase = cmbDatabase.SelectedItem.ToString();
+            }
             _appState.PersistComboBox(cmbFindText, _appState.PreviousSearches);
             ApplicationState.WriteApplicationState(_appState);
         }
@@ -257,6 +266,22 @@
             return nodeName;
         }
 
+        private void AddObjectToListView(IDatabaseObject dbObject)
+        {
+            lvObjectInformation.BeginUpdate();
+            lvObjectInformation.Items.Clear();
+            foreach (var row in dbObject.ToArrayList())
+            {
+                var item = new ListViewItem
+                {
+                    Text = row[0]
+                };
+                item.SubItems.Add(row[1]);
+                lvObjectInformation.Items.Add(item);
+            }
+            lvObjectInformation.EndUpdate();            
+        }
+
         public void InsertTableIntoTreeview(List<Table> tables)
         {
             if (tables != null && tables.Count > 0)
@@ -271,6 +296,11 @@
                 tableNodes.ExpandAll();
                 tvResults.EndUpdate();
             }
+        }
+
+        public void ShowTableInfo(Table table)
+        {
+            AddObjectToListView(table);
         }
 
         public void InsertViewIntoTreeview(List<Model.View> views)
@@ -289,6 +319,11 @@
             }
         }
 
+        public void ShowViewInfo(Model.View view)
+        {
+            AddObjectToListView(view);
+        }
+
         public void InsertIndexIntoTreeview(List<Index> indexes)
         {
             if (indexes != null && indexes.Count > 0)
@@ -303,6 +338,11 @@
                 indexesNodes.ExpandAll();
                 tvResults.EndUpdate();
             }
+        }
+
+        public void ShowIndexInfo(Index index)
+        {
+            AddObjectToListView(index);
         }
 
         public void InsertProcedureIntoTreeview(List<Procedure> procedures)
@@ -321,6 +361,11 @@
             }
         }
 
+        public void ShowProcedureInfo(Procedure procedure)
+        {
+            AddObjectToListView(procedure);
+        }
+
         public void InsertFunctionIntoTreeview(List<Function> functions)
         {
             if (functions != null && functions.Count > 0)
@@ -334,6 +379,29 @@
                 }
                 functionsNode.ExpandAll();
                 tvResults.EndUpdate();
+            }
+        }
+
+        public void ShowFunctionInfo(Function function)
+        {
+            AddObjectToListView(function);
+        }
+
+        private void tvResults_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (TreeviewNodeClick != null)
+            {
+                var parentNode = e.Node.Parent;
+                if (parentNode == null)
+                {
+                    return;
+                }
+                var treeviewNodeClickEventrgs = new TreeviewNodeClickEventArgs
+                {
+                    ParentNodeName = parentNode.Name,
+                    NodeTag = e.Node.Tag
+                };
+                TreeviewNodeClick(sender, treeviewNodeClickEventrgs);
             }
         }
     }

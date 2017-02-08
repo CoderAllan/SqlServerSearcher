@@ -41,7 +41,7 @@ namespace SQLServerSearcher.DAL
         public List<Table> FindTables(string database, string query = null)
         {
             var tables = new List<Table>();
-            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, t.name, c.name AS columnName, t.create_date, t.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
+            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, t.name, ISNULL(c.name, '') AS columnName, t.create_date, t.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
                                             FROM {0}.sys.tables t
                                            INNER JOIN {0}.sys.schemas s ON s.schema_id = t.schema_id
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = t.object_id) iu", database);
@@ -79,7 +79,7 @@ namespace SQLServerSearcher.DAL
         public List<View> FindViews(string database, string query = null)
         {
             var views = new List<View>();
-            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, v.name, c.name AS columnName, v.create_date, v.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
+            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, v.name, ISNULL(c.name,'') AS columnName, v.create_date, v.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
                                             FROM {0}.sys.views v
                                            INNER JOIN {0}.sys.schemas s ON s.schema_id = v.schema_id
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = v.object_id) iu", database);
@@ -117,9 +117,10 @@ namespace SQLServerSearcher.DAL
         public List<Index> FindIndexes(string database, string query = null)
         {
             var indexes = new List<Index>();
-            string sql = string.Format(@"SELECT t.name AS tableName, i.name, c.name AS columnName, i.type_desc, ISNULL(iu.last_user_lookup,'') AS lastLookup, ISNULL(iu.last_user_scan,'') AS lastScan, ISNULL(iu.last_user_seek,'') AS lastSeek, ISNULL(iu.last_user_update,'') AS lastUpdate
+            string sql = string.Format(@"SELECT t.name AS tableName, i.name, ISNULL(c.name,'') AS columnName, o.create_date, o.modify_date, i.type_desc, ISNULL(iu.last_user_lookup,'') AS lastLookup, ISNULL(iu.last_user_scan,'') AS lastScan, ISNULL(iu.last_user_seek,'') AS lastSeek, ISNULL(iu.last_user_update,'') AS lastUpdate
                                            FROM {0}.sys.indexes i
-										   INNER JOIN msdb.sys.tables t ON i.object_id = t.object_id
+										   INNER JOIN {0}.sys.tables t ON i.object_id = t.object_id
+										   INNER JOIN {0}.sys.objects o on i.object_id = o.parent_object_id
                                            LEFT OUTER JOIN {0}.sys.dm_db_index_usage_stats iu ON i.object_id = iu.object_id AND i.index_id = iu.index_id", database);
             if (!string.IsNullOrEmpty(query))
             {

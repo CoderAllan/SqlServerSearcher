@@ -12,6 +12,7 @@
         event EventHandler<ConnectEventArgs> BtnConnectClick;
         event EventHandler<FindEventArgs> BtnFindClick;
         event EventHandler<EventArgs> EnableDisableBtnConnect;
+        event EventHandler<TreeviewNodeClickEventArgs> TreeviewNodeClick;
 
         bool BtnConnectEnabled { get; set; }
         string CmbServerText { get; }
@@ -25,12 +26,16 @@
         void SetLblDatabase();
         void SetExecutionTime(TimeSpan executionTime);
         void SetLblRowCount(int rowCount);
-        void SetText(string text);
         void ClearResults();
         void InsertTableIntoTreeview(List<Table> tables);
+        void ShowTableInfo(Table table);
         void InsertViewIntoTreeview(List<View> views);
+        void ShowViewInfo(View view);
         void InsertIndexIntoTreeview(List<Index> indexes);
+        void ShowIndexInfo(Index index);
         void InsertProcedureIntoTreeview(List<Procedure> procedures);
+        void ShowProcedureInfo(Procedure procedure);
         void InsertFunctionIntoTreeview(List<Function> functions);
+        void ShowFunctionInfo(Function function);
     }
 }
