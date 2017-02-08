@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tables");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Views");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Stored procedures");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Functions");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Indexes");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Tables");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Views");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Stored procedures");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Indexes");
             this.btnFind = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFindText = new System.Windows.Forms.ComboBox();
@@ -49,7 +49,6 @@
             this.lvObjectInformation = new System.Windows.Forms.ListView();
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblServerVersion = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
             this.cmbDatabase = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -59,6 +58,9 @@
             this.tsLblExecutionTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblDatabase = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblServer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lvServerProperties = new System.Windows.Forms.ListView();
+            this.colServerPropertyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colServerPropertyValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -69,7 +71,7 @@
             // btnFind
             // 
             this.btnFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFind.Location = new System.Drawing.Point(756, 101);
+            this.btnFind.Location = new System.Drawing.Point(808, 101);
             this.btnFind.Name = "btnFind";
             this.btnFind.Size = new System.Drawing.Size(138, 35);
             this.btnFind.TabIndex = 0;
@@ -93,14 +95,14 @@
             this.cmbFindText.FormattingEnabled = true;
             this.cmbFindText.Location = new System.Drawing.Point(97, 85);
             this.cmbFindText.Name = "cmbFindText";
-            this.cmbFindText.Size = new System.Drawing.Size(472, 28);
+            this.cmbFindText.Size = new System.Drawing.Size(524, 28);
             this.cmbFindText.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(583, 12);
+            this.label2.Location = new System.Drawing.Point(635, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 20);
             this.label2.TabIndex = 3;
@@ -110,7 +112,7 @@
             // 
             this.chkTables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkTables.AutoSize = true;
-            this.chkTables.Location = new System.Drawing.Point(586, 41);
+            this.chkTables.Location = new System.Drawing.Point(638, 41);
             this.chkTables.Name = "chkTables";
             this.chkTables.Size = new System.Drawing.Size(82, 24);
             this.chkTables.TabIndex = 4;
@@ -121,7 +123,7 @@
             // 
             this.chkStoredProcedures.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkStoredProcedures.AutoSize = true;
-            this.chkStoredProcedures.Location = new System.Drawing.Point(689, 41);
+            this.chkStoredProcedures.Location = new System.Drawing.Point(741, 41);
             this.chkStoredProcedures.Name = "chkStoredProcedures";
             this.chkStoredProcedures.Size = new System.Drawing.Size(167, 24);
             this.chkStoredProcedures.TabIndex = 6;
@@ -132,7 +134,7 @@
             // 
             this.chkViews.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkViews.AutoSize = true;
-            this.chkViews.Location = new System.Drawing.Point(586, 71);
+            this.chkViews.Location = new System.Drawing.Point(638, 71);
             this.chkViews.Name = "chkViews";
             this.chkViews.Size = new System.Drawing.Size(77, 24);
             this.chkViews.TabIndex = 7;
@@ -143,7 +145,7 @@
             // 
             this.chkFunctions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkFunctions.AutoSize = true;
-            this.chkFunctions.Location = new System.Drawing.Point(689, 71);
+            this.chkFunctions.Location = new System.Drawing.Point(741, 71);
             this.chkFunctions.Name = "chkFunctions";
             this.chkFunctions.Size = new System.Drawing.Size(105, 24);
             this.chkFunctions.TabIndex = 8;
@@ -166,23 +168,23 @@
             this.tvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvResults.Location = new System.Drawing.Point(0, 0);
             this.tvResults.Name = "tvResults";
-            treeNode1.Name = "TablesNode";
-            treeNode1.Text = "Tables";
-            treeNode2.Name = "ViewsNode";
-            treeNode2.Text = "Views";
-            treeNode3.Name = "StoredProceduresNode";
-            treeNode3.Text = "Stored procedures";
-            treeNode4.Name = "FunctionsNode";
-            treeNode4.Text = "Functions";
-            treeNode5.Name = "IndexesNode";
-            treeNode5.Text = "Indexes";
+            treeNode16.Name = "TablesNode";
+            treeNode16.Text = "Tables";
+            treeNode17.Name = "ViewsNode";
+            treeNode17.Text = "Views";
+            treeNode18.Name = "StoredProceduresNode";
+            treeNode18.Text = "Stored procedures";
+            treeNode19.Name = "FunctionsNode";
+            treeNode19.Text = "Functions";
+            treeNode20.Name = "IndexesNode";
+            treeNode20.Text = "Indexes";
             this.tvResults.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
-            this.tvResults.Size = new System.Drawing.Size(292, 525);
+            treeNode16,
+            treeNode17,
+            treeNode18,
+            treeNode19,
+            treeNode20});
+            this.tvResults.Size = new System.Drawing.Size(309, 565);
             this.tvResults.TabIndex = 11;
             this.tvResults.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvResults_NodeMouseClick);
             // 
@@ -202,7 +204,7 @@
             this.cmbServer.FormattingEnabled = true;
             this.cmbServer.Location = new System.Drawing.Point(97, 17);
             this.cmbServer.Name = "cmbServer";
-            this.cmbServer.Size = new System.Drawing.Size(346, 28);
+            this.cmbServer.Size = new System.Drawing.Size(398, 28);
             this.cmbServer.TabIndex = 13;
             this.cmbServer.TextChanged += new System.EventHandler(this.cmbServer_TextChanged);
             // 
@@ -220,33 +222,35 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lvServerProperties);
             this.splitContainer1.Panel2.Controls.Add(this.lvObjectInformation);
-            this.splitContainer1.Panel2.Controls.Add(this.lblServerVersion);
-            this.splitContainer1.Size = new System.Drawing.Size(878, 525);
-            this.splitContainer1.SplitterDistance = 292;
+            this.splitContainer1.Size = new System.Drawing.Size(930, 565);
+            this.splitContainer1.SplitterDistance = 309;
             this.splitContainer1.TabIndex = 14;
             // 
             // lvObjectInformation
             // 
+            this.lvObjectInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvObjectInformation.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colName,
             this.colValue});
-            this.lvObjectInformation.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lvObjectInformation.FullRowSelect = true;
             this.lvObjectInformation.GridLines = true;
-            this.lvObjectInformation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvObjectInformation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvObjectInformation.HideSelection = false;
-            this.lvObjectInformation.Location = new System.Drawing.Point(0, 27);
+            this.lvObjectInformation.Location = new System.Drawing.Point(0, 169);
             this.lvObjectInformation.MultiSelect = false;
             this.lvObjectInformation.Name = "lvObjectInformation";
-            this.lvObjectInformation.Size = new System.Drawing.Size(582, 498);
+            this.lvObjectInformation.Size = new System.Drawing.Size(617, 396);
             this.lvObjectInformation.TabIndex = 1;
             this.lvObjectInformation.UseCompatibleStateImageBehavior = false;
             this.lvObjectInformation.View = System.Windows.Forms.View.Details;
             // 
             // colName
             // 
-            this.colName.Text = "Name";
+            this.colName.Text = "Property";
             this.colName.Width = 140;
             // 
             // colValue
@@ -254,19 +258,10 @@
             this.colValue.Text = "Value";
             this.colValue.Width = 140;
             // 
-            // lblServerVersion
-            // 
-            this.lblServerVersion.AutoSize = true;
-            this.lblServerVersion.Location = new System.Drawing.Point(4, 4);
-            this.lblServerVersion.Name = "lblServerVersion";
-            this.lblServerVersion.Size = new System.Drawing.Size(113, 20);
-            this.lblServerVersion.TabIndex = 0;
-            this.lblServerVersion.Text = "Server version:";
-            // 
             // btnConnect
             // 
             this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConnect.Location = new System.Drawing.Point(450, 12);
+            this.btnConnect.Location = new System.Drawing.Point(502, 12);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(119, 32);
             this.btnConnect.TabIndex = 15;
@@ -281,7 +276,7 @@
             this.cmbDatabase.FormattingEnabled = true;
             this.cmbDatabase.Location = new System.Drawing.Point(97, 51);
             this.cmbDatabase.Name = "cmbDatabase";
-            this.cmbDatabase.Size = new System.Drawing.Size(472, 28);
+            this.cmbDatabase.Size = new System.Drawing.Size(524, 28);
             this.cmbDatabase.TabIndex = 17;
             this.cmbDatabase.SelectedIndexChanged += new System.EventHandler(this.cmbDatabase_SelectedIndexChanged);
             // 
@@ -298,7 +293,7 @@
             // 
             this.chkIndexes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIndexes.AutoSize = true;
-            this.chkIndexes.Location = new System.Drawing.Point(586, 101);
+            this.chkIndexes.Location = new System.Drawing.Point(638, 101);
             this.chkIndexes.Name = "chkIndexes";
             this.chkIndexes.Size = new System.Drawing.Size(91, 24);
             this.chkIndexes.TabIndex = 18;
@@ -312,10 +307,10 @@
             this.tsLblExecutionTime,
             this.tsLblDatabase,
             this.tsLblServer});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 676);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 716);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.statusStrip1.Size = new System.Drawing.Size(911, 34);
+            this.statusStrip1.Size = new System.Drawing.Size(963, 34);
             this.statusStrip1.TabIndex = 19;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -346,11 +341,37 @@
             this.tsLblServer.Size = new System.Drawing.Size(102, 29);
             this.tsLblServer.Text = "Server: N/A";
             // 
+            // lvServerProperties
+            // 
+            this.lvServerProperties.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colServerPropertyName,
+            this.colServerPropertyValue});
+            this.lvServerProperties.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lvServerProperties.FullRowSelect = true;
+            this.lvServerProperties.GridLines = true;
+            this.lvServerProperties.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvServerProperties.Location = new System.Drawing.Point(0, 0);
+            this.lvServerProperties.Name = "lvServerProperties";
+            this.lvServerProperties.Size = new System.Drawing.Size(617, 163);
+            this.lvServerProperties.TabIndex = 2;
+            this.lvServerProperties.UseCompatibleStateImageBehavior = false;
+            this.lvServerProperties.View = System.Windows.Forms.View.Details;
+            // 
+            // colServerPropertyName
+            // 
+            this.colServerPropertyName.Text = "Property";
+            this.colServerPropertyName.Width = 135;
+            // 
+            // colServerPropertyValue
+            // 
+            this.colServerPropertyValue.Text = "Value";
+            this.colServerPropertyValue.Width = 170;
+            // 
             // FrmSqlServerSearcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(911, 710);
+            this.ClientSize = new System.Drawing.Size(963, 750);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.chkIndexes);
             this.Controls.Add(this.cmbDatabase);
@@ -374,7 +395,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSqlServerSearcher_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
@@ -402,7 +422,6 @@
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.ComboBox cmbDatabase;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label lblServerVersion;
         private System.Windows.Forms.CheckBox chkIndexes;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tsLblRowCount;
@@ -412,6 +431,9 @@
         private System.Windows.Forms.ListView lvObjectInformation;
         private System.Windows.Forms.ColumnHeader colName;
         private System.Windows.Forms.ColumnHeader colValue;
+        private System.Windows.Forms.ListView lvServerProperties;
+        private System.Windows.Forms.ColumnHeader colServerPropertyName;
+        private System.Windows.Forms.ColumnHeader colServerPropertyValue;
     }
 }
 

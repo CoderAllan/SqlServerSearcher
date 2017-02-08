@@ -19,12 +19,12 @@ namespace SQLServerSearcher.Model
         {
             var result = new List<string[]>
             {
-                new[] {"Created:", CreatedDate.ToString(CultureInfo.InvariantCulture)},
-                new[] {"Modified:", ModifiedDate.ToString(CultureInfo.InvariantCulture)},
-                new[] {"Last update:", LastUpdate.ToString(CultureInfo.InvariantCulture)},
-                new[] {"Last lookup:", LastLookup.ToString(CultureInfo.InvariantCulture)},
-                new[] {"Last scan:", LastScan.ToString(CultureInfo.InvariantCulture)},
-                new[] {"Last seek:", LastSeek.ToString(CultureInfo.InvariantCulture)},
+                new[] {"Created:", CreatedDate.ToString(CultureInfo.CurrentCulture)},
+                new[] {"Modified:", ModifiedDate.ToString(CultureInfo.CurrentCulture)},
+                new[] {"Last update:", LastUpdate.ToString(CultureInfo.CurrentCulture)},
+                new[] {"Last lookup:", LastLookup.ToString(CultureInfo.CurrentCulture)},
+                new[] {"Last scan:", LastScan.ToString(CultureInfo.CurrentCulture)},
+                new[] {"Last seek:", LastSeek.ToString(CultureInfo.CurrentCulture)},
             };
             return result;
         }

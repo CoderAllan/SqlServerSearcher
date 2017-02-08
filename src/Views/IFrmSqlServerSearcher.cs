@@ -21,12 +21,12 @@
         void InsertServerIntoCombobox(string server);
         void InsertDatabaseIntoCombobox(string database);
         void InsertSearchQueryIntoCombobox(string searchQuery);
-        void SetLblServerVersion(string text);
         void SetLblServerName();
         void SetLblDatabase();
         void SetExecutionTime(TimeSpan executionTime);
         void SetLblRowCount(int rowCount);
         void ClearResults();
+        void ShowServerInfo(ServerInfo serverInfo);
         void InsertTableIntoTreeview(List<Table> tables);
         void ShowTableInfo(Table table);
         void InsertViewIntoTreeview(List<View> views);

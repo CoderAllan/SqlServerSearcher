@@ -56,6 +56,14 @@
             {
                 colValue.Width = _appState.ValueColumnWith;
             }
+            if (_appState.ServerPropertyNameColumnWith > 0)
+            {
+                colServerPropertyName.Width = _appState.ServerPropertyNameColumnWith;
+            }
+            if (_appState.ServerPropertyValueColumnWith > 0)
+            {
+                colServerPropertyValue.Width = _appState.ServerPropertyValueColumnWith;
+            }
             EnableDisableControls();
         }
 
@@ -92,6 +100,8 @@
             _appState.LookInIndexes = chkIndexes.Checked;
             _appState.NameColumnWith = colName.Width;
             _appState.ValueColumnWith = colValue.Width;
+            _appState.ServerPropertyNameColumnWith = colServerPropertyName.Width;
+            _appState.ServerPropertyValueColumnWith = colServerPropertyValue.Width;
             _appState.PersistComboBox(cmbServer, _appState.Servers);
             if (cmbDatabase.SelectedItem != null)
             {
@@ -206,11 +216,6 @@
             }
         }
 
-        public void SetLblServerVersion(string text)
-        {
-            lblServerVersion.Text = text;
-        }
-
         public void SetLblServerName()
         {
             tsLblServer.Text = cmbServer.SelectedItem.ToString();
@@ -260,16 +265,16 @@
                 resultNode.Nodes.Add(newResultNode);
             }
         }
-        
+
         private static string FormatNodeName(string part1, string part2, string part3){
             var nodeName = !string.IsNullOrEmpty(part3) ? string.Format("{0}.{1}.{2}", part1, part2, part3) : string.Format("{0}.{1}", part1, part2);
             return nodeName;
         }
 
-        private void AddObjectToListView(IDatabaseObject dbObject)
+        private void AddObjectToListView(ListView listView, IDatabaseObject dbObject)
         {
-            lvObjectInformation.BeginUpdate();
-            lvObjectInformation.Items.Clear();
+            listView.BeginUpdate();
+            listView.Items.Clear();
             foreach (var row in dbObject.ToArrayList())
             {
                 var item = new ListViewItem
@@ -277,9 +282,14 @@
                     Text = row[0]
                 };
                 item.SubItems.Add(row[1]);
-                lvObjectInformation.Items.Add(item);
+                listView.Items.Add(item);
             }
-            lvObjectInformation.EndUpdate();            
+            listView.EndUpdate();            
+        }
+
+        public void ShowServerInfo(ServerInfo serverInfo)
+        {
+            AddObjectToListView(lvServerProperties, serverInfo);
         }
 
         public void InsertTableIntoTreeview(List<Table> tables)
@@ -300,7 +310,7 @@
 
         public void ShowTableInfo(Table table)
         {
-            AddObjectToListView(table);
+            AddObjectToListView(lvObjectInformation, table);
         }
 
         public void InsertViewIntoTreeview(List<Model.View> views)
@@ -321,7 +331,7 @@
 
         public void ShowViewInfo(Model.View view)
         {
-            AddObjectToListView(view);
+            AddObjectToListView(lvObjectInformation, view);
         }
 
         public void InsertIndexIntoTreeview(List<Index> indexes)
@@ -342,7 +352,7 @@
 
         public void ShowIndexInfo(Index index)
         {
-            AddObjectToListView(index);
+            AddObjectToListView(lvObjectInformation, index);
         }
 
         public void InsertProcedureIntoTreeview(List<Procedure> procedures)
@@ -363,7 +373,7 @@
 
         public void ShowProcedureInfo(Procedure procedure)
         {
-            AddObjectToListView(procedure);
+            AddObjectToListView(lvObjectInformation, procedure);
         }
 
         public void InsertFunctionIntoTreeview(List<Function> functions)
@@ -384,7 +394,7 @@
 
         public void ShowFunctionInfo(Function function)
         {
-            AddObjectToListView(function);
+            AddObjectToListView(lvObjectInformation, function);
         }
 
         private void tvResults_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

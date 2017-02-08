@@ -11,7 +11,7 @@ namespace SQLServerSearcher.Model
         public new List<string[]> ToArrayList()
         {
             var result = base.ToArrayList();
-            result.Add(new[] {"Last execution time: ", LastExecutionTime.ToString(CultureInfo.InvariantCulture)});
+            result.Add(new[] { "Last execution time: ", LastExecutionTime.ToString(CultureInfo.CurrentCulture) });
             return result;
         }
     }

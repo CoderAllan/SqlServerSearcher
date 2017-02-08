@@ -12,5 +12,6 @@
         List<Index> FindIndexes(string database, string query = null);
         List<Procedure> FindProcedures(string database, string query = null);
         List<Function> FindFunctions(string database, string query = null);
+        ServerInfo GetServerInfo();
     }
 }

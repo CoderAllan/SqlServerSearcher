@@ -34,12 +34,13 @@ namespace SQLServerSearcher.Presenters
             {
                 _view.InsertServerIntoCombobox(args.Server);
                 _view.AppState.CurrentConnection.Open();
-                _view.SetLblServerVersion(string.Format("Server version: {0}", _view.AppState.CurrentConnection.ServerVersion));
                 var databases = _searches.GetDatabases();
                 foreach (var database in databases.OrderBy(p => p.Name))
                 {
                     _view.InsertDatabaseIntoCombobox(database.Name);
                 }
+                var serverInfo = _searches.GetServerInfo();
+                _view.ShowServerInfo(serverInfo);
                 _view.SetLblServerName();
             }
         }

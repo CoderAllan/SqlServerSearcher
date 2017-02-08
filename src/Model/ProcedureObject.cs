@@ -18,8 +18,8 @@ namespace SQLServerSearcher.Model
             var result = new List<string[]>
             {
                 new[] {"Name:", name},
-                new[] {"Created:", CreatedDate.ToString(CultureInfo.InvariantCulture)},
-                new[] {"Modified:", ModifiedDate.ToString(CultureInfo.InvariantCulture)},
+                new[] {"Created:", CreatedDate.ToString(CultureInfo.CurrentCulture)},
+                new[] {"Modified:", ModifiedDate.ToString(CultureInfo.CurrentCulture)},
             };
             return result;
         }

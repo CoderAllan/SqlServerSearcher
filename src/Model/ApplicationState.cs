@@ -36,6 +36,8 @@ namespace SQLServerSearcher.Model
         public List<FormLocationAndPosition> FormLocationsAndPositions;
         public int NameColumnWith;
         public int ValueColumnWith;
+        public int ServerPropertyNameColumnWith;
+        public int ServerPropertyValueColumnWith;
 
         [XmlIgnore]
         public SqlConnection CurrentConnection;
