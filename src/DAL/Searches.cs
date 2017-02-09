@@ -236,6 +236,7 @@ namespace SQLServerSearcher.DAL
                     {
                         serverInfo = new ServerInfo
                         {
+                            ServerVersion = _appState.CurrentConnection.ServerVersion,
                             PhysicalMemory = reader.GetInt64(reader.GetOrdinal("total_physical_memory_kb")),
                             AvailablePhysicalMemory = reader.GetInt64(reader.GetOrdinal("available_physical_memory_kb")),
                             StartTime = reader.GetDateTime(reader.GetOrdinal("sqlserver_start_time")),

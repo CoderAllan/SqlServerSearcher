@@ -6,6 +6,7 @@ namespace SQLServerSearcher.Model
 
     public class ServerInfo : IDatabaseObject
     {
+        public string ServerVersion { get; set; }
         public DateTime StartTime { get; set; }
         public long PhysicalMemory { get; set; }
         public long AvailablePhysicalMemory { get; set; }
@@ -15,10 +16,11 @@ namespace SQLServerSearcher.Model
         {
             var result = new List<string[]>
             {
+                new[] { "Server version:", ServerVersion },
                 new[] { "Start time:", StartTime.ToString(CultureInfo.CurrentCulture) },
                 new[] { "CPU count:", CPUCount.ToString(CultureInfo.InvariantCulture) },
-                new[] { "Physical memory:", PhysicalMemory.ToString(CultureInfo.InvariantCulture) },
-                new[] { "Available memory:", AvailablePhysicalMemory.ToString(CultureInfo.InvariantCulture) },
+                new[] { "Physical memory:", PhysicalMemory.ToString(CultureInfo.InvariantCulture) + " Kb" },
+                new[] { "Available memory:", AvailablePhysicalMemory.ToString(CultureInfo.InvariantCulture)  + " Kb"},
             };
             return result;
         }

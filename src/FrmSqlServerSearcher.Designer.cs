@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Tables");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Views");
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Stored procedures");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Functions");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Indexes");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tables");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Views");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Stored procedures");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Indexes");
             this.btnFind = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFindText = new System.Windows.Forms.ComboBox();
@@ -46,6 +46,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cmbServer = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lvServerProperties = new System.Windows.Forms.ListView();
+            this.colServerPropertyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colServerPropertyValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lvObjectInformation = new System.Windows.Forms.ListView();
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -58,9 +61,6 @@
             this.tsLblExecutionTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblDatabase = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblServer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lvServerProperties = new System.Windows.Forms.ListView();
-            this.colServerPropertyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colServerPropertyValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -168,22 +168,22 @@
             this.tvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvResults.Location = new System.Drawing.Point(0, 0);
             this.tvResults.Name = "tvResults";
-            treeNode16.Name = "TablesNode";
-            treeNode16.Text = "Tables";
-            treeNode17.Name = "ViewsNode";
-            treeNode17.Text = "Views";
-            treeNode18.Name = "StoredProceduresNode";
-            treeNode18.Text = "Stored procedures";
-            treeNode19.Name = "FunctionsNode";
-            treeNode19.Text = "Functions";
-            treeNode20.Name = "IndexesNode";
-            treeNode20.Text = "Indexes";
+            treeNode1.Name = "TablesNode";
+            treeNode1.Text = "Tables";
+            treeNode2.Name = "ViewsNode";
+            treeNode2.Text = "Views";
+            treeNode3.Name = "StoredProceduresNode";
+            treeNode3.Text = "Stored procedures";
+            treeNode4.Name = "FunctionsNode";
+            treeNode4.Text = "Functions";
+            treeNode5.Name = "IndexesNode";
+            treeNode5.Text = "Indexes";
             this.tvResults.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode16,
-            treeNode17,
-            treeNode18,
-            treeNode19,
-            treeNode20});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5});
             this.tvResults.Size = new System.Drawing.Size(309, 565);
             this.tvResults.TabIndex = 11;
             this.tvResults.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvResults_NodeMouseClick);
@@ -228,6 +228,32 @@
             this.splitContainer1.SplitterDistance = 309;
             this.splitContainer1.TabIndex = 14;
             // 
+            // lvServerProperties
+            // 
+            this.lvServerProperties.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colServerPropertyName,
+            this.colServerPropertyValue});
+            this.lvServerProperties.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lvServerProperties.FullRowSelect = true;
+            this.lvServerProperties.GridLines = true;
+            this.lvServerProperties.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvServerProperties.Location = new System.Drawing.Point(0, 0);
+            this.lvServerProperties.Name = "lvServerProperties";
+            this.lvServerProperties.Size = new System.Drawing.Size(617, 180);
+            this.lvServerProperties.TabIndex = 2;
+            this.lvServerProperties.UseCompatibleStateImageBehavior = false;
+            this.lvServerProperties.View = System.Windows.Forms.View.Details;
+            // 
+            // colServerPropertyName
+            // 
+            this.colServerPropertyName.Text = "Property";
+            this.colServerPropertyName.Width = 135;
+            // 
+            // colServerPropertyValue
+            // 
+            this.colServerPropertyValue.Text = "Value";
+            this.colServerPropertyValue.Width = 170;
+            // 
             // lvObjectInformation
             // 
             this.lvObjectInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -240,10 +266,10 @@
             this.lvObjectInformation.GridLines = true;
             this.lvObjectInformation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvObjectInformation.HideSelection = false;
-            this.lvObjectInformation.Location = new System.Drawing.Point(0, 169);
+            this.lvObjectInformation.Location = new System.Drawing.Point(0, 186);
             this.lvObjectInformation.MultiSelect = false;
             this.lvObjectInformation.Name = "lvObjectInformation";
-            this.lvObjectInformation.Size = new System.Drawing.Size(617, 396);
+            this.lvObjectInformation.Size = new System.Drawing.Size(617, 379);
             this.lvObjectInformation.TabIndex = 1;
             this.lvObjectInformation.UseCompatibleStateImageBehavior = false;
             this.lvObjectInformation.View = System.Windows.Forms.View.Details;
@@ -340,32 +366,6 @@
             this.tsLblServer.Name = "tsLblServer";
             this.tsLblServer.Size = new System.Drawing.Size(102, 29);
             this.tsLblServer.Text = "Server: N/A";
-            // 
-            // lvServerProperties
-            // 
-            this.lvServerProperties.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colServerPropertyName,
-            this.colServerPropertyValue});
-            this.lvServerProperties.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lvServerProperties.FullRowSelect = true;
-            this.lvServerProperties.GridLines = true;
-            this.lvServerProperties.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvServerProperties.Location = new System.Drawing.Point(0, 0);
-            this.lvServerProperties.Name = "lvServerProperties";
-            this.lvServerProperties.Size = new System.Drawing.Size(617, 163);
-            this.lvServerProperties.TabIndex = 2;
-            this.lvServerProperties.UseCompatibleStateImageBehavior = false;
-            this.lvServerProperties.View = System.Windows.Forms.View.Details;
-            // 
-            // colServerPropertyName
-            // 
-            this.colServerPropertyName.Text = "Property";
-            this.colServerPropertyName.Width = 135;
-            // 
-            // colServerPropertyValue
-            // 
-            this.colServerPropertyValue.Text = "Value";
-            this.colServerPropertyValue.Width = 170;
             // 
             // FrmSqlServerSearcher
             // 
