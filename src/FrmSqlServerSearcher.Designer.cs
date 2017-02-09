@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tables");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Views");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Stored procedures");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Functions");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Indexes");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Tables");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Views");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Stored procedures");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Functions");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Indexes");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSqlServerSearcher));
             this.btnFind = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFindText = new System.Windows.Forms.ComboBox();
@@ -168,22 +169,22 @@
             this.tvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvResults.Location = new System.Drawing.Point(0, 0);
             this.tvResults.Name = "tvResults";
-            treeNode1.Name = "TablesNode";
-            treeNode1.Text = "Tables";
-            treeNode2.Name = "ViewsNode";
-            treeNode2.Text = "Views";
-            treeNode3.Name = "StoredProceduresNode";
-            treeNode3.Text = "Stored procedures";
-            treeNode4.Name = "FunctionsNode";
-            treeNode4.Text = "Functions";
-            treeNode5.Name = "IndexesNode";
-            treeNode5.Text = "Indexes";
+            treeNode6.Name = "TablesNode";
+            treeNode6.Text = "Tables";
+            treeNode7.Name = "ViewsNode";
+            treeNode7.Text = "Views";
+            treeNode8.Name = "StoredProceduresNode";
+            treeNode8.Text = "Stored procedures";
+            treeNode9.Name = "FunctionsNode";
+            treeNode9.Text = "Functions";
+            treeNode10.Name = "IndexesNode";
+            treeNode10.Text = "Indexes";
             this.tvResults.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
+            treeNode6,
+            treeNode7,
+            treeNode8,
+            treeNode9,
+            treeNode10});
             this.tvResults.Size = new System.Drawing.Size(309, 565);
             this.tvResults.TabIndex = 11;
             this.tvResults.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvResults_NodeMouseClick);
@@ -389,6 +390,7 @@
             this.Controls.Add(this.cmbFindText);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnFind);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmSqlServerSearcher";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Sql Server Searcher";

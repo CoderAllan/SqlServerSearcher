@@ -23,7 +23,9 @@ Task list
 - [ ] Make it possible to use more than one search term
 - [ ] Implement the 'Match case' checkbox functionality
 - [x] Display metadata about the found element when clicking the TreeView node
-- [ ] Display metadata about the connected server
+- [x] Display metadata about the connected server
+- [ ] Right-click in treeview to show all references
+- [ ] Right-click in treeview to show content of stored procedure or function
 - [ ] When matches are found in the definition of stored procedures and functions, then highlight the matches
 
 Icons
