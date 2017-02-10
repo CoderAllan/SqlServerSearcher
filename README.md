@@ -37,11 +37,6 @@ Task list
 - [x] Right-click in treeview to show content of stored procedure or function
 - [ ] When matches are found in the definition of stored procedures and functions, then highlight the matches
 
-Icons
-----
-
-Icons for the application is from: [https://github.com/ioBroker/ioBroker.icons-open-icon-library-png]([https://github.com/ioBroker/ioBroker.icons-open-icon-library-png])
-
 Screenshots
 ----
 
@@ -57,3 +52,12 @@ View definition
 
 ![search](Screenshots/ViewSource.png)
 
+Icons
+----
+
+Icons for the application is from: [https://github.com/ioBroker/ioBroker.icons-open-icon-library-png]([https://github.com/ioBroker/ioBroker.icons-open-icon-library-png])
+
+Packages used
+----
+
+* [ScintillaNET](https://github.com/jacobslusser/ScintillaNET)

@@ -80,7 +80,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmViewSource";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "FrmViewSource";
+            this.Text = "Definition";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmViewSource_FormClosing);
             this.Load += new System.EventHandler(this.FrmViewSource_Load);
             this.statusStrip1.ResumeLayout(false);
