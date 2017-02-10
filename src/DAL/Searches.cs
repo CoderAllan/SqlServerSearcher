@@ -156,7 +156,7 @@ namespace SQLServerSearcher.DAL
         public List<Procedure> FindProcedures(string database, string query = null)
         {
             var procedures = new List<Procedure>();
-            string sql = string.Format(@"SELECT s.name AS schemaName, pr.name, ISNULL(pa.name,'') AS parameterName, pr.create_date, ISNULL(pr.modify_date,'') AS modifyDate, ISNULL(st.last_execution_time,'') AS lastExecutionTime
+            string sql = string.Format(@"SELECT s.name AS schemaName, pr.name, ISNULL(pa.name,'') AS parameterName, pr.create_date, ISNULL(pr.modify_date,'') AS modifyDate, ISNULL(st.last_execution_time,'') AS lastExecutionTime, m.definition
                                            FROM {0}.sys.procedures pr
                                           INNER JOIN {0}.sys.schemas s ON pr.schema_id = s.schema_id
                                           INNER JOIN {0}.sys.sql_modules m ON pr.object_id = m.object_id
@@ -181,6 +181,7 @@ namespace SQLServerSearcher.DAL
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
                             LastExecutionTime = reader.GetDateTime(reader.GetOrdinal("lastExecutionTime")),
+                            Definition = reader.GetString(reader.GetOrdinal("definition")),
                         };
                         procedures.Add(procedure);
                     }
@@ -192,7 +193,7 @@ namespace SQLServerSearcher.DAL
         public List<Function> FindFunctions(string database, string query = null)
         {
             var functions = new List<Function>();
-            string sql = string.Format(@"SELECT s.name AS schemaName, o.name, ISNULL(pa.name,'') AS parameterName, o.create_date, ISNULL(o.modify_date,'') AS modifyDate
+            string sql = string.Format(@"SELECT s.name AS schemaName, o.name, ISNULL(pa.name,'') AS parameterName, o.create_date, ISNULL(o.modify_date,'') AS modifyDate, m.definition
                                            FROM {0}.sys.objects o
                                           INNER JOIN {0}.sys.schemas s ON o.schema_id = s.schema_id
                                           INNER JOIN {0}.sys.sql_modules m ON o.object_id = m.object_id
@@ -216,6 +217,7 @@ namespace SQLServerSearcher.DAL
                             ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
+                            Definition = reader.GetString(reader.GetOrdinal("definition")),
                         };
                         functions.Add(function);
                     }

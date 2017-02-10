@@ -11,6 +11,7 @@ namespace SQLServerSearcher.Model
         public string ParameterName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
+        public string Definition { get; set; }
 
         public List<string[]> ToArrayList()
         {

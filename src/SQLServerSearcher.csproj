@@ -39,6 +39,10 @@
     <ApplicationIcon>Resources\database-search.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScintillaNET, Version=3.5.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jacobslusser.ScintillaNET.3.5.10\lib\net40\ScintillaNET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,6 +63,12 @@
     <Compile Include="FrmLogin.Designer.cs">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmViewSource.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmViewSource.Designer.cs">
+      <DependentUpon>FrmViewSource.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\ApplicationState.cs" />
     <Compile Include="FrmSqlServerSearcher.cs">
       <SubType>Form</SubType>
@@ -71,9 +81,11 @@
     <Compile Include="Model\Database.cs" />
     <Compile Include="Model\FindEventArgs.cs" />
     <Compile Include="Model\FormLocationAndPosition.cs" />
+    <Compile Include="Model\FrmViewSourceFrmLoadEventArgs.cs" />
     <Compile Include="Model\Function.cs" />
     <Compile Include="Model\IDatabaseObject.cs" />
     <Compile Include="Model\Index.cs" />
+    <Compile Include="Model\LineOrColumnChangedEventArgs.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\Procedure.cs" />
     <Compile Include="Model\ProcedureObject.cs" />
@@ -85,15 +97,20 @@
     <Compile Include="Presenters\BaseFormPresenter.cs" />
     <Compile Include="Presenters\FrmLoginPresenter.cs" />
     <Compile Include="Presenters\FrmSqlServerSearcherPresenter.cs" />
+    <Compile Include="Presenters\FrmViewSourcePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IBaseForm.cs" />
     <Compile Include="Views\IFrmLogin.cs" />
     <Compile Include="Views\IFrmSqlServerSearcher.cs" />
+    <Compile Include="Views\IFrmViewSource.cs" />
     <EmbeddedResource Include="FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSqlServerSearcher.resx">
       <DependentUpon>FrmSqlServerSearcher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmViewSource.resx">
+      <DependentUpon>FrmViewSource.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -107,6 +124,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\database-search.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -116,7 +116,7 @@
             CloseApplication();
         }
 
-        private void btnFind_Click(object sender, EventArgs e)
+        private void DoFind()
         {
             if (BtnFindClick != null)
             {
@@ -131,8 +131,14 @@
                     LookInFunctions = chkFunctions.Checked,
                     LookInIndexes = chkIndexes.Checked
                 };
-                BtnFindClick(sender, findArgs);
+                BtnFindClick(null, findArgs);
+                tvResults.Focus();
             }
+        }
+
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+            DoFind();
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -161,6 +167,12 @@
             var frmLogin = new FrmLogin(server, _appState);
             var result = frmLogin.ShowDialog();
             return (result == DialogResult.OK);
+        }
+
+        public void ShowViewSourceDialog(ProcedureObject procedureObject)
+        {
+            var frmViewSource = new FrmViewSource(_appState, procedureObject);
+            frmViewSource.ShowDialog();
         }
 
         public void EnableDisableControls()
@@ -413,6 +425,43 @@
                 };
                 TreeviewNodeClick(sender, treeviewNodeClickEventrgs);
             }
+        }
+
+        private void DoShowViewSourceDialog()
+        {
+            var node = tvResults.SelectedNode;
+            if (node != null && node.Tag != null)
+            {
+                if (node.Parent.Name.Equals("StoredProceduresNode") || node.Parent.Name.Equals("FunctionsNode"))
+                {
+                    var procedureObject = (ProcedureObject) node.Tag;
+                    ShowViewSourceDialog(procedureObject);
+                }
+            }
+        }
+
+        private void tsmViewSource_Click(object sender, EventArgs e)
+        {
+            DoShowViewSourceDialog();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            const int wmKeydown = 0x100;
+            const int wmSyskeydown = 0x104;
+            if ((msg.Msg == wmKeydown) || (msg.Msg == wmSyskeydown))
+            {
+                switch (keyData)
+                {
+                    case Keys.F3:
+                        DoFind();
+                        break;
+                    case Keys.F12:
+                        DoShowViewSourceDialog();
+                        break;
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }
