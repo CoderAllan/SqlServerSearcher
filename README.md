@@ -30,7 +30,7 @@ Task list
 ----
 
 - [ ] Make it possible to use more than one search term
-- [ ] Implement the 'Match case' checkbox functionality
+- [x] Implement the 'Match case' checkbox functionality
 - [x] Display metadata about the found element when clicking the TreeView node
 - [x] Display metadata about the connected server
 - [ ] Right-click in treeview to find all references
@@ -59,6 +59,11 @@ Binaries
 A zipfile with the latest build can be here: [https://github.com/CoderAllan/SqlServerSearcher/tree/master/binaries]([https://github.com/CoderAllan/SqlServerSearcher/tree/master/binaries])
 
 To install the tool, just unzip the file and doubleclick the SQLServerSearcher.exe file.
+
+The tool saves all user settings in a AppState.xml file that is placed in the current users Roaming folder: 
+`C:\Users\##USER NAME##\AppData\Roaming\SQLServerSearcher\`
+This folder has to be deleted manually to remove all traces of the tool if you decide not to keep the tool.
+
 
 Icons
 ----
