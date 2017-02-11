@@ -35,7 +35,8 @@ Task list
 - [x] Display metadata about the connected server
 - [ ] Right-click in treeview to find all references
 - [x] Right-click in treeview to show content of stored procedure or function
-- [ ] When matches are found in the definition of stored procedures and functions, then highlight the matches
+- [x] Highlight the matches found in the definition of stored procedures and functions
+- [ ] Implement Find in the view definition dialog
 
 Screenshots
 ----
@@ -51,6 +52,13 @@ Search
 View definition
 
 ![search](Screenshots/ViewSource.png)
+
+Binaries
+----
+
+A zipfile with the latest build can be here: [https://github.com/CoderAllan/SqlServerSearcher/tree/master/binaries]([https://github.com/CoderAllan/SqlServerSearcher/tree/master/binaries])
+
+To install the tool, just unzip the file and doubleclick the SQLServerSearcher.exe file.
 
 Icons
 ----
