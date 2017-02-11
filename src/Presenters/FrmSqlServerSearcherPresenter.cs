@@ -53,30 +53,50 @@ namespace SQLServerSearcher.Presenters
             if (args.LookInTables)
             {
                 var tables = _searches.FindTables(args.Database, args.FindWhat);
+                if (args.MatchCase)
+                {
+                    tables = tables.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                }
                 _view.InsertTableIntoTreeview(tables);
                 rowCount += tables.Count;
             }
             if (args.LookInViews)
             {
                 var views = _searches.FindViews(args.Database, args.FindWhat);
+                if (args.MatchCase)
+                {
+                    views = views.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                }
                 _view.InsertViewIntoTreeview(views);
                 rowCount += views.Count;
             }
             if (args.LookInIndexes)
             {
                 var indexes = _searches.FindIndexes(args.Database, args.FindWhat);
+                if (args.MatchCase)
+                {
+                    indexes = indexes.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                }
                 _view.InsertIndexIntoTreeview(indexes);
                 rowCount += indexes.Count;
             }
             if (args.LookInStoredProcedures)
             {
                 var procedures = _searches.FindProcedures(args.Database, args.FindWhat);
+                if (args.MatchCase)
+                {
+                    procedures = procedures.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0).ToList();
+                }
                 _view.InsertProcedureIntoTreeview(procedures);
                 rowCount += procedures.Count;
             }
             if (args.LookInFunctions)
             {
                 var functions = _searches.FindFunctions(args.Database, args.FindWhat);
+                if (args.MatchCase)
+                {
+                    functions = functions.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0).ToList();
+                }
                 _view.InsertFunctionIntoTreeview(functions);
                 rowCount += functions.Count;
             }

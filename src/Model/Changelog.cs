@@ -19,6 +19,7 @@
                 MajorVersion = 0,
                 MinorVersion = 8,
                 Changes = @"
+Implemented the Match case function when searching.
 Highlight the matches found in the definition of stored procedures and functions.
 Added Settings button.
 Added About box.

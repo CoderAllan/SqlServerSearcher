@@ -6,6 +6,7 @@ namespace SQLServerSearcher.Model
 
     public class ServerInfo : IDatabaseObject
     {
+        public string Name { get; set; }
         public string ServerVersion { get; set; }
         public DateTime StartTime { get; set; }
         public long PhysicalMemory { get; set; }

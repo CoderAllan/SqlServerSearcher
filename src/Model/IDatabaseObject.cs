@@ -4,6 +4,7 @@
 
     interface IDatabaseObject
     {
+        string Name { get; set; }
         List<string[]> ToArrayList();
     }
 }
