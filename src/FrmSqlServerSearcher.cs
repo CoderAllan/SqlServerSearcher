@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Drawing;
     using System.Windows.Forms;
 
     using Model;
@@ -463,6 +464,20 @@
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmAboutBox = new FrmAboutBox();
+            frmAboutBox.ShowDialog();
+        }
+
+        private void pbSettings_MouseUp(object sender, MouseEventArgs e)
+        {
+            var settings = (PictureBox)sender;
+            var ptLowerLeft = new Point(0, settings.Height);
+            ptLowerLeft = settings.PointToScreen(ptLowerLeft);
+            cmsSettings.Show(ptLowerLeft);
         }
     }
 }

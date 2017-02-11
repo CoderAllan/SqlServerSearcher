@@ -173,6 +173,9 @@
                     case Keys.Escape:
                         Close();
                         break;
+                    case Keys.Control | Keys.F:
+                        
+                        break;
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);

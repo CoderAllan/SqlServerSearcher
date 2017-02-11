@@ -57,6 +57,12 @@
   <ItemGroup>
     <Compile Include="DAL\ISearches.cs" />
     <Compile Include="DAL\Searches.cs" />
+    <Compile Include="FrmAboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAboutBox.Designer.cs">
+      <DependentUpon>FrmAboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,9 @@
     <Compile Include="Views\IFrmLogin.cs" />
     <Compile Include="Views\IFrmSqlServerSearcher.cs" />
     <Compile Include="Views\IFrmViewSource.cs" />
+    <EmbeddedResource Include="FrmAboutBox.resx">
+      <DependentUpon>FrmAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,6 +135,12 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Resources\database-search.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database-search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -45,6 +45,9 @@
             this.chkFunctions = new System.Windows.Forms.CheckBox();
             this.chkMatchCase = new System.Windows.Forms.CheckBox();
             this.tvResults = new System.Windows.Forms.TreeView();
+            this.cmsResults = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmViewSource = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbServer = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -63,15 +66,19 @@
             this.tsLblExecutionTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblDatabase = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblServer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.cmsResults = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmViewSource = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.pbSettings = new System.Windows.Forms.PictureBox();
+            this.ttSettings = new System.Windows.Forms.ToolTip(this.components);
+            this.cmsSettings = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.changelogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.cmsResults.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSettings)).BeginInit();
+            this.cmsSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnFind
@@ -194,6 +201,28 @@
             this.tvResults.Size = new System.Drawing.Size(309, 565);
             this.tvResults.TabIndex = 11;
             this.tvResults.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvResults_NodeMouseClick);
+            // 
+            // cmsResults
+            // 
+            this.cmsResults.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmViewSource,
+            this.toolStripMenuItem2});
+            this.cmsResults.Name = "cmsResults";
+            this.cmsResults.Size = new System.Drawing.Size(226, 64);
+            // 
+            // tsmViewSource
+            // 
+            this.tsmViewSource.Name = "tsmViewSource";
+            this.tsmViewSource.Size = new System.Drawing.Size(225, 30);
+            this.tsmViewSource.Text = "View source";
+            this.tsmViewSource.Click += new System.EventHandler(this.tsmViewSource_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Enabled = false;
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(225, 30);
+            this.toolStripMenuItem2.Text = "Find all references";
             // 
             // label3
             // 
@@ -374,33 +403,48 @@
             this.tsLblServer.Size = new System.Drawing.Size(102, 29);
             this.tsLblServer.Text = "Server: N/A";
             // 
-            // cmsResults
+            // pbSettings
             // 
-            this.cmsResults.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmViewSource,
-            this.toolStripMenuItem2});
-            this.cmsResults.Name = "cmsResults";
-            this.cmsResults.Size = new System.Drawing.Size(226, 64);
+            this.pbSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbSettings.ContextMenuStrip = this.cmsSettings;
+            this.pbSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbSettings.Image = ((System.Drawing.Image)(resources.GetObject("pbSettings.Image")));
+            this.pbSettings.Location = new System.Drawing.Point(914, 12);
+            this.pbSettings.Name = "pbSettings";
+            this.pbSettings.Size = new System.Drawing.Size(32, 32);
+            this.pbSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbSettings.TabIndex = 20;
+            this.pbSettings.TabStop = false;
+            this.ttSettings.SetToolTip(this.pbSettings, "Settings");
+            this.pbSettings.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbSettings_MouseUp);
             // 
-            // tsmViewSource
+            // cmsSettings
             // 
-            this.tsmViewSource.Name = "tsmViewSource";
-            this.tsmViewSource.Size = new System.Drawing.Size(225, 30);
-            this.tsmViewSource.Text = "View source";
-            this.tsmViewSource.Click += new System.EventHandler(this.tsmViewSource_Click);
+            this.cmsSettings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.changelogToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.cmsSettings.Name = "cmsSettings";
+            this.cmsSettings.Size = new System.Drawing.Size(171, 64);
             // 
-            // toolStripMenuItem2
+            // changelogToolStripMenuItem
             // 
-            this.toolStripMenuItem2.Enabled = false;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(225, 30);
-            this.toolStripMenuItem2.Text = "Find all references";
+            this.changelogToolStripMenuItem.Name = "changelogToolStripMenuItem";
+            this.changelogToolStripMenuItem.Size = new System.Drawing.Size(170, 30);
+            this.changelogToolStripMenuItem.Text = "Changelog";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(170, 30);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // FrmSqlServerSearcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(963, 750);
+            this.Controls.Add(this.pbSettings);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.chkIndexes);
             this.Controls.Add(this.cmbDatabase);
@@ -423,13 +467,15 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Sql Server Searcher";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSqlServerSearcher_FormClosing);
+            this.cmsResults.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.cmsResults.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbSettings)).EndInit();
+            this.cmsSettings.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -468,6 +514,11 @@
         private System.Windows.Forms.ContextMenuStrip cmsResults;
         private System.Windows.Forms.ToolStripMenuItem tsmViewSource;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.PictureBox pbSettings;
+        private System.Windows.Forms.ToolTip ttSettings;
+        private System.Windows.Forms.ContextMenuStrip cmsSettings;
+        private System.Windows.Forms.ToolStripMenuItem changelogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
 
