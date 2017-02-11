@@ -63,6 +63,12 @@
     <Compile Include="FrmAboutBox.Designer.cs">
       <DependentUpon>FrmAboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmChangelog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmChangelog.Designer.cs">
+      <DependentUpon>FrmChangelog.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +89,8 @@
       <DependentUpon>FrmSqlServerSearcher.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\BaseFormEventArgs.cs" />
+    <Compile Include="Model\Changelog.cs" />
+    <Compile Include="Model\ChangelogEntry.cs" />
     <Compile Include="Model\ConnectEventArgs.cs" />
     <Compile Include="Model\Database.cs" />
     <Compile Include="Model\FindEventArgs.cs" />
@@ -101,16 +109,21 @@
     <Compile Include="Model\TreeviewNodeClickEventArgs.cs" />
     <Compile Include="Model\View.cs" />
     <Compile Include="Presenters\BaseFormPresenter.cs" />
+    <Compile Include="Presenters\FrmChangelogPresenter.cs" />
     <Compile Include="Presenters\FrmLoginPresenter.cs" />
     <Compile Include="Presenters\FrmSqlServerSearcherPresenter.cs" />
     <Compile Include="Presenters\FrmViewSourcePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IBaseForm.cs" />
+    <Compile Include="Views\IFrmChangelog.cs" />
     <Compile Include="Views\IFrmLogin.cs" />
     <Compile Include="Views\IFrmSqlServerSearcher.cs" />
     <Compile Include="Views\IFrmViewSource.cs" />
     <EmbeddedResource Include="FrmAboutBox.resx">
       <DependentUpon>FrmAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmChangelog.resx">
+      <DependentUpon>FrmChangelog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>

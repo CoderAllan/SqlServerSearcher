@@ -424,13 +424,14 @@
             this.changelogToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.cmsSettings.Name = "cmsSettings";
-            this.cmsSettings.Size = new System.Drawing.Size(171, 64);
+            this.cmsSettings.Size = new System.Drawing.Size(171, 86);
             // 
             // changelogToolStripMenuItem
             // 
             this.changelogToolStripMenuItem.Name = "changelogToolStripMenuItem";
             this.changelogToolStripMenuItem.Size = new System.Drawing.Size(170, 30);
             this.changelogToolStripMenuItem.Text = "Changelog";
+            this.changelogToolStripMenuItem.Click += new System.EventHandler(this.changelogToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 

@@ -479,5 +479,11 @@
             ptLowerLeft = settings.PointToScreen(ptLowerLeft);
             cmsSettings.Show(ptLowerLeft);
         }
+
+        private void changelogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmChangelog = new FrmChangelog(_appState);
+            frmChangelog.ShowDialog();
+        }
     }
 }
