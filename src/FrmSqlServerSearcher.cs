@@ -132,6 +132,7 @@
                     LookInIndexes = chkIndexes.Checked
                 };
                 BtnFindClick(null, findArgs);
+                _appState.PersistComboBox(cmbFindText, _appState.PreviousSearches);
                 tvResults.Focus();
             }
         }

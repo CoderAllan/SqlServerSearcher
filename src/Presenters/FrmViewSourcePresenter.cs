@@ -5,10 +5,12 @@ namespace SQLServerSearcher.Presenters
 
     public class FrmViewSourcePresenter
     {
+        private readonly ApplicationState _appState;
         private readonly IFrmViewSource _view;
 
-        public FrmViewSourcePresenter(IFrmViewSource view)
+        public FrmViewSourcePresenter(ApplicationState appState, IFrmViewSource view)
         {
+            _appState = appState;
             _view = view;
 
             Initialize();
@@ -23,6 +25,11 @@ namespace SQLServerSearcher.Presenters
         private void DoFrmLoad(object sender, FrmViewSourceFrmLoadEventArgs args)
         {
             _view.SetTextAreaText(args.Text);
+            if (_appState.PreviousSearches != null && _appState.PreviousSearches.Count > 0)
+            {
+                var lastSearch = _appState.PreviousSearches[_appState.PreviousSearches.Count - 1];
+                _view.HighlightWord(lastSearch);
+            }
         }
 
         private void DoLineOrColumnChanged(object sender, LineOrColumnChangedEventArgs args)

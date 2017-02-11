@@ -12,5 +12,6 @@
         void SetTextAreaText(string text);
         void SetCurrentLine(string currentLine);
         void SetCurrentColumn(string currentColumn);
+        void HighlightWord(string text);
     }
 }

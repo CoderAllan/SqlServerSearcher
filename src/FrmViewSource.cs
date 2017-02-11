@@ -28,7 +28,7 @@
             _appState = appState;
             _procedureObject = procedureObject;
             _baseFormPresenter = new BaseFormPresenter(this);
-            _frmViewSourcePresenter = new FrmViewSourcePresenter(this);
+            _frmViewSourcePresenter = new FrmViewSourcePresenter(_appState, this);
             
             InitializeComponent();
 
@@ -126,6 +126,40 @@
         public void SetCurrentColumn(string currentColumn)
         {
             tslblColumn.Text = currentColumn;
+        }
+
+        public void HighlightWord(string text)
+        {
+            // Method copied from: https://github.com/jacobslusser/ScintillaNET/wiki/Find-and-Highlight-Words
+
+            // Indicators 0-7 could be in use by a lexer
+            // so we'll use indicator 8 to highlight words.
+            const int indicator = 8;
+
+            // Remove all uses of our indicator
+            _textArea.IndicatorCurrent = indicator;
+            _textArea.IndicatorClearRange(0, _textArea.TextLength);
+
+            // Update indicator appearance
+            _textArea.Indicators[indicator].Style = IndicatorStyle.StraightBox;
+            _textArea.Indicators[indicator].Under = true;
+            _textArea.Indicators[indicator].ForeColor = Color.Orange;
+            _textArea.Indicators[indicator].OutlineAlpha = 100;
+            _textArea.Indicators[indicator].Alpha = 100;
+
+            // Search the document
+            _textArea.TargetStart = 0;
+            _textArea.TargetEnd = _textArea.TextLength;
+            _textArea.SearchFlags = SearchFlags.None;
+            while (_textArea.SearchInTarget(text) != -1)
+            {
+                // Mark the search results with the current indicator
+                _textArea.IndicatorFillRange(_textArea.TargetStart, _textArea.TargetEnd - _textArea.TargetStart);
+
+                // Search the remainder of the document
+                _textArea.TargetStart = _textArea.TargetEnd;
+                _textArea.TargetEnd = _textArea.TextLength;
+            }
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
