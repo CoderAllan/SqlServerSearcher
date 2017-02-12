@@ -10,6 +10,8 @@ namespace SQLServerSearcher.Model
     using System.Xml;
     using System.Xml.Serialization;
 
+    using EventArgs;
+
     [XmlRoot("AppState")]
     public class ApplicationState
     {

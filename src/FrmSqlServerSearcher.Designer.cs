@@ -67,10 +67,10 @@
             this.tsLblDatabase = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblServer = new System.Windows.Forms.ToolStripStatusLabel();
             this.pbSettings = new System.Windows.Forms.PictureBox();
-            this.ttSettings = new System.Windows.Forms.ToolTip(this.components);
             this.cmsSettings = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.changelogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ttSettings = new System.Windows.Forms.ToolTip(this.components);
             this.cmsResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -208,21 +208,20 @@
             this.tsmViewSource,
             this.toolStripMenuItem2});
             this.cmsResults.Name = "cmsResults";
-            this.cmsResults.Size = new System.Drawing.Size(226, 64);
+            this.cmsResults.Size = new System.Drawing.Size(226, 86);
             // 
             // tsmViewSource
             // 
             this.tsmViewSource.Name = "tsmViewSource";
             this.tsmViewSource.Size = new System.Drawing.Size(225, 30);
-            this.tsmViewSource.Text = "View source";
+            this.tsmViewSource.Text = "&View source";
             this.tsmViewSource.Click += new System.EventHandler(this.tsmViewSource_Click);
             // 
             // toolStripMenuItem2
             // 
-            this.toolStripMenuItem2.Enabled = false;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(225, 30);
-            this.toolStripMenuItem2.Text = "Find all references";
+            this.toolStripMenuItem2.Text = "&Find all references";
             // 
             // label3
             // 
@@ -424,7 +423,7 @@
             this.changelogToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.cmsSettings.Name = "cmsSettings";
-            this.cmsSettings.Size = new System.Drawing.Size(171, 86);
+            this.cmsSettings.Size = new System.Drawing.Size(171, 64);
             // 
             // changelogToolStripMenuItem
             // 

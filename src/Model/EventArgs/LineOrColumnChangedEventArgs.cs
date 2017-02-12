@@ -1,4 +1,4 @@
-namespace SQLServerSearcher.Model
+namespace SQLServerSearcher.Model.EventArgs
 {
     using System;
 

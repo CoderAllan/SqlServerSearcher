@@ -5,6 +5,7 @@ namespace SQLServerSearcher.Presenters
 
     using DAL;
     using Model;
+    using Model.EventArgs;
     using Views;
 
     public class FrmSqlServerSearcherPresenter

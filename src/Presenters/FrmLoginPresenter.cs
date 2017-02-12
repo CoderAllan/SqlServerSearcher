@@ -4,6 +4,7 @@ namespace SQLServerSearcher.Presenters
     using System.Data.SqlClient;
 
     using Model;
+    using Model.EventArgs;
     using Views;
 
     public class FrmLoginPresenter

@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Model;
+    using Model.EventArgs;
 
     public interface IFrmViewSource
     {

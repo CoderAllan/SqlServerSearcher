@@ -1,6 +1,7 @@
-namespace SQLServerSearcher.Model
+namespace SQLServerSearcher.Model.EventArgs
 {
     using System;
+
     public class LoginEventArgs : EventArgs
     {
         public bool WindowsLogin { get; set; }

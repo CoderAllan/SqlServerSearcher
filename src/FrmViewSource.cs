@@ -1,4 +1,5 @@
-﻿namespace SQLServerSearcher
+﻿
+namespace SQLServerSearcher
 {
     using System;
     using System.Drawing;
@@ -6,6 +7,7 @@
     using ScintillaNET;
 
     using Model;
+    using Model.EventArgs;
     using Presenters;
     using Views;
 

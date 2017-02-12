@@ -3,7 +3,7 @@ namespace SQLServerSearcher.Views
     using System;
     using System.Drawing;
 
-    using Model;
+    using Model.EventArgs;
 
     public interface IBaseForm
     {

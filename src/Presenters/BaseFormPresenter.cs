@@ -3,7 +3,7 @@ namespace SQLServerSearcher.Presenters
     using System.Drawing;
     using System.Windows.Forms;
 
-    using Model;
+    using Model.EventArgs;
     using Views;
 
     public class BaseFormPresenter

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using Model;
+    using Model.EventArgs;
 
     public interface IFrmSqlServerSearcher
     {

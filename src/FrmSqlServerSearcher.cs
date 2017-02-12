@@ -1,4 +1,6 @@
-﻿namespace SQLServerSearcher
+﻿using SQLServerSearcher.Model.EventArgs;
+
+namespace SQLServerSearcher
 {
     using System;
     using System.Collections.Generic;
@@ -468,7 +470,7 @@
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frmAboutBox = new FrmAboutBox();
+            var frmAboutBox = new FrmAbout();
             frmAboutBox.ShowDialog();
         }
 
