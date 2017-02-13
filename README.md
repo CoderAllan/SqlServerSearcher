@@ -19,6 +19,8 @@ The application searches the specified database system views for the information
 
 When right-clicking a found stored procedure name og function name in the treeview, its possible to get the definition shown.
 
+When right-clicking any found object and choosing 'Find all references', a search is performed for that objects name. 
+
 Shortcut keys
 ----
 
@@ -33,7 +35,7 @@ Task list
 - [x] Implement the 'Match case' checkbox functionality
 - [x] Display metadata about the found element when clicking the TreeView node
 - [x] Display metadata about the connected server
-- [ ] Right-click in treeview to find all references
+- [x] Right-click in treeview to find all references
 - [x] Right-click in treeview to show content of stored procedure or function
 - [x] Highlight the matches found in the definition of stored procedures and functions
 - [ ] Implement Find in the view definition dialog
