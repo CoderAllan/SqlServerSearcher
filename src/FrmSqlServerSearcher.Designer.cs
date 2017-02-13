@@ -47,7 +47,7 @@
             this.tvResults = new System.Windows.Forms.TreeView();
             this.cmsResults = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmViewSource = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmFindAllReferences = new System.Windows.Forms.ToolStripMenuItem();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbServer = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -206,7 +206,7 @@
             // 
             this.cmsResults.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmViewSource,
-            this.toolStripMenuItem2});
+            this.tsmFindAllReferences});
             this.cmsResults.Name = "cmsResults";
             this.cmsResults.Size = new System.Drawing.Size(226, 86);
             // 
@@ -217,11 +217,12 @@
             this.tsmViewSource.Text = "&View source";
             this.tsmViewSource.Click += new System.EventHandler(this.tsmViewSource_Click);
             // 
-            // toolStripMenuItem2
+            // tsmFindAllReferences
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(225, 30);
-            this.toolStripMenuItem2.Text = "&Find all references";
+            this.tsmFindAllReferences.Name = "tsmFindAllReferences";
+            this.tsmFindAllReferences.Size = new System.Drawing.Size(225, 30);
+            this.tsmFindAllReferences.Text = "&Find all references";
+            this.tsmFindAllReferences.Click += new System.EventHandler(this.tsmFindAllReferences_Click);
             // 
             // label3
             // 
@@ -513,7 +514,7 @@
         private System.Windows.Forms.ColumnHeader colServerPropertyValue;
         private System.Windows.Forms.ContextMenuStrip cmsResults;
         private System.Windows.Forms.ToolStripMenuItem tsmViewSource;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem tsmFindAllReferences;
         private System.Windows.Forms.PictureBox pbSettings;
         private System.Windows.Forms.ToolTip ttSettings;
         private System.Windows.Forms.ContextMenuStrip cmsSettings;

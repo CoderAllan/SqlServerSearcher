@@ -1,14 +1,14 @@
-﻿using SQLServerSearcher.Model.EventArgs;
-
-namespace SQLServerSearcher
+﻿namespace SQLServerSearcher
 {
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Drawing;
+    using System.Globalization;
     using System.Windows.Forms;
 
     using Model;
+    using Model.EventArgs;
     using Presenters;
     using Views;
 
@@ -67,6 +67,7 @@ namespace SQLServerSearcher
             {
                 colServerPropertyValue.Width = _appState.ServerPropertyValueColumnWith;
             }
+            tvResults.NodeMouseClick += (sender, args) => tvResults.SelectedNode = args.Node; // To make sure that when rightclicking a node it is selected. Solution found here: http://stackoverflow.com/questions/4784258/right-click-select-on-net-treenode
             EnableDisableControls();
         }
 
@@ -145,6 +146,51 @@ namespace SQLServerSearcher
             DoFind();
         }
 
+        private void tsmFindAllReferences_Click(object sender, EventArgs e)
+        {
+            if (BtnFindClick != null)
+            {
+                var selectedNode = tvResults.SelectedNode;
+                if (selectedNode != null && selectedNode.Tag != null && selectedNode.Parent != null)
+                {
+                    string name;
+                    if (selectedNode.Parent.Name.Equals("TablesNode") || selectedNode.Parent.Name.Equals("ViewsNode"))
+                    {
+                        var tableObject = (TableObject) selectedNode.Tag;
+                        name = !string.IsNullOrEmpty(tableObject.ColumnName) ? tableObject.ColumnName : tableObject.Name;
+                    }
+                    else
+                    {
+                        if (selectedNode.Parent.Name.Equals("TablesNode") || selectedNode.Parent.Name.Equals("ViewsNode"))
+                        {
+                            var procedureObject = (ProcedureObject)selectedNode.Tag;
+                            name = !string.IsNullOrEmpty(procedureObject.ParameterName) ? procedureObject.ParameterName : procedureObject.Name;
+                        }
+                        else
+                        {
+                            var databaseObject = (IDatabaseObject)selectedNode.Tag;
+                            name = databaseObject.Name;
+                        }
+                    }
+
+                    var findArgs = new FindEventArgs
+                    {
+                        Database = cmbDatabase.SelectedItem.ToString(),
+                        FindWhat = name,
+                        MatchCase = false,
+                        LookInTables = true,
+                        LookInViews = true,
+                        LookInStoredProcedures = true,
+                        LookInFunctions = true,
+                        LookInIndexes = true
+                    };
+                    BtnFindClick(null, findArgs);
+                    _appState.PersistComboBox(cmbFindText, _appState.PreviousSearches);
+                    tvResults.Focus();
+                }
+            }
+        }
+
         private void btnConnect_Click(object sender, EventArgs e)
         {
             if (BtnConnectClick != null)
@@ -177,6 +223,11 @@ namespace SQLServerSearcher
         {
             var frmViewSource = new FrmViewSource(_appState, procedureObject);
             frmViewSource.ShowDialog();
+        }
+
+        public void ShowNoResultsFound()
+        {
+            MessageBox.Show(@"The search returned no results.", @"No results", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void EnableDisableControls()
@@ -250,7 +301,7 @@ namespace SQLServerSearcher
 
         public void SetLblRowCount(int rowCount)
         {
-            tsLblRowCount.Text = @"Rows: " + rowCount.ToString();
+            tsLblRowCount.Text = @"Rows: " + rowCount.ToString(CultureInfo.InvariantCulture);
         }
 
 
@@ -266,6 +317,11 @@ namespace SQLServerSearcher
             functionsNodes.Nodes.Clear();
             var indexesNodes = tvResults.Nodes["IndexesNode"];
             indexesNodes.Nodes.Clear();
+        }
+
+        public void ClearObjectInformation()
+        {
+            lvObjectInformation.Items.Clear();
         }
 
         private static void AddNewResultNode(string nodeName, TreeNode resultNode, object result)

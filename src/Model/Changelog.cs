@@ -19,6 +19,7 @@
                 MajorVersion = 1,
                 MinorVersion = 0,
                 Changes = @"
+Implemented Find all references.
 Refactoring.
 "
             };

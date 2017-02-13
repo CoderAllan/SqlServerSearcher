@@ -49,6 +49,7 @@ namespace SQLServerSearcher.Presenters
         private void DoBtnFindClick(object sender, FindEventArgs args)
         {
             _view.ClearResults();
+            _view.ClearObjectInformation();
             var startTime = DateTime.Now;
             int rowCount = 0;
             if (args.LookInTables)
@@ -105,6 +106,10 @@ namespace SQLServerSearcher.Presenters
             var executionTime = DateTime.Now - startTime;
             _view.SetExecutionTime(executionTime);
             _view.SetLblRowCount(rowCount);
+            if (rowCount == 0)
+            {
+                _view.ShowNoResultsFound();
+            }
         }
 
         private void DoEnableDisableBtnConnect(object sender, EventArgs e)

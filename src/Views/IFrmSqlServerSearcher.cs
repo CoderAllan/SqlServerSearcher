@@ -19,6 +19,7 @@
         string CmbServerText { get; }
 
         bool ShowLoginDialog(string server);
+        void ShowNoResultsFound();
         void InsertServerIntoCombobox(string server);
         void InsertDatabaseIntoCombobox(string database);
         void InsertSearchQueryIntoCombobox(string searchQuery);
@@ -27,6 +28,7 @@
         void SetExecutionTime(TimeSpan executionTime);
         void SetLblRowCount(int rowCount);
         void ClearResults();
+        void ClearObjectInformation();
         void ShowServerInfo(ServerInfo serverInfo);
         void InsertTableIntoTreeview(List<Table> tables);
         void ShowTableInfo(Table table);
