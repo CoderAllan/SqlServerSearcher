@@ -19,6 +19,8 @@
                 MajorVersion = 1,
                 MinorVersion = 1,
                 Changes = @"
+Bug: Connect failed with exception if collation for a database was null.
+Bug: Exceptions during connection is now handled.
 Bug: Taborder set correctly on all forms.
 "
             };

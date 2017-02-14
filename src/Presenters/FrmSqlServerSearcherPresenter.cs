@@ -1,6 +1,7 @@
 namespace SQLServerSearcher.Presenters
 {
     using System;
+    using System.Data.SqlClient;
     using System.Linq;
 
     using DAL;
@@ -34,15 +35,26 @@ namespace SQLServerSearcher.Presenters
             if (_view.ShowLoginDialog(args.Server))
             {
                 _view.InsertServerIntoCombobox(args.Server);
-                _view.AppState.CurrentConnection.Open();
-                var databases = _searches.GetDatabases();
-                foreach (var database in databases.OrderBy(p => p.Name))
+                try
                 {
-                    _view.InsertDatabaseIntoCombobox(database.Name);
+                    _view.AppState.CurrentConnection.Open();
+                    var databases = _searches.GetDatabases();
+                    foreach (var database in databases.OrderBy(p => p.Name))
+                    {
+                        _view.InsertDatabaseIntoCombobox(database.Name);
+                    }
+                    var serverInfo = _searches.GetServerInfo();
+                    _view.ShowServerInfo(serverInfo);
+                    _view.SetLblServerName();
                 }
-                var serverInfo = _searches.GetServerInfo();
-                _view.ShowServerInfo(serverInfo);
-                _view.SetLblServerName();
+                catch (SqlException sqlEx)
+                {
+                    _view.ShowErrorDialog(string.Format("Connection to server failed: {0}", sqlEx.Message));
+                }
+                catch (Exception ex)
+                {
+                    _view.ShowErrorDialog(string.Format("Connection to server failed: {0}", ex));
+                }
             }
         }
 

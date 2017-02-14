@@ -18,7 +18,7 @@ namespace SQLServerSearcher.DAL
         public List<Database> GetDatabases()
         {
             var databases = new List<Database>();
-            using (var reader = ExecuteSql("SELECT d.name, d.create_date, d.collation_name, d.state_desc FROM sys.databases d"))
+            using (var reader = ExecuteSql("SELECT d.name, d.create_date, ISNULL(d.collation_name, '') AS collation_name, d.state_desc FROM sys.databases d"))
             {
                 if (reader.HasRows)
                 {

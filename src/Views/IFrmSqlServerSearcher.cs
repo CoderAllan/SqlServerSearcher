@@ -20,6 +20,7 @@
 
         bool ShowLoginDialog(string server);
         void ShowNoResultsFound();
+        void ShowErrorDialog(string text);
         void InsertServerIntoCombobox(string server);
         void InsertDatabaseIntoCombobox(string database);
         void InsertSearchQueryIntoCombobox(string searchQuery);

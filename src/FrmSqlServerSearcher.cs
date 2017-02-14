@@ -230,6 +230,11 @@
             MessageBox.Show(@"The search returned no results.", @"No results", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        public void ShowErrorDialog(string text)
+        {
+            MessageBox.Show(text, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         public void EnableDisableControls()
         {
             var enabled = _appState.CurrentConnection != null && _appState.CurrentConnection.State == ConnectionState.Open;
