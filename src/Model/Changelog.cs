@@ -22,6 +22,9 @@
 Bug: Connect failed with exception if collation for a database was null.
 Bug: Exceptions during connection is now handled.
 Bug: Taborder set correctly on all forms.
+Bug: The search results are now ordered correctly.
+Bug: When using the arrowkeys to navigate the results, the object information is now shown correctly.
+Clicking the Enter key now executes the search.
 "
             };
             _changeLogEntries.Add(changeLog);

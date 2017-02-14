@@ -69,7 +69,10 @@ namespace SQLServerSearcher.Presenters
                 var tables = _searches.FindTables(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    tables = tables.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                    tables = tables.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0)
+                                   .OrderBy(p => p.SchemaName)
+                                   .ThenBy(p => p.Name)
+                                   .ThenBy(p => p.ColumnName).ToList();
                 }
                 _view.InsertTableIntoTreeview(tables);
                 rowCount += tables.Count;
@@ -79,7 +82,10 @@ namespace SQLServerSearcher.Presenters
                 var views = _searches.FindViews(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    views = views.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                    views = views.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0)
+                                 .OrderBy(p => p.SchemaName)
+                                 .ThenBy(p => p.Name)
+                                 .ThenBy(p => p.ColumnName).ToList();
                 }
                 _view.InsertViewIntoTreeview(views);
                 rowCount += views.Count;
@@ -89,7 +95,10 @@ namespace SQLServerSearcher.Presenters
                 var indexes = _searches.FindIndexes(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    indexes = indexes.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                    indexes = indexes.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0)
+                                     .OrderBy(p => p.TableName)
+                                     .ThenBy(p => p.Name)
+                                     .ThenBy(p => p.ColumnName).ToList();
                 }
                 _view.InsertIndexIntoTreeview(indexes);
                 rowCount += indexes.Count;
@@ -99,7 +108,10 @@ namespace SQLServerSearcher.Presenters
                 var procedures = _searches.FindProcedures(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    procedures = procedures.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0).ToList();
+                    procedures = procedures.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0)
+                                           .OrderBy(p => p.SchemaName)
+                                           .ThenBy(p => p.Name)
+                                           .ThenBy(p => p.ParameterName).ToList();
                 }
                 _view.InsertProcedureIntoTreeview(procedures);
                 rowCount += procedures.Count;
@@ -109,7 +121,10 @@ namespace SQLServerSearcher.Presenters
                 var functions = _searches.FindFunctions(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    functions = functions.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0).ToList();
+                    functions = functions.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0)
+                                         .OrderBy(p => p.SchemaName)
+                                         .ThenBy(p => p.Name)
+                                         .ThenBy(p => p.ParameterName).ToList();
                 }
                 _view.InsertFunctionIntoTreeview(functions);
                 rowCount += functions.Count;

@@ -110,6 +110,7 @@
             this.cmbFindText.Name = "cmbFindText";
             this.cmbFindText.Size = new System.Drawing.Size(524, 28);
             this.cmbFindText.TabIndex = 9;
+            this.cmbFindText.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmbFindText_KeyUp);
             // 
             // label2
             // 
@@ -201,6 +202,7 @@
             this.tvResults.Size = new System.Drawing.Size(309, 565);
             this.tvResults.TabIndex = 12;
             this.tvResults.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvResults_NodeMouseClick);
+            this.tvResults.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tvResults_KeyUp);
             // 
             // cmsResults
             // 
@@ -292,12 +294,10 @@
             // 
             // lvObjectInformation
             // 
-            this.lvObjectInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvObjectInformation.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colName,
             this.colValue});
+            this.lvObjectInformation.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lvObjectInformation.FullRowSelect = true;
             this.lvObjectInformation.GridLines = true;
             this.lvObjectInformation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;

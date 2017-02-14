@@ -137,6 +137,7 @@
                 };
                 BtnFindClick(null, findArgs);
                 _appState.PersistComboBox(cmbFindText, _appState.PreviousSearches);
+                tvResults.Nodes["TablesNode"].EnsureVisible();
                 tvResults.Focus();
             }
         }
@@ -144,6 +145,14 @@
         private void btnFind_Click(object sender, EventArgs e)
         {
             DoFind();
+        }
+
+        private void cmbFindText_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DoFind();
+            }
         }
 
         private void tsmFindAllReferences_Click(object sender, EventArgs e)
@@ -492,14 +501,46 @@
             }
         }
 
+        private void tvResults_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DoShowViewSourceDialog();
+                return;
+            }
+            if (TreeviewNodeClick != null)
+            {
+                var selectedNode = tvResults.SelectedNode;
+                if (selectedNode != null)
+                {
+                    var parentNode = selectedNode.Parent;
+                    if (parentNode == null)
+                    {
+                        return;
+                    }
+                    var treeviewNodeClickEventrgs = new TreeviewNodeClickEventArgs
+                    {
+                        ParentNodeName = parentNode.Name,
+                        NodeTag = selectedNode.Tag
+                    };
+                    TreeviewNodeClick(sender, treeviewNodeClickEventrgs);
+                }
+            }
+        }
+
         private void DoShowViewSourceDialog()
         {
-            var node = tvResults.SelectedNode;
-            if (node != null && node.Tag != null)
+            var selectedNode = tvResults.SelectedNode;
+            if (selectedNode != null && selectedNode.Tag != null)
             {
-                if (node.Parent.Name.Equals("StoredProceduresNode") || node.Parent.Name.Equals("FunctionsNode"))
+                var parentNode = selectedNode.Parent;
+                if (parentNode == null)
                 {
-                    var procedureObject = (ProcedureObject) node.Tag;
+                    return;
+                }
+                if (selectedNode.Parent.Name.Equals("StoredProceduresNode") || selectedNode.Parent.Name.Equals("FunctionsNode"))
+                {
+                    var procedureObject = (ProcedureObject)selectedNode.Tag;
                     ShowViewSourceDialog(procedureObject);
                 }
             }
