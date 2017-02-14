@@ -490,6 +490,7 @@
                 var parentNode = e.Node.Parent;
                 if (parentNode == null)
                 {
+                    ClearObjectInformation();
                     return;
                 }
                 var treeviewNodeClickEventrgs = new TreeviewNodeClickEventArgs
@@ -516,6 +517,7 @@
                     var parentNode = selectedNode.Parent;
                     if (parentNode == null)
                     {
+                        ClearObjectInformation();
                         return;
                     }
                     var treeviewNodeClickEventrgs = new TreeviewNodeClickEventArgs
@@ -536,6 +538,7 @@
                 var parentNode = selectedNode.Parent;
                 if (parentNode == null)
                 {
+                    ClearObjectInformation();
                     return;
                 }
                 if (selectedNode.Parent.Name.Equals("StoredProceduresNode") || selectedNode.Parent.Name.Equals("FunctionsNode"))

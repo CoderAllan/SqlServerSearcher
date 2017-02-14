@@ -25,6 +25,7 @@ Bug: Taborder set correctly on all forms.
 Bug: The search results are now ordered correctly.
 Bug: When using the arrowkeys to navigate the results, the object information is now shown correctly.
 Clicking the Enter key now executes the search.
+The object information is now cleared when clicking the tables, views, indexes, stored procedure or functions nodes in the results treeview.
 "
             };
             _changeLogEntries.Add(changeLog);
