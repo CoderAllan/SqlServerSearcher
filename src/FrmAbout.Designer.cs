@@ -121,7 +121,7 @@
             this.okButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(112, 34);
-            this.okButton.TabIndex = 24;
+            this.okButton.TabIndex = 1;
             this.okButton.Text = "&OK";
             // 
             // FrmAbout

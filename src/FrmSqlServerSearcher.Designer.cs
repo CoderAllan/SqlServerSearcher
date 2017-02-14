@@ -87,7 +87,7 @@
             this.btnFind.Location = new System.Drawing.Point(808, 101);
             this.btnFind.Name = "btnFind";
             this.btnFind.Size = new System.Drawing.Size(138, 35);
-            this.btnFind.TabIndex = 0;
+            this.btnFind.TabIndex = 10;
             this.btnFind.Text = "&Find";
             this.btnFind.UseVisualStyleBackColor = true;
             this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
@@ -109,7 +109,7 @@
             this.cmbFindText.Location = new System.Drawing.Point(97, 85);
             this.cmbFindText.Name = "cmbFindText";
             this.cmbFindText.Size = new System.Drawing.Size(524, 28);
-            this.cmbFindText.TabIndex = 2;
+            this.cmbFindText.TabIndex = 9;
             // 
             // label2
             // 
@@ -139,7 +139,7 @@
             this.chkStoredProcedures.Location = new System.Drawing.Point(741, 41);
             this.chkStoredProcedures.Name = "chkStoredProcedures";
             this.chkStoredProcedures.Size = new System.Drawing.Size(167, 24);
-            this.chkStoredProcedures.TabIndex = 6;
+            this.chkStoredProcedures.TabIndex = 7;
             this.chkStoredProcedures.Text = "Stored procedures";
             this.chkStoredProcedures.UseVisualStyleBackColor = true;
             // 
@@ -150,7 +150,7 @@
             this.chkViews.Location = new System.Drawing.Point(638, 71);
             this.chkViews.Name = "chkViews";
             this.chkViews.Size = new System.Drawing.Size(77, 24);
-            this.chkViews.TabIndex = 7;
+            this.chkViews.TabIndex = 5;
             this.chkViews.Text = "Views";
             this.chkViews.UseVisualStyleBackColor = true;
             // 
@@ -172,7 +172,7 @@
             this.chkMatchCase.Location = new System.Drawing.Point(16, 118);
             this.chkMatchCase.Name = "chkMatchCase";
             this.chkMatchCase.Size = new System.Drawing.Size(117, 24);
-            this.chkMatchCase.TabIndex = 10;
+            this.chkMatchCase.TabIndex = 11;
             this.chkMatchCase.Text = "Match case";
             this.chkMatchCase.UseVisualStyleBackColor = true;
             // 
@@ -199,7 +199,7 @@
             treeNode4,
             treeNode5});
             this.tvResults.Size = new System.Drawing.Size(309, 565);
-            this.tvResults.TabIndex = 11;
+            this.tvResults.TabIndex = 12;
             this.tvResults.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvResults_NodeMouseClick);
             // 
             // cmsResults
@@ -208,7 +208,7 @@
             this.tsmViewSource,
             this.tsmFindAllReferences});
             this.cmsResults.Name = "cmsResults";
-            this.cmsResults.Size = new System.Drawing.Size(226, 86);
+            this.cmsResults.Size = new System.Drawing.Size(226, 64);
             // 
             // tsmViewSource
             // 
@@ -241,7 +241,7 @@
             this.cmbServer.Location = new System.Drawing.Point(97, 17);
             this.cmbServer.Name = "cmbServer";
             this.cmbServer.Size = new System.Drawing.Size(398, 28);
-            this.cmbServer.TabIndex = 13;
+            this.cmbServer.TabIndex = 1;
             this.cmbServer.TextChanged += new System.EventHandler(this.cmbServer_TextChanged);
             // 
             // splitContainer1
@@ -276,7 +276,7 @@
             this.lvServerProperties.Location = new System.Drawing.Point(0, 0);
             this.lvServerProperties.Name = "lvServerProperties";
             this.lvServerProperties.Size = new System.Drawing.Size(617, 180);
-            this.lvServerProperties.TabIndex = 2;
+            this.lvServerProperties.TabIndex = 13;
             this.lvServerProperties.UseCompatibleStateImageBehavior = false;
             this.lvServerProperties.View = System.Windows.Forms.View.Details;
             // 
@@ -306,7 +306,7 @@
             this.lvObjectInformation.MultiSelect = false;
             this.lvObjectInformation.Name = "lvObjectInformation";
             this.lvObjectInformation.Size = new System.Drawing.Size(617, 379);
-            this.lvObjectInformation.TabIndex = 1;
+            this.lvObjectInformation.TabIndex = 14;
             this.lvObjectInformation.UseCompatibleStateImageBehavior = false;
             this.lvObjectInformation.View = System.Windows.Forms.View.Details;
             // 
@@ -326,7 +326,7 @@
             this.btnConnect.Location = new System.Drawing.Point(502, 12);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(119, 32);
-            this.btnConnect.TabIndex = 15;
+            this.btnConnect.TabIndex = 2;
             this.btnConnect.Text = "&Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
@@ -339,7 +339,7 @@
             this.cmbDatabase.Location = new System.Drawing.Point(97, 51);
             this.cmbDatabase.Name = "cmbDatabase";
             this.cmbDatabase.Size = new System.Drawing.Size(524, 28);
-            this.cmbDatabase.TabIndex = 17;
+            this.cmbDatabase.TabIndex = 3;
             this.cmbDatabase.SelectedIndexChanged += new System.EventHandler(this.cmbDatabase_SelectedIndexChanged);
             // 
             // label4
@@ -358,7 +358,7 @@
             this.chkIndexes.Location = new System.Drawing.Point(638, 101);
             this.chkIndexes.Name = "chkIndexes";
             this.chkIndexes.Size = new System.Drawing.Size(91, 24);
-            this.chkIndexes.TabIndex = 18;
+            this.chkIndexes.TabIndex = 6;
             this.chkIndexes.Text = "Indexes";
             this.chkIndexes.UseVisualStyleBackColor = true;
             // 

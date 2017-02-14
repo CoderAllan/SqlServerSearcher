@@ -84,7 +84,7 @@
             this.rbSqlServerLogon.Location = new System.Drawing.Point(6, 55);
             this.rbSqlServerLogon.Name = "rbSqlServerLogon";
             this.rbSqlServerLogon.Size = new System.Drawing.Size(197, 24);
-            this.rbSqlServerLogon.TabIndex = 4;
+            this.rbSqlServerLogon.TabIndex = 2;
             this.rbSqlServerLogon.Text = "SQL Server credentials";
             this.rbSqlServerLogon.UseVisualStyleBackColor = true;
             this.rbSqlServerLogon.CheckedChanged += new System.EventHandler(this.rbSqlServerLogon_CheckedChanged);
@@ -96,7 +96,7 @@
             this.rbWindowsLogon.Location = new System.Drawing.Point(6, 25);
             this.rbWindowsLogon.Name = "rbWindowsLogon";
             this.rbWindowsLogon.Size = new System.Drawing.Size(179, 24);
-            this.rbWindowsLogon.TabIndex = 3;
+            this.rbWindowsLogon.TabIndex = 1;
             this.rbWindowsLogon.TabStop = true;
             this.rbWindowsLogon.Text = "Windows credentials";
             this.rbWindowsLogon.UseVisualStyleBackColor = true;
@@ -134,7 +134,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(215, 26);
-            this.txtPassword.TabIndex = 2;
+            this.txtPassword.TabIndex = 4;
             // 
             // label3
             // 
@@ -180,8 +180,10 @@
             // 
             // FrmLogin
             // 
+            this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(337, 303);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLogin);
