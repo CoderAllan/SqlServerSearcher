@@ -24,6 +24,7 @@ Bug: Exceptions during connection is now handled.
 Bug: Taborder set correctly on all forms.
 Bug: The search results are now ordered correctly.
 Bug: When using the arrowkeys to navigate the results, the object information is now shown correctly.
+Bug: Tables was not found if only a column contained the search string.
 Clicking the Enter key now executes the search.
 The object information is now cleared when clicking the tables, views, indexes, stored procedure or functions nodes in the results treeview.
 "

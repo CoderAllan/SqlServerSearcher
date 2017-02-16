@@ -48,7 +48,7 @@ namespace SQLServerSearcher.DAL
             if (!string.IsNullOrEmpty(query))
             {
                 sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON t.object_id = c.object_id AND c.name LIKE '%{1}%'
-                                            WHERE t.name LIKE '%{1}%'", database, query);
+                                            WHERE t.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
             }
             using (var reader = ExecuteSql(sql))
             {
@@ -86,7 +86,7 @@ namespace SQLServerSearcher.DAL
             if (!string.IsNullOrEmpty(query))
             {
                 sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON v.object_id = c.object_id AND c.name LIKE '%{1}%'
-                                            WHERE v.name LIKE '%{1}%'", database, query);
+                                            WHERE v.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
             }
             using (var reader = ExecuteSql(sql))
             {
