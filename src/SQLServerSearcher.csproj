@@ -93,6 +93,7 @@
     <Compile Include="Model\ChangelogEntry.cs" />
     <Compile Include="Model\EventArgs\ConnectEventArgs.cs" />
     <Compile Include="Model\Database.cs" />
+    <Compile Include="Model\EventArgs\CopyNameEventArgs.cs" />
     <Compile Include="Model\EventArgs\FindEventArgs.cs" />
     <Compile Include="Model\FormLocationAndPosition.cs" />
     <Compile Include="Model\EventArgs\FrmViewSourceFrmLoadEventArgs.cs" />

@@ -3,6 +3,8 @@ namespace SQLServerSearcher.Presenters
     using System;
     using System.Data.SqlClient;
     using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
 
     using DAL;
     using Model;
@@ -28,6 +30,8 @@ namespace SQLServerSearcher.Presenters
             _view.BtnConnectClick += DoBtnConnectClick;
             _view.EnableDisableBtnConnect += DoEnableDisableBtnConnect;
             _view.TreeviewNodeClick += DoTreeviewNodeClick;
+            _view.CopyQueryToClipboardToolStripMenuItemClick += DoCopyQueryToClipboardToolStripMenuItemClick;
+            _view.CopyNameToClipboardToolStripMenuItemClick += DoCopyNameToClipboardToolStripMenuItemClick;
         }
 
         private void DoBtnConnectClick(object sender, ConnectEventArgs args)
@@ -171,6 +175,49 @@ namespace SQLServerSearcher.Presenters
                 default:
                     return;
             }
+        }
+
+        public void DoCopyQueryToClipboardToolStripMenuItemClick(object sender, FindEventArgs e)
+        {
+            var sb = new StringBuilder();
+            if (e.LookInTables)
+            {
+                sb.AppendLine(_searches.GetFindTablesSql(e.Database, e.FindWhat));
+                sb.AppendLine("GO");
+                sb.AppendLine();
+            }
+            if (e.LookInViews)
+            {
+                sb.AppendLine(_searches.GetFindViewsSql(e.Database, e.FindWhat));
+                sb.AppendLine("GO");
+                sb.AppendLine();
+            }
+            if (e.LookInIndexes)
+            {
+                sb.AppendLine(_searches.GetFindIndexesSql(e.Database, e.FindWhat));
+                sb.AppendLine("GO");
+                sb.AppendLine();
+            }
+            if (e.LookInStoredProcedures)
+            {
+                sb.AppendLine(_searches.GetFindStoredProceduresSql(e.Database, e.FindWhat));
+                sb.AppendLine("GO");
+                sb.AppendLine();
+            }
+            if (e.LookInFunctions)
+            {
+                sb.AppendLine(_searches.GetFindFunctionsSql(e.Database, e.FindWhat));
+                sb.AppendLine("GO");
+                sb.AppendLine();
+            }
+            string sql = sb.ToString();
+            sql = Regex.Replace(sql, @"[ \t]+", " ");
+            _view.CopyStringToSlipBoard(sql);
+        }
+
+        public void DoCopyNameToClipboardToolStripMenuItemClick(object sender, CopyNameEventArgs e)
+        {
+            _view.CopyStringToSlipBoard(e.Name);
         }
     }
 }

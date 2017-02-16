@@ -14,6 +14,8 @@
         event EventHandler<FindEventArgs> BtnFindClick;
         event EventHandler<EventArgs> EnableDisableBtnConnect;
         event EventHandler<TreeviewNodeClickEventArgs> TreeviewNodeClick;
+        event EventHandler<FindEventArgs> CopyQueryToClipboardToolStripMenuItemClick;
+        event EventHandler<CopyNameEventArgs> CopyNameToClipboardToolStripMenuItemClick;
 
         bool BtnConnectEnabled { get; set; }
         string CmbServerText { get; }
@@ -41,5 +43,6 @@
         void ShowProcedureInfo(Procedure procedure);
         void InsertFunctionIntoTreeview(List<Function> functions);
         void ShowFunctionInfo(Function function);
+        void CopyStringToSlipBoard(string text);
     }
 }

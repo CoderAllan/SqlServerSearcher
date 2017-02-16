@@ -1,5 +1,6 @@
 namespace SQLServerSearcher.DAL
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.SqlClient;
@@ -38,18 +39,25 @@ namespace SQLServerSearcher.DAL
             return databases;
         }
 
-        public List<Table> FindTables(string database, string query = null)
+        public string GetFindTablesSql(string database, string query)
         {
-            var tables = new List<Table>();
             string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, t.name, ISNULL(c.name, '') AS columnName, t.create_date, t.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
                                             FROM {0}.sys.tables t
                                            INNER JOIN {0}.sys.schemas s ON s.schema_id = t.schema_id
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = t.object_id) iu", database);
             if (!string.IsNullOrEmpty(query))
             {
-                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON t.object_id = c.object_id AND c.name LIKE '%{1}%'
+                sql += Environment.NewLine;
+                sql += string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON t.object_id = c.object_id AND c.name LIKE '%{1}%'
                                             WHERE t.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
             }
+            return sql;
+        }
+        
+        public List<Table> FindTables(string database, string query = null)
+        {
+            var tables = new List<Table>();
+            string sql = GetFindTablesSql(database, query);
             using (var reader = ExecuteSql(sql))
             {
                 if (reader.HasRows)
@@ -76,18 +84,25 @@ namespace SQLServerSearcher.DAL
             return tables;
         }
 
-        public List<View> FindViews(string database, string query = null)
+        public string GetFindViewsSql(string database, string query)
         {
-            var views = new List<View>();
             string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, v.name, ISNULL(c.name,'') AS columnName, v.create_date, v.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
                                             FROM {0}.sys.views v
                                            INNER JOIN {0}.sys.schemas s ON s.schema_id = v.schema_id
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = v.object_id) iu", database);
             if (!string.IsNullOrEmpty(query))
             {
-                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON v.object_id = c.object_id AND c.name LIKE '%{1}%'
+                sql += Environment.NewLine;
+                sql += string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON v.object_id = c.object_id AND c.name LIKE '%{1}%'
                                             WHERE v.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
             }
+            return sql;
+        }
+
+        public List<View> FindViews(string database, string query = null)
+        {
+            var views = new List<View>();
+            string sql = GetFindViewsSql(database, query);
             using (var reader = ExecuteSql(sql))
             {
                 if (reader.HasRows)
@@ -114,9 +129,8 @@ namespace SQLServerSearcher.DAL
             return views;
         }
 
-        public List<Index> FindIndexes(string database, string query = null)
+        public string GetFindIndexesSql(string database, string query)
         {
-            var indexes = new List<Index>();
             string sql = string.Format(@"SELECT t.name AS tableName, i.name, ISNULL(c.name,'') AS columnName, o.create_date, o.modify_date, i.type_desc, ISNULL(iu.last_user_lookup,'') AS lastLookup, ISNULL(iu.last_user_scan,'') AS lastScan, ISNULL(iu.last_user_seek,'') AS lastSeek, ISNULL(iu.last_user_update,'') AS lastUpdate
                                            FROM {0}.sys.indexes i
 										   INNER JOIN {0}.sys.tables t ON i.object_id = t.object_id
@@ -124,10 +138,18 @@ namespace SQLServerSearcher.DAL
                                            LEFT OUTER JOIN {0}.sys.dm_db_index_usage_stats iu ON i.object_id = iu.object_id AND i.index_id = iu.index_id", database);
             if (!string.IsNullOrEmpty(query))
             {
-                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.index_columns ic ON i.object_id = ic.object_id
-										     LEFT OUTER JOIN {0}.sys.columns c on ic.object_id=c.object_id AND ic.column_id=c.column_id AND c.name LIKE '%{1}%'
-                                             WHERE i.name LIKE '%{1}%'", database, query);
+                sql += Environment.NewLine;
+                sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.index_columns ic ON i.object_id = ic.object_id
+										    LEFT OUTER JOIN {0}.sys.columns c on ic.object_id=c.object_id AND ic.column_id=c.column_id AND c.name LIKE '%{1}%'
+                                            WHERE i.name LIKE '%{1}%'", database, query);
             }
+            return sql;
+        }
+
+        public List<Index> FindIndexes(string database, string query = null)
+        {
+            var indexes = new List<Index>();
+            string sql = GetFindIndexesSql(database, query);
             using (var reader = ExecuteSql(sql))
             {
                 if (reader.HasRows)
@@ -153,19 +175,26 @@ namespace SQLServerSearcher.DAL
             return indexes;
         }
 
-        public List<Procedure> FindProcedures(string database, string query = null)
+        public string GetFindStoredProceduresSql(string database, string query)
         {
-            var procedures = new List<Procedure>();
             string sql = string.Format(@"SELECT s.name AS schemaName, pr.name, ISNULL(pa.name,'') AS parameterName, pr.create_date, ISNULL(pr.modify_date,'') AS modifyDate, ISNULL(st.last_execution_time,'') AS lastExecutionTime, m.definition
                                            FROM {0}.sys.procedures pr
                                           INNER JOIN {0}.sys.schemas s ON pr.schema_id = s.schema_id
                                           INNER JOIN {0}.sys.sql_modules m ON pr.object_id = m.object_id
                                            LEFT OUTER JOIN {0}.sys.dm_exec_procedure_stats st on pr.object_id = st.object_id", database);
-            if(!string.IsNullOrEmpty(query))
+            if (!string.IsNullOrEmpty(query))
             {
-                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.parameters pa ON pr.object_id = pa.object_id AND pa.name LIKE '%{1}%' 
-                                            WHERE s.name LIKE '%{1}%' OR m.definition LIKE '%{1}%'", database, query);
+                sql += Environment.NewLine;
+                sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.parameters pa ON pr.object_id = pa.object_id AND pa.name LIKE '%{1}%' 
+                                           WHERE s.name LIKE '%{1}%' OR m.definition LIKE '%{1}%'", database, query);
             }
+            return sql;
+        }
+
+        public List<Procedure> FindProcedures(string database, string query = null)
+        {
+            var procedures = new List<Procedure>();
+            string sql = GetFindStoredProceduresSql(database, query);
             using (var reader = ExecuteSql(sql))
             {
                 if (reader.HasRows)
@@ -190,9 +219,8 @@ namespace SQLServerSearcher.DAL
             return procedures;
         }
 
-        public List<Function> FindFunctions(string database, string query = null)
+        public string GetFindFunctionsSql(string database, string query)
         {
-            var functions = new List<Function>();
             string sql = string.Format(@"SELECT s.name AS schemaName, o.name, ISNULL(pa.name,'') AS parameterName, o.create_date, ISNULL(o.modify_date,'') AS modifyDate, m.definition
                                            FROM {0}.sys.objects o
                                           INNER JOIN {0}.sys.schemas s ON o.schema_id = s.schema_id
@@ -200,9 +228,17 @@ namespace SQLServerSearcher.DAL
                                            LEFT OUTER JOIN {0}.sys.dm_exec_procedure_stats st on o.object_id = st.object_id", database);
             if (!string.IsNullOrEmpty(query))
             {
-                sql = sql + string.Format(@" LEFT OUTER JOIN {0}.sys.parameters pa ON o.object_id = pa.object_id AND pa.name LIKE '%{1}%' 
-                                            WHERE o.type_desc like '%FUNCTION%' AND (s.name LIKE '%{1}%' OR m.definition LIKE '%{1}%')", database, query);
+                sql += Environment.NewLine;
+                sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.parameters pa ON o.object_id = pa.object_id AND pa.name LIKE '%{1}%' 
+                                           WHERE o.type_desc like '%FUNCTION%' AND (s.name LIKE '%{1}%' OR m.definition LIKE '%{1}%')", database, query);
             }
+            return sql;
+        }
+
+        public List<Function> FindFunctions(string database, string query = null)
+        {
+            var functions = new List<Function>();
+            string sql = GetFindFunctionsSql(database, query);
             using (var reader = ExecuteSql(sql))
             {
                 if (reader.HasRows)

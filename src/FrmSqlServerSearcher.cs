@@ -76,6 +76,8 @@
         public event EventHandler<FindEventArgs> BtnFindClick;
         public event EventHandler<EventArgs> EnableDisableBtnConnect;
         public event EventHandler<TreeviewNodeClickEventArgs> TreeviewNodeClick;
+        public event EventHandler<FindEventArgs> CopyQueryToClipboardToolStripMenuItemClick;
+        public event EventHandler<CopyNameEventArgs> CopyNameToClipboardToolStripMenuItemClick;
 
         public ApplicationState AppState
         {
@@ -152,51 +154,6 @@
             if (e.KeyCode == Keys.Enter)
             {
                 DoFind();
-            }
-        }
-
-        private void tsmFindAllReferences_Click(object sender, EventArgs e)
-        {
-            if (BtnFindClick != null)
-            {
-                var selectedNode = tvResults.SelectedNode;
-                if (selectedNode != null && selectedNode.Tag != null && selectedNode.Parent != null)
-                {
-                    string name;
-                    if (selectedNode.Parent.Name.Equals("TablesNode") || selectedNode.Parent.Name.Equals("ViewsNode"))
-                    {
-                        var tableObject = (TableObject) selectedNode.Tag;
-                        name = !string.IsNullOrEmpty(tableObject.ColumnName) ? tableObject.ColumnName : tableObject.Name;
-                    }
-                    else
-                    {
-                        if (selectedNode.Parent.Name.Equals("TablesNode") || selectedNode.Parent.Name.Equals("ViewsNode"))
-                        {
-                            var procedureObject = (ProcedureObject)selectedNode.Tag;
-                            name = !string.IsNullOrEmpty(procedureObject.ParameterName) ? procedureObject.ParameterName : procedureObject.Name;
-                        }
-                        else
-                        {
-                            var databaseObject = (IDatabaseObject)selectedNode.Tag;
-                            name = databaseObject.Name;
-                        }
-                    }
-
-                    var findArgs = new FindEventArgs
-                    {
-                        Database = cmbDatabase.SelectedItem.ToString(),
-                        FindWhat = name,
-                        MatchCase = false,
-                        LookInTables = true,
-                        LookInViews = true,
-                        LookInStoredProcedures = true,
-                        LookInFunctions = true,
-                        LookInIndexes = true
-                    };
-                    BtnFindClick(null, findArgs);
-                    _appState.PersistComboBox(cmbFindText, _appState.PreviousSearches);
-                    tvResults.Focus();
-                }
             }
         }
 
@@ -530,6 +487,89 @@
             }
         }
 
+        private void cmsResults_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (tvResults.Nodes[0].Nodes.Count == 0 &&
+                tvResults.Nodes[1].Nodes.Count == 0 &&
+                tvResults.Nodes[2].Nodes.Count == 0 &&
+                tvResults.Nodes[3].Nodes.Count == 0 &&
+                tvResults.Nodes[4].Nodes.Count == 0)
+            {
+                tsmCopyListToClipboardToolStripMenuItem.Enabled = false;
+                tsmCopyNameToClipboardToolStripMenuItem.Enabled = false;
+                tsmCopyInformationToClipboardToolStripMenuItem.Enabled = false;
+                tsmCopyQueryToClipboardToolStripMenuItem.Enabled = cmbFindText.SelectedItem != null;
+            }
+            else
+            {
+                var selectedNode = tvResults.SelectedNode;
+                if (selectedNode != null)
+                {
+                    if (selectedNode.Name.Equals("TablesNode") ||
+                        selectedNode.Name.Equals("ViewsNode") ||
+                        selectedNode.Name.Equals("IndexesNode") ||
+                        selectedNode.Name.Equals("StoredProceduresNode") ||
+                        selectedNode.Name.Equals("FunctionsNode"))
+                    {
+                        tsmCopyListToClipboardToolStripMenuItem.Enabled = true;
+                        tsmCopyNameToClipboardToolStripMenuItem.Enabled = false;
+                        tsmCopyInformationToClipboardToolStripMenuItem.Enabled = false;
+                    }
+                    else
+                    {
+                        tsmCopyListToClipboardToolStripMenuItem.Enabled = false;
+                        tsmCopyNameToClipboardToolStripMenuItem.Enabled = true;
+                        tsmCopyInformationToClipboardToolStripMenuItem.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void tsmFindAllReferences_Click(object sender, EventArgs e)
+        {
+            if (BtnFindClick != null)
+            {
+                var selectedNode = tvResults.SelectedNode;
+                if (selectedNode != null && selectedNode.Tag != null && selectedNode.Parent != null)
+                {
+                    string name;
+                    if (selectedNode.Parent.Name.Equals("TablesNode") || selectedNode.Parent.Name.Equals("ViewsNode"))
+                    {
+                        var tableObject = (TableObject)selectedNode.Tag;
+                        name = !string.IsNullOrEmpty(tableObject.ColumnName) ? tableObject.ColumnName : tableObject.Name;
+                    }
+                    else
+                    {
+                        if (selectedNode.Parent.Name.Equals("TablesNode") || selectedNode.Parent.Name.Equals("ViewsNode"))
+                        {
+                            var procedureObject = (ProcedureObject)selectedNode.Tag;
+                            name = !string.IsNullOrEmpty(procedureObject.ParameterName) ? procedureObject.ParameterName : procedureObject.Name;
+                        }
+                        else
+                        {
+                            var databaseObject = (IDatabaseObject)selectedNode.Tag;
+                            name = databaseObject.Name;
+                        }
+                    }
+
+                    var findArgs = new FindEventArgs
+                    {
+                        Database = cmbDatabase.SelectedItem.ToString(),
+                        FindWhat = name,
+                        MatchCase = false,
+                        LookInTables = true,
+                        LookInViews = true,
+                        LookInStoredProcedures = true,
+                        LookInFunctions = true,
+                        LookInIndexes = true
+                    };
+                    BtnFindClick(null, findArgs);
+                    _appState.PersistComboBox(cmbFindText, _appState.PreviousSearches);
+                    tvResults.Focus();
+                }
+            }
+        }
+
         private void DoShowViewSourceDialog()
         {
             var selectedNode = tvResults.SelectedNode;
@@ -554,6 +594,57 @@
             DoShowViewSourceDialog();
         }
 
+        private void tsmCopyListToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsmCopyNameToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CopyNameToClipboardToolStripMenuItemClick != null)
+            {
+            var selectedNode = tvResults.SelectedNode;
+                if (selectedNode != null && selectedNode.Tag != null && selectedNode.Parent != null)
+                {
+                    var dbObject = (IDatabaseObject) selectedNode.Tag;
+                    var copyNameArgs = new CopyNameEventArgs
+                    {
+                        Name = dbObject.Name
+                    };
+                    CopyNameToClipboardToolStripMenuItemClick(sender, copyNameArgs);
+                }
+            }
+        }
+
+        private void tsmCopyInformationToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsmCopyQueryToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CopyQueryToClipboardToolStripMenuItemClick != null)
+            {
+                var findArgs = new FindEventArgs
+                {
+                    Database = cmbDatabase.SelectedItem.ToString(),
+                    FindWhat = cmbFindText.Text,
+                    MatchCase = chkMatchCase.Checked,
+                    LookInTables = chkTables.Checked,
+                    LookInViews = chkViews.Checked,
+                    LookInStoredProcedures = chkStoredProcedures.Checked,
+                    LookInFunctions = chkFunctions.Checked,
+                    LookInIndexes = chkIndexes.Checked
+                };
+                CopyQueryToClipboardToolStripMenuItemClick(sender, findArgs);
+            }
+        }
+
+        public void CopyStringToSlipBoard(string text)
+        {
+            Clipboard.SetText(text);
+        }
+        
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             const int wmKeydown = 0x100;

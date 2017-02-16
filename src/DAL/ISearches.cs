@@ -13,5 +13,10 @@
         List<Procedure> FindProcedures(string database, string query = null);
         List<Function> FindFunctions(string database, string query = null);
         ServerInfo GetServerInfo();
+        string GetFindTablesSql(string database, string query);
+        string GetFindViewsSql(string database, string query);
+        string GetFindIndexesSql(string database, string query);
+        string GetFindStoredProceduresSql(string database, string query);
+        string GetFindFunctionsSql(string database, string query);
     }
 }

@@ -71,6 +71,10 @@
             this.changelogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ttSettings = new System.Windows.Forms.ToolTip(this.components);
+            this.tsmCopyListToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmCopyNameToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmCopyInformationToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmCopyQueryToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -208,21 +212,26 @@
             // 
             this.cmsResults.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmViewSource,
-            this.tsmFindAllReferences});
+            this.tsmFindAllReferences,
+            this.tsmCopyListToClipboardToolStripMenuItem,
+            this.tsmCopyNameToClipboardToolStripMenuItem,
+            this.tsmCopyInformationToClipboardToolStripMenuItem,
+            this.tsmCopyQueryToClipboardToolStripMenuItem});
             this.cmsResults.Name = "cmsResults";
-            this.cmsResults.Size = new System.Drawing.Size(226, 64);
+            this.cmsResults.Size = new System.Drawing.Size(327, 206);
+            this.cmsResults.Opening += new System.ComponentModel.CancelEventHandler(this.cmsResults_Opening);
             // 
             // tsmViewSource
             // 
             this.tsmViewSource.Name = "tsmViewSource";
-            this.tsmViewSource.Size = new System.Drawing.Size(225, 30);
+            this.tsmViewSource.Size = new System.Drawing.Size(326, 30);
             this.tsmViewSource.Text = "&View source";
             this.tsmViewSource.Click += new System.EventHandler(this.tsmViewSource_Click);
             // 
             // tsmFindAllReferences
             // 
             this.tsmFindAllReferences.Name = "tsmFindAllReferences";
-            this.tsmFindAllReferences.Size = new System.Drawing.Size(225, 30);
+            this.tsmFindAllReferences.Size = new System.Drawing.Size(326, 30);
             this.tsmFindAllReferences.Text = "&Find all references";
             this.tsmFindAllReferences.Click += new System.EventHandler(this.tsmFindAllReferences_Click);
             // 
@@ -440,6 +449,34 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // tsmCopyListToClipboardToolStripMenuItem
+            // 
+            this.tsmCopyListToClipboardToolStripMenuItem.Name = "tsmCopyListToClipboardToolStripMenuItem";
+            this.tsmCopyListToClipboardToolStripMenuItem.Size = new System.Drawing.Size(326, 30);
+            this.tsmCopyListToClipboardToolStripMenuItem.Text = "Copy list to clipboard";
+            this.tsmCopyListToClipboardToolStripMenuItem.Click += new System.EventHandler(this.tsmCopyListToClipboardToolStripMenuItem_Click);
+            // 
+            // tsmCopyNameToClipboardToolStripMenuItem
+            // 
+            this.tsmCopyNameToClipboardToolStripMenuItem.Name = "tsmCopyNameToClipboardToolStripMenuItem";
+            this.tsmCopyNameToClipboardToolStripMenuItem.Size = new System.Drawing.Size(326, 30);
+            this.tsmCopyNameToClipboardToolStripMenuItem.Text = "Copy name to clipboard";
+            this.tsmCopyNameToClipboardToolStripMenuItem.Click += new System.EventHandler(this.tsmCopyNameToClipboardToolStripMenuItem_Click);
+            // 
+            // tsmCopyInformationToClipboardToolStripMenuItem
+            // 
+            this.tsmCopyInformationToClipboardToolStripMenuItem.Name = "tsmCopyInformationToClipboardToolStripMenuItem";
+            this.tsmCopyInformationToClipboardToolStripMenuItem.Size = new System.Drawing.Size(326, 30);
+            this.tsmCopyInformationToClipboardToolStripMenuItem.Text = "Copy information to clipboard";
+            this.tsmCopyInformationToClipboardToolStripMenuItem.Click += new System.EventHandler(this.tsmCopyInformationToClipboardToolStripMenuItem_Click);
+            // 
+            // tsmCopyQueryToClipboardToolStripMenuItem
+            // 
+            this.tsmCopyQueryToClipboardToolStripMenuItem.Name = "tsmCopyQueryToClipboardToolStripMenuItem";
+            this.tsmCopyQueryToClipboardToolStripMenuItem.Size = new System.Drawing.Size(326, 30);
+            this.tsmCopyQueryToClipboardToolStripMenuItem.Text = "Copy query to clipboard";
+            this.tsmCopyQueryToClipboardToolStripMenuItem.Click += new System.EventHandler(this.tsmCopyQueryToClipboardToolStripMenuItem_Click);
+            // 
             // FrmSqlServerSearcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -520,6 +557,10 @@
         private System.Windows.Forms.ContextMenuStrip cmsSettings;
         private System.Windows.Forms.ToolStripMenuItem changelogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmCopyListToClipboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmCopyNameToClipboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmCopyInformationToClipboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmCopyQueryToClipboardToolStripMenuItem;
     }
 }
 

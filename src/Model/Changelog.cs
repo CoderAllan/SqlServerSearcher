@@ -27,6 +27,8 @@ Bug: When using the arrowkeys to navigate the results, the object information is
 Bug: Tables was not found if only a column contained the search string.
 Clicking the Enter key now executes the search.
 The object information is now cleared when clicking the tables, views, indexes, stored procedure or functions nodes in the results treeview.
+Copy name to clipboard now implemented in results rightclick menu.
+Copy sql query to clipboard now implemented in results rightclick menu.
 "
             };
             _changeLogEntries.Add(changeLog);
