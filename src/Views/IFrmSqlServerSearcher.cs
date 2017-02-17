@@ -16,6 +16,7 @@
         event EventHandler<TreeviewNodeClickEventArgs> TreeviewNodeClick;
         event EventHandler<FindEventArgs> CopyQueryToClipboardToolStripMenuItemClick;
         event EventHandler<CopyNameEventArgs> CopyNameToClipboardToolStripMenuItemClick;
+        event EventHandler<CopyInformationEventArgs> CopyInformationToClipboardToolStripMenuItemClick;
 
         bool BtnConnectEnabled { get; set; }
         string CmbServerText { get; }

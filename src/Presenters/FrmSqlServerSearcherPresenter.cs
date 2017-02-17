@@ -32,6 +32,7 @@ namespace SQLServerSearcher.Presenters
             _view.TreeviewNodeClick += DoTreeviewNodeClick;
             _view.CopyQueryToClipboardToolStripMenuItemClick += DoCopyQueryToClipboardToolStripMenuItemClick;
             _view.CopyNameToClipboardToolStripMenuItemClick += DoCopyNameToClipboardToolStripMenuItemClick;
+            _view.CopyInformationToClipboardToolStripMenuItemClick += DoCopyInformationToClipboardToolStripMenuItemClick;
         }
 
         private void DoBtnConnectClick(object sender, ConnectEventArgs args)
@@ -148,7 +149,7 @@ namespace SQLServerSearcher.Presenters
             _view.BtnConnectEnabled = !String.IsNullOrEmpty(_view.CmbServerText);
         }
 
-        public void DoTreeviewNodeClick(object sender, TreeviewNodeClickEventArgs args)
+        private void DoTreeviewNodeClick(object sender, TreeviewNodeClickEventArgs args)
         {
             switch (args.ParentNodeName)
             {
@@ -177,7 +178,7 @@ namespace SQLServerSearcher.Presenters
             }
         }
 
-        public void DoCopyQueryToClipboardToolStripMenuItemClick(object sender, FindEventArgs e)
+        private void DoCopyQueryToClipboardToolStripMenuItemClick(object sender, FindEventArgs e)
         {
             var sb = new StringBuilder();
             if (e.LookInTables)
@@ -215,9 +216,19 @@ namespace SQLServerSearcher.Presenters
             _view.CopyStringToSlipBoard(sql);
         }
 
-        public void DoCopyNameToClipboardToolStripMenuItemClick(object sender, CopyNameEventArgs e)
+        private void DoCopyNameToClipboardToolStripMenuItemClick(object sender, CopyNameEventArgs e)
         {
             _view.CopyStringToSlipBoard(e.Name);
+        }
+
+        private void DoCopyInformationToClipboardToolStripMenuItemClick(object sender, CopyInformationEventArgs e)
+        {
+            string information = "";
+            foreach (var arr in e.DatabaseObject.ToArrayList())
+            {
+                information += arr[0] + " " + arr[1] + Environment.NewLine;
+            }
+            _view.CopyStringToSlipBoard(information);
         }
     }
 }

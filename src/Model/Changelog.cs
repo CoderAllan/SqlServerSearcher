@@ -29,6 +29,7 @@ Clicking the Enter key now executes the search.
 The object information is now cleared when clicking the tables, views, indexes, stored procedure or functions nodes in the results treeview.
 Copy name to clipboard now implemented in results rightclick menu.
 Copy sql query to clipboard now implemented in results rightclick menu.
+Copy object information to clipboard now implemented in results rightclick menu.
 "
             };
             _changeLogEntries.Add(changeLog);

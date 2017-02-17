@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    interface IDatabaseObject
+    public interface IDatabaseObject
     {
         string Name { get; set; }
         List<string[]> ToArrayList();

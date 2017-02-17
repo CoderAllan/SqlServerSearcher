@@ -78,6 +78,7 @@
         public event EventHandler<TreeviewNodeClickEventArgs> TreeviewNodeClick;
         public event EventHandler<FindEventArgs> CopyQueryToClipboardToolStripMenuItemClick;
         public event EventHandler<CopyNameEventArgs> CopyNameToClipboardToolStripMenuItemClick;
+        public event EventHandler<CopyInformationEventArgs> CopyInformationToClipboardToolStripMenuItemClick;
 
         public ApplicationState AppState
         {
@@ -603,7 +604,7 @@
         {
             if (CopyNameToClipboardToolStripMenuItemClick != null)
             {
-            var selectedNode = tvResults.SelectedNode;
+                var selectedNode = tvResults.SelectedNode;
                 if (selectedNode != null && selectedNode.Tag != null && selectedNode.Parent != null)
                 {
                     var dbObject = (IDatabaseObject) selectedNode.Tag;
@@ -618,7 +619,19 @@
 
         private void tsmCopyInformationToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (CopyInformationToClipboardToolStripMenuItemClick != null)
+            {
+                var selectedNode = tvResults.SelectedNode;
+                if (selectedNode != null && selectedNode.Tag != null && selectedNode.Parent != null)
+                {
+                    var dbObject = (IDatabaseObject)selectedNode.Tag;
+                    var copyInformationEventArgs = new CopyInformationEventArgs()
+                    {
+                        DatabaseObject = dbObject
+                    };
+                    CopyInformationToClipboardToolStripMenuItemClick(sender, copyInformationEventArgs);
+                }
+            }
         }
 
         private void tsmCopyQueryToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
