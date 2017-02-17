@@ -79,6 +79,7 @@
         public event EventHandler<FindEventArgs> CopyQueryToClipboardToolStripMenuItemClick;
         public event EventHandler<CopyNameEventArgs> CopyNameToClipboardToolStripMenuItemClick;
         public event EventHandler<CopyInformationEventArgs> CopyInformationToClipboardToolStripMenuItemClick;
+        public event EventHandler<EventArgs> CopyServerInformationClick;
 
         public ApplicationState AppState
         {
@@ -490,11 +491,7 @@
 
         private void cmsResults_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (tvResults.Nodes[0].Nodes.Count == 0 &&
-                tvResults.Nodes[1].Nodes.Count == 0 &&
-                tvResults.Nodes[2].Nodes.Count == 0 &&
-                tvResults.Nodes[3].Nodes.Count == 0 &&
-                tvResults.Nodes[4].Nodes.Count == 0)
+            if (IsAnyResultAdded())
             {
                 tsmCopyListToClipboardToolStripMenuItem.Enabled = false;
                 tsmCopyNameToClipboardToolStripMenuItem.Enabled = false;
@@ -503,27 +500,51 @@
             }
             else
             {
-                var selectedNode = tvResults.SelectedNode;
-                if (selectedNode != null)
+                if (IsTopNodeSelected())
                 {
-                    if (selectedNode.Name.Equals("TablesNode") ||
-                        selectedNode.Name.Equals("ViewsNode") ||
-                        selectedNode.Name.Equals("IndexesNode") ||
-                        selectedNode.Name.Equals("StoredProceduresNode") ||
-                        selectedNode.Name.Equals("FunctionsNode"))
-                    {
-                        tsmCopyListToClipboardToolStripMenuItem.Enabled = true;
-                        tsmCopyNameToClipboardToolStripMenuItem.Enabled = false;
-                        tsmCopyInformationToClipboardToolStripMenuItem.Enabled = false;
-                    }
-                    else
-                    {
-                        tsmCopyListToClipboardToolStripMenuItem.Enabled = false;
-                        tsmCopyNameToClipboardToolStripMenuItem.Enabled = true;
-                        tsmCopyInformationToClipboardToolStripMenuItem.Enabled = true;
-                    }
+                    tsmCopyListToClipboardToolStripMenuItem.Enabled = true;
+                    tsmCopyNameToClipboardToolStripMenuItem.Enabled = false;
+                    tsmCopyInformationToClipboardToolStripMenuItem.Enabled = false;
+                }
+                else
+                {
+                    tsmCopyListToClipboardToolStripMenuItem.Enabled = false;
+                    tsmCopyNameToClipboardToolStripMenuItem.Enabled = true;
+                    tsmCopyInformationToClipboardToolStripMenuItem.Enabled = true;
                 }
             }
+        }
+
+        private void cmsObjectInformation_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (IsAnyResultAdded())
+            {
+                tsmCopyInformationToClipboardToolStripMenuItem2.Enabled = false;
+            }
+            else
+            {
+                tsmCopyInformationToClipboardToolStripMenuItem2.Enabled = !IsTopNodeSelected();
+            }
+        }
+
+        private bool IsAnyResultAdded()
+        {
+            return tvResults.Nodes[0].Nodes.Count == 0 &&
+                   tvResults.Nodes[1].Nodes.Count == 0 &&
+                   tvResults.Nodes[2].Nodes.Count == 0 &&
+                   tvResults.Nodes[3].Nodes.Count == 0 &&
+                   tvResults.Nodes[4].Nodes.Count == 0;
+        }
+
+        private bool IsTopNodeSelected()
+        {
+            var selectedNode = tvResults.SelectedNode;
+            return selectedNode != null &&
+                   (selectedNode.Name.Equals("TablesNode") ||
+                    selectedNode.Name.Equals("ViewsNode") ||
+                    selectedNode.Name.Equals("IndexesNode") ||
+                    selectedNode.Name.Equals("StoredProceduresNode") ||
+                    selectedNode.Name.Equals("FunctionsNode"));
         }
 
         private void tsmFindAllReferences_Click(object sender, EventArgs e)
@@ -650,6 +671,14 @@
                     LookInIndexes = chkIndexes.Checked
                 };
                 CopyQueryToClipboardToolStripMenuItemClick(sender, findArgs);
+            }
+        }
+
+        private void tsmCopyServerInformation_Click(object sender, EventArgs e)
+        {
+            if (CopyServerInformationClick != null)
+            {
+                CopyServerInformationClick(sender, EventArgs.Empty);
             }
         }
 
