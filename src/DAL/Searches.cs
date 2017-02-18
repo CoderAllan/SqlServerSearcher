@@ -41,7 +41,7 @@ namespace SQLServerSearcher.DAL
 
         public string GetFindTablesSql(string database, string query)
         {
-            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, t.name, ISNULL(c.name, '') AS columnName, t.create_date, t.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
+            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, t.name, ISNULL(c.name, '') AS columnName, t.create_date, ISNULL(t.modify_date,'') AS modifyDate, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
                                             FROM {0}.sys.tables t
                                            INNER JOIN {0}.sys.schemas s ON s.schema_id = t.schema_id
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = t.object_id) iu", database);
@@ -71,7 +71,7 @@ namespace SQLServerSearcher.DAL
                             Name = reader.GetString(reader.GetOrdinal("name")),
                             ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
-                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modify_date")),
+                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
                             LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
                             LastScan = reader.GetDateTime(reader.GetOrdinal("lastScan")),
                             LastLookup = reader.GetDateTime(reader.GetOrdinal("lastLookup")),
@@ -86,7 +86,7 @@ namespace SQLServerSearcher.DAL
 
         public string GetFindViewsSql(string database, string query)
         {
-            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, v.name, ISNULL(c.name,'') AS columnName, v.create_date, v.modify_date, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
+            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, v.name, ISNULL(c.name,'') AS columnName, v.create_date, ISNULL(v.modify_date,'') AS modifyDate, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
                                             FROM {0}.sys.views v
                                            INNER JOIN {0}.sys.schemas s ON s.schema_id = v.schema_id
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = v.object_id) iu", database);
@@ -116,7 +116,7 @@ namespace SQLServerSearcher.DAL
                             Name = reader.GetString(reader.GetOrdinal("name")),
                             ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
-                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modify_date")),
+                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
                             LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
                             LastScan = reader.GetDateTime(reader.GetOrdinal("lastScan")),
                             LastLookup = reader.GetDateTime(reader.GetOrdinal("lastLookup")),
@@ -131,15 +131,15 @@ namespace SQLServerSearcher.DAL
 
         public string GetFindIndexesSql(string database, string query)
         {
-            string sql = string.Format(@"SELECT t.name AS tableName, i.name, ISNULL(c.name,'') AS columnName, o.create_date, o.modify_date, i.type_desc, ISNULL(iu.last_user_lookup,'') AS lastLookup, ISNULL(iu.last_user_scan,'') AS lastScan, ISNULL(iu.last_user_seek,'') AS lastSeek, ISNULL(iu.last_user_update,'') AS lastUpdate
+            string sql = string.Format(@"SELECT t.name AS tableName, i.name, ISNULL(c.name,'') AS columnName, o.create_date, ISNULL(o.modify_date,'') AS modifyDate, i.type_desc, ISNULL(iu.last_user_lookup,'') AS lastLookup, ISNULL(iu.last_user_scan,'') AS lastScan, ISNULL(iu.last_user_seek,'') AS lastSeek, ISNULL(iu.last_user_update,'') AS lastUpdate
                                            FROM {0}.sys.indexes i
 										   INNER JOIN {0}.sys.tables t ON i.object_id = t.object_id
-										   INNER JOIN {0}.sys.objects o on i.object_id = o.parent_object_id
+										   INNER JOIN {0}.sys.objects o on i.object_id = o.object_id
                                            LEFT OUTER JOIN {0}.sys.dm_db_index_usage_stats iu ON i.object_id = iu.object_id AND i.index_id = iu.index_id", database);
             if (!string.IsNullOrEmpty(query))
             {
                 sql += Environment.NewLine;
-                sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.index_columns ic ON i.object_id = ic.object_id
+                sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.index_columns ic ON i.object_id = ic.object_id and i.index_id = ic.index_id
 										    LEFT OUTER JOIN {0}.sys.columns c on ic.object_id=c.object_id AND ic.column_id=c.column_id AND c.name LIKE '%{1}%'
                                             WHERE i.name LIKE '%{1}%'", database, query);
             }
@@ -161,6 +161,8 @@ namespace SQLServerSearcher.DAL
                         {
                             TableName = reader.GetString(reader.GetOrdinal("tableName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
+                            CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
+                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
                             ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
                             TypeDescription = reader.GetString(reader.GetOrdinal("type_desc")),
                             LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
