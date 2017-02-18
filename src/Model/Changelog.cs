@@ -31,6 +31,7 @@ Copy name to clipboard now implemented in results rightclick menu.
 Copy sql query to clipboard now implemented in results rightclick menu.
 Copy object information to clipboard now implemented in results rightclick menu.
 Copy server information to clipboard now implemented in server info rightclick menu.
+Copy list to clipboard now implemented in server info rightclick menu.
 "
             };
             _changeLogEntries.Add(changeLog);

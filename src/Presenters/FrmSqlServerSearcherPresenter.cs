@@ -34,6 +34,7 @@ namespace SQLServerSearcher.Presenters
             _view.CopyNameToClipboardToolStripMenuItemClick += DoCopyNameToClipboardToolStripMenuItemClick;
             _view.CopyInformationToClipboardToolStripMenuItemClick += DoCopyInformationToClipboardToolStripMenuItemClick;
             _view.CopyServerInformationClick += DoCopyServerInformationClick;
+            _view.CopyListToClipboardToolStripMenuItemClick += DoCopyListToClipboardToolStripMenuItemClick;
         }
 
         private void DoBtnConnectClick(object sender, ConnectEventArgs args)
@@ -241,6 +242,11 @@ namespace SQLServerSearcher.Presenters
                 serverInformation += arr[0] + " " + arr[1] + Environment.NewLine;
             }
             _view.CopyStringToSlipBoard(serverInformation);
+        }
+
+        private void DoCopyListToClipboardToolStripMenuItemClick(object sender, CopyListToClipboardEventArgs e)
+        {
+            _view.CopyStringToSlipBoard(string.Join(Environment.NewLine, e.NameList));
         }
     }
 }

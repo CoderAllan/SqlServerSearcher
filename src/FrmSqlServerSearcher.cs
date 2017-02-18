@@ -5,6 +5,7 @@
     using System.Data;
     using System.Drawing;
     using System.Globalization;
+    using System.Linq;
     using System.Windows.Forms;
 
     using Model;
@@ -80,6 +81,7 @@
         public event EventHandler<CopyNameEventArgs> CopyNameToClipboardToolStripMenuItemClick;
         public event EventHandler<CopyInformationEventArgs> CopyInformationToClipboardToolStripMenuItemClick;
         public event EventHandler<EventArgs> CopyServerInformationClick;
+        public event EventHandler<CopyListToClipboardEventArgs> CopyListToClipboardToolStripMenuItemClick;
 
         public ApplicationState AppState
         {
@@ -618,7 +620,27 @@
 
         private void tsmCopyListToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (CopyListToClipboardToolStripMenuItemClick != null)
+            {
+                var selectedNode = tvResults.SelectedNode;
+                if (selectedNode != null && selectedNode.Parent == null)
+                {
+                    var copyListToClipboard = new CopyListToClipboardEventArgs
+                    {
+                        NameList = new List<string>()
+                    };
+                    foreach (TreeNode node in selectedNode.Nodes)
+                    {
+                        var dbObject = (IDatabaseObject) node.Tag;
+                        var nameValue = dbObject.ToArrayList().FirstOrDefault(p => p[0].Equals("Name:"));
+                        if (nameValue != null)
+                        {
+                            copyListToClipboard.NameList.Add(nameValue[1]);
+                        }
+                    }
+                    CopyListToClipboardToolStripMenuItemClick(sender, copyListToClipboard);
+                }
+            }
         }
 
         private void tsmCopyNameToClipboardToolStripMenuItem_Click(object sender, EventArgs e)

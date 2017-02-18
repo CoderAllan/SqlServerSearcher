@@ -18,6 +18,7 @@
         event EventHandler<CopyNameEventArgs> CopyNameToClipboardToolStripMenuItemClick;
         event EventHandler<CopyInformationEventArgs> CopyInformationToClipboardToolStripMenuItemClick;
         event EventHandler<EventArgs> CopyServerInformationClick;
+        event EventHandler<CopyListToClipboardEventArgs> CopyListToClipboardToolStripMenuItemClick;
 
         bool BtnConnectEnabled { get; set; }
         string CmbServerText { get; }
