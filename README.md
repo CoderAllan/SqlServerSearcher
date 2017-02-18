@@ -32,13 +32,16 @@ Task list
 ----
 
 - [ ] Make it possible to use more than one search term
+- [ ] Search in extended properties
+- [ ] Implement Find in the view definition dialog
+- [ ] Show column names in the information list
+- [ ] Show parameter names in the information list
 - [x] Implement the 'Match case' checkbox functionality
 - [x] Display metadata about the found element when clicking the TreeView node
 - [x] Display metadata about the connected server
 - [x] Right-click in treeview to find all references
 - [x] Right-click in treeview to show content of stored procedure or function
 - [x] Highlight the matches found in the definition of stored procedures and functions
-- [ ] Implement Find in the view definition dialog
 
 Screenshots
 ----
@@ -50,6 +53,10 @@ The login dialog
 Search
 
 ![search](Screenshots/Search.png)
+
+Contextmenu
+
+![contextmenu](Screenshots/ContextMenu.png)
 
 View definition
 
