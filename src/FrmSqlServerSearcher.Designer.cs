@@ -58,9 +58,13 @@
             this.lvServerProperties = new System.Windows.Forms.ListView();
             this.colServerPropertyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colServerPropertyValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cmsServerInformation = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmCopyServerInformation = new System.Windows.Forms.ToolStripMenuItem();
             this.lvObjectInformation = new System.Windows.Forms.ListView();
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cmsObjectInformation = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmCopyInformationToClipboardToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnConnect = new System.Windows.Forms.Button();
             this.cmbDatabase = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -75,26 +79,22 @@
             this.changelogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ttSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.cmsObjectInformation = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmCopyInformationToClipboardToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsServerInformation = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmCopyServerInformation = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.cmsServerInformation.SuspendLayout();
+            this.cmsObjectInformation.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSettings)).BeginInit();
             this.cmsSettings.SuspendLayout();
-            this.cmsObjectInformation.SuspendLayout();
-            this.cmsServerInformation.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnFind
             // 
             this.btnFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFind.Location = new System.Drawing.Point(808, 101);
+            this.btnFind.Location = new System.Drawing.Point(869, 101);
             this.btnFind.Name = "btnFind";
             this.btnFind.Size = new System.Drawing.Size(138, 35);
             this.btnFind.TabIndex = 10;
@@ -118,7 +118,7 @@
             this.cmbFindText.FormattingEnabled = true;
             this.cmbFindText.Location = new System.Drawing.Point(97, 85);
             this.cmbFindText.Name = "cmbFindText";
-            this.cmbFindText.Size = new System.Drawing.Size(524, 28);
+            this.cmbFindText.Size = new System.Drawing.Size(585, 28);
             this.cmbFindText.TabIndex = 9;
             this.cmbFindText.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmbFindText_KeyUp);
             // 
@@ -126,7 +126,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(635, 12);
+            this.label2.Location = new System.Drawing.Point(696, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 20);
             this.label2.TabIndex = 3;
@@ -136,7 +136,7 @@
             // 
             this.chkTables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkTables.AutoSize = true;
-            this.chkTables.Location = new System.Drawing.Point(638, 41);
+            this.chkTables.Location = new System.Drawing.Point(699, 41);
             this.chkTables.Name = "chkTables";
             this.chkTables.Size = new System.Drawing.Size(82, 24);
             this.chkTables.TabIndex = 4;
@@ -147,7 +147,7 @@
             // 
             this.chkStoredProcedures.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkStoredProcedures.AutoSize = true;
-            this.chkStoredProcedures.Location = new System.Drawing.Point(741, 41);
+            this.chkStoredProcedures.Location = new System.Drawing.Point(802, 41);
             this.chkStoredProcedures.Name = "chkStoredProcedures";
             this.chkStoredProcedures.Size = new System.Drawing.Size(167, 24);
             this.chkStoredProcedures.TabIndex = 7;
@@ -158,7 +158,7 @@
             // 
             this.chkViews.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkViews.AutoSize = true;
-            this.chkViews.Location = new System.Drawing.Point(638, 71);
+            this.chkViews.Location = new System.Drawing.Point(699, 71);
             this.chkViews.Name = "chkViews";
             this.chkViews.Size = new System.Drawing.Size(77, 24);
             this.chkViews.TabIndex = 5;
@@ -169,7 +169,7 @@
             // 
             this.chkFunctions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkFunctions.AutoSize = true;
-            this.chkFunctions.Location = new System.Drawing.Point(741, 71);
+            this.chkFunctions.Location = new System.Drawing.Point(802, 71);
             this.chkFunctions.Name = "chkFunctions";
             this.chkFunctions.Size = new System.Drawing.Size(105, 24);
             this.chkFunctions.TabIndex = 8;
@@ -209,7 +209,7 @@
             treeNode3,
             treeNode4,
             treeNode5});
-            this.tvResults.Size = new System.Drawing.Size(309, 565);
+            this.tvResults.Size = new System.Drawing.Size(329, 591);
             this.tvResults.TabIndex = 12;
             this.tvResults.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvResults_NodeMouseClick);
             this.tvResults.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tvResults_KeyUp);
@@ -285,7 +285,7 @@
             this.cmbServer.FormattingEnabled = true;
             this.cmbServer.Location = new System.Drawing.Point(97, 17);
             this.cmbServer.Name = "cmbServer";
-            this.cmbServer.Size = new System.Drawing.Size(398, 28);
+            this.cmbServer.Size = new System.Drawing.Size(459, 28);
             this.cmbServer.TabIndex = 1;
             this.cmbServer.TextChanged += new System.EventHandler(this.cmbServer_TextChanged);
             // 
@@ -305,8 +305,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.lvServerProperties);
             this.splitContainer1.Panel2.Controls.Add(this.lvObjectInformation);
-            this.splitContainer1.Size = new System.Drawing.Size(930, 565);
-            this.splitContainer1.SplitterDistance = 309;
+            this.splitContainer1.Size = new System.Drawing.Size(991, 591);
+            this.splitContainer1.SplitterDistance = 329;
             this.splitContainer1.TabIndex = 14;
             // 
             // lvServerProperties
@@ -321,7 +321,7 @@
             this.lvServerProperties.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvServerProperties.Location = new System.Drawing.Point(0, 0);
             this.lvServerProperties.Name = "lvServerProperties";
-            this.lvServerProperties.Size = new System.Drawing.Size(617, 180);
+            this.lvServerProperties.Size = new System.Drawing.Size(658, 180);
             this.lvServerProperties.TabIndex = 13;
             this.lvServerProperties.UseCompatibleStateImageBehavior = false;
             this.lvServerProperties.View = System.Windows.Forms.View.Details;
@@ -336,13 +336,29 @@
             this.colServerPropertyValue.Text = "Value";
             this.colServerPropertyValue.Width = 170;
             // 
+            // cmsServerInformation
+            // 
+            this.cmsServerInformation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmCopyServerInformation});
+            this.cmsServerInformation.Name = "cmsServerInformation";
+            this.cmsServerInformation.Size = new System.Drawing.Size(277, 34);
+            // 
+            // tsmCopyServerInformation
+            // 
+            this.tsmCopyServerInformation.Name = "tsmCopyServerInformation";
+            this.tsmCopyServerInformation.Size = new System.Drawing.Size(276, 30);
+            this.tsmCopyServerInformation.Text = "Copy server information";
+            this.tsmCopyServerInformation.Click += new System.EventHandler(this.tsmCopyServerInformation_Click);
+            // 
             // lvObjectInformation
             // 
+            this.lvObjectInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvObjectInformation.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colName,
             this.colValue});
             this.lvObjectInformation.ContextMenuStrip = this.cmsObjectInformation;
-            this.lvObjectInformation.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lvObjectInformation.FullRowSelect = true;
             this.lvObjectInformation.GridLines = true;
             this.lvObjectInformation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -350,7 +366,7 @@
             this.lvObjectInformation.Location = new System.Drawing.Point(0, 186);
             this.lvObjectInformation.MultiSelect = false;
             this.lvObjectInformation.Name = "lvObjectInformation";
-            this.lvObjectInformation.Size = new System.Drawing.Size(617, 379);
+            this.lvObjectInformation.Size = new System.Drawing.Size(655, 409);
             this.lvObjectInformation.TabIndex = 14;
             this.lvObjectInformation.UseCompatibleStateImageBehavior = false;
             this.lvObjectInformation.View = System.Windows.Forms.View.Details;
@@ -365,10 +381,25 @@
             this.colValue.Text = "Value";
             this.colValue.Width = 140;
             // 
+            // cmsObjectInformation
+            // 
+            this.cmsObjectInformation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmCopyInformationToClipboardToolStripMenuItem2});
+            this.cmsObjectInformation.Name = "cmsObjectInformation";
+            this.cmsObjectInformation.Size = new System.Drawing.Size(327, 34);
+            this.cmsObjectInformation.Opening += new System.ComponentModel.CancelEventHandler(this.cmsObjectInformation_Opening);
+            // 
+            // tsmCopyInformationToClipboardToolStripMenuItem2
+            // 
+            this.tsmCopyInformationToClipboardToolStripMenuItem2.Name = "tsmCopyInformationToClipboardToolStripMenuItem2";
+            this.tsmCopyInformationToClipboardToolStripMenuItem2.Size = new System.Drawing.Size(326, 30);
+            this.tsmCopyInformationToClipboardToolStripMenuItem2.Text = "Copy information to clipboard";
+            this.tsmCopyInformationToClipboardToolStripMenuItem2.Click += new System.EventHandler(this.tsmCopyInformationToClipboardToolStripMenuItem_Click);
+            // 
             // btnConnect
             // 
             this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConnect.Location = new System.Drawing.Point(502, 12);
+            this.btnConnect.Location = new System.Drawing.Point(563, 12);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(119, 32);
             this.btnConnect.TabIndex = 2;
@@ -383,7 +414,7 @@
             this.cmbDatabase.FormattingEnabled = true;
             this.cmbDatabase.Location = new System.Drawing.Point(97, 51);
             this.cmbDatabase.Name = "cmbDatabase";
-            this.cmbDatabase.Size = new System.Drawing.Size(524, 28);
+            this.cmbDatabase.Size = new System.Drawing.Size(585, 28);
             this.cmbDatabase.TabIndex = 3;
             this.cmbDatabase.SelectedIndexChanged += new System.EventHandler(this.cmbDatabase_SelectedIndexChanged);
             // 
@@ -400,7 +431,7 @@
             // 
             this.chkIndexes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIndexes.AutoSize = true;
-            this.chkIndexes.Location = new System.Drawing.Point(638, 101);
+            this.chkIndexes.Location = new System.Drawing.Point(699, 101);
             this.chkIndexes.Name = "chkIndexes";
             this.chkIndexes.Size = new System.Drawing.Size(91, 24);
             this.chkIndexes.TabIndex = 6;
@@ -414,10 +445,10 @@
             this.tsLblExecutionTime,
             this.tsLblDatabase,
             this.tsLblServer});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 716);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 742);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.statusStrip1.Size = new System.Drawing.Size(963, 34);
+            this.statusStrip1.Size = new System.Drawing.Size(1024, 34);
             this.statusStrip1.TabIndex = 19;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -454,7 +485,7 @@
             this.pbSettings.ContextMenuStrip = this.cmsSettings;
             this.pbSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbSettings.Image = ((System.Drawing.Image)(resources.GetObject("pbSettings.Image")));
-            this.pbSettings.Location = new System.Drawing.Point(914, 12);
+            this.pbSettings.Location = new System.Drawing.Point(975, 12);
             this.pbSettings.Name = "pbSettings";
             this.pbSettings.Size = new System.Drawing.Size(32, 32);
             this.pbSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -485,40 +516,11 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // cmsObjectInformation
-            // 
-            this.cmsObjectInformation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmCopyInformationToClipboardToolStripMenuItem2});
-            this.cmsObjectInformation.Name = "cmsObjectInformation";
-            this.cmsObjectInformation.Size = new System.Drawing.Size(327, 34);
-            this.cmsObjectInformation.Opening += new System.ComponentModel.CancelEventHandler(this.cmsObjectInformation_Opening);
-            // 
-            // tsmCopyInformationToClipboardToolStripMenuItem2
-            // 
-            this.tsmCopyInformationToClipboardToolStripMenuItem2.Name = "tsmCopyInformationToClipboardToolStripMenuItem2";
-            this.tsmCopyInformationToClipboardToolStripMenuItem2.Size = new System.Drawing.Size(326, 30);
-            this.tsmCopyInformationToClipboardToolStripMenuItem2.Text = "Copy information to clipboard";
-            this.tsmCopyInformationToClipboardToolStripMenuItem2.Click += new System.EventHandler(this.tsmCopyInformationToClipboardToolStripMenuItem_Click);
-            // 
-            // cmsServerInformation
-            // 
-            this.cmsServerInformation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmCopyServerInformation});
-            this.cmsServerInformation.Name = "cmsServerInformation";
-            this.cmsServerInformation.Size = new System.Drawing.Size(277, 56);
-            // 
-            // tsmCopyServerInformation
-            // 
-            this.tsmCopyServerInformation.Name = "tsmCopyServerInformation";
-            this.tsmCopyServerInformation.Size = new System.Drawing.Size(276, 30);
-            this.tsmCopyServerInformation.Text = "Copy server information";
-            this.tsmCopyServerInformation.Click += new System.EventHandler(this.tsmCopyServerInformation_Click);
-            // 
             // FrmSqlServerSearcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(963, 750);
+            this.ClientSize = new System.Drawing.Size(1024, 776);
             this.Controls.Add(this.pbSettings);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.chkIndexes);
@@ -547,12 +549,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.cmsServerInformation.ResumeLayout(false);
+            this.cmsObjectInformation.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSettings)).EndInit();
             this.cmsSettings.ResumeLayout(false);
-            this.cmsObjectInformation.ResumeLayout(false);
-            this.cmsServerInformation.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

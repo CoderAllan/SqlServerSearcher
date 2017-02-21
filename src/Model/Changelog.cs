@@ -17,6 +17,16 @@
             changeLog = new ChangelogEntry
             {
                 MajorVersion = 1,
+                MinorVersion = 2,
+                Changes = @"
+Bug: Object information listvie is now anchored correctly.
+"
+            };
+            _changeLogEntries.Add(changeLog);
+
+            changeLog = new ChangelogEntry
+            {
+                MajorVersion = 1,
                 MinorVersion = 1,
                 Changes = @"
 Bug: Fixed bug when searching for indexes.
