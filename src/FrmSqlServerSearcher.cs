@@ -189,9 +189,9 @@
             return (result == DialogResult.OK);
         }
 
-        public void ShowViewSourceDialog(ProcedureObject procedureObject)
+        private void ShowViewSourceDialog(string definition)
         {
-            var frmViewSource = new FrmViewSource(_appState, procedureObject);
+            var frmViewSource = new FrmViewSource(_appState, definition);
             frmViewSource.ShowDialog();
         }
 
@@ -515,7 +515,9 @@
                 }
                 else
                 {
-                    tsmViewSource.Enabled = selectedNode.Parent.Name.Equals("StoredProceduresNode") || selectedNode.Parent.Name.Equals("FunctionsNode");
+                    tsmViewSource.Enabled = selectedNode.Parent.Name.Equals("StoredProceduresNode") ||
+                                            selectedNode.Parent.Name.Equals("FunctionsNode") || 
+                                            selectedNode.Parent.Name.Equals("ViewsNode");
                     tsmFindAllReferences.Enabled = true;
                     tsmCopyListToClipboardToolStripMenuItem.Enabled = false;
                     tsmCopyNameToClipboardToolStripMenuItem.Enabled = true;
@@ -615,8 +617,14 @@
                 if (selectedNode.Parent.Name.Equals("StoredProceduresNode") || selectedNode.Parent.Name.Equals("FunctionsNode"))
                 {
                     var procedureObject = (ProcedureObject)selectedNode.Tag;
-                    ShowViewSourceDialog(procedureObject);
+                    ShowViewSourceDialog(procedureObject.Definition);
                 }
+                else if (selectedNode.Parent.Name.Equals("ViewsNode"))
+                {
+                    var view = (Model.View)selectedNode.Tag;
+                    ShowViewSourceDialog(view.Definition);
+                }
+
             }
         }
 

@@ -49,7 +49,7 @@ namespace SQLServerSearcher.DAL
             {
                 sql += Environment.NewLine;
                 sql += string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON t.object_id = c.object_id AND c.name LIKE '%{1}%'
-                                            WHERE t.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
+                                            WHERE s.name LIKE '%{1}%' OR t.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
             }
             return sql;
         }
@@ -86,15 +86,16 @@ namespace SQLServerSearcher.DAL
 
         public string GetFindViewsSql(string database, string query)
         {
-            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, v.name, ISNULL(c.name,'') AS columnName, v.create_date, ISNULL(v.modify_date,'') AS modifyDate, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
+            string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, v.name, ISNULL(c.name,'') AS columnName, v.create_date, ISNULL(v.modify_date,'') AS modifyDate, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate, m.definition
                                             FROM {0}.sys.views v
                                            INNER JOIN {0}.sys.schemas s ON s.schema_id = v.schema_id
+                                           INNER JOIN {0}.sys.sql_modules m ON m.object_id = v.object_id
                                            OUTER APPLY (SELECT MAX(last_user_seek) AS lastSeek, MAX(last_user_scan) AS lastScan, MAX(last_user_lookup) AS lastLookup, MAX(last_user_update) AS lastUpdate FROM {0}.sys.dm_db_index_usage_stats ius WHERE ius.object_id = v.object_id) iu", database);
             if (!string.IsNullOrEmpty(query))
             {
                 sql += Environment.NewLine;
                 sql += string.Format(@" LEFT OUTER JOIN {0}.sys.columns c ON v.object_id = c.object_id AND c.name LIKE '%{1}%'
-                                            WHERE v.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
+                                            WHERE s.name LIKE '%{1}%' OR v.name LIKE '%{1}%' OR c.name LIKE '%{1}%' OR m.definition LIKE '%{1}%'", database, query);
             }
             return sql;
         }
@@ -121,6 +122,7 @@ namespace SQLServerSearcher.DAL
                             LastScan = reader.GetDateTime(reader.GetOrdinal("lastScan")),
                             LastLookup = reader.GetDateTime(reader.GetOrdinal("lastLookup")),
                             LastUpdate = reader.GetDateTime(reader.GetOrdinal("lastUpdate")),
+                            Definition = reader.GetString(reader.GetOrdinal("definition")),
                         };
                         views.Add(view);
                     }
@@ -141,7 +143,7 @@ namespace SQLServerSearcher.DAL
                 sql += Environment.NewLine;
                 sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.index_columns ic ON i.object_id = ic.object_id and i.index_id = ic.index_id
 										    LEFT OUTER JOIN {0}.sys.columns c on ic.object_id=c.object_id AND ic.column_id=c.column_id AND c.name LIKE '%{1}%'
-                                            WHERE i.name LIKE '%{1}%'", database, query);
+                                            WHERE i.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
             }
             return sql;
         }
@@ -188,7 +190,7 @@ namespace SQLServerSearcher.DAL
             {
                 sql += Environment.NewLine;
                 sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.parameters pa ON pr.object_id = pa.object_id AND pa.name LIKE '%{1}%' 
-                                           WHERE s.name LIKE '%{1}%' OR m.definition LIKE '%{1}%'", database, query);
+                                           WHERE s.name LIKE '%{1}%' OR pr.name LIKE '%{1}%' OR pa.name LIKE '%{1}%' OR m.definition LIKE '%{1}%'", database, query);
             }
             return sql;
         }
@@ -232,7 +234,7 @@ namespace SQLServerSearcher.DAL
             {
                 sql += Environment.NewLine;
                 sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.parameters pa ON o.object_id = pa.object_id AND pa.name LIKE '%{1}%' 
-                                           WHERE o.type_desc like '%FUNCTION%' AND (s.name LIKE '%{1}%' OR m.definition LIKE '%{1}%')", database, query);
+                                           WHERE o.type_desc like '%FUNCTION%' AND (s.name LIKE '%{1}%' OR o.name LIKE '%{1}%' OR pa.name LIKE '%{1}%' OR m.definition LIKE '%{1}%')", database, query);
             }
             return sql;
         }

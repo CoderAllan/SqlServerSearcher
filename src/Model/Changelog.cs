@@ -21,6 +21,13 @@
                 Changes = @"
 Bug: Object information listview is now anchored correctly.
 Bug: The sorting of the found objects is now correct.
+Bug: Stored procedures parameters are now searched.
+Bug: Function parameters are now searched.
+Bug: View definition are now searched.
+Bug: Parameter names of stored procedures are now searched correctly.
+Bug: Names of functions are now searched correctly.
+Bug: Schema names of tables and views are now searched correctly.
+Show definition of views are now implemented.
 "
             };
             _changeLogEntries.Add(changeLog);

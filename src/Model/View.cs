@@ -4,6 +4,8 @@ namespace SQLServerSearcher.Model
 
     public class View : Table, IDatabaseObject
     {
+        public string Definition { get; set; }
+
         public new List<string[]> ToArrayList()
         {
             return base.ToArrayList();

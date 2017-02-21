@@ -14,7 +14,7 @@ namespace SQLServerSearcher
     public partial class FrmViewSource : Form, IBaseForm, IFrmViewSource
     {
         private readonly ApplicationState _appState;
-        private readonly ProcedureObject _procedureObject;
+        private readonly string _definition;
         private readonly BaseFormPresenter _baseFormPresenter;
         private readonly FrmViewSourcePresenter _frmViewSourcePresenter;
 
@@ -25,10 +25,10 @@ namespace SQLServerSearcher
         public event EventHandler<FrmViewSourceFrmLoadEventArgs> FrmLoad;
         public event EventHandler<LineOrColumnChangedEventArgs> LineOrColumnChanged;
 
-        public FrmViewSource(ApplicationState appState, ProcedureObject procedureObject)
+        public FrmViewSource(ApplicationState appState, string definition)
         {
             _appState = appState;
-            _procedureObject = procedureObject;
+            _definition = definition;
             _baseFormPresenter = new BaseFormPresenter(this);
             _frmViewSourcePresenter = new FrmViewSourcePresenter(_appState, this);
             
@@ -44,7 +44,7 @@ namespace SQLServerSearcher
 
             if (FrmLoad != null)
             {
-                FrmLoad(sender, new FrmViewSourceFrmLoadEventArgs {Text = _procedureObject.Definition});
+                FrmLoad(sender, new FrmViewSourceFrmLoadEventArgs {Text = _definition});
             }
         }
 
