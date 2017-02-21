@@ -69,7 +69,7 @@ namespace SQLServerSearcher.DAL
                         {
                             SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
-                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
+                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
                             LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
@@ -114,7 +114,7 @@ namespace SQLServerSearcher.DAL
                         {
                             SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
-                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
+                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
                             LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
@@ -163,7 +163,7 @@ namespace SQLServerSearcher.DAL
                             Name = reader.GetString(reader.GetOrdinal("name")),
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
-                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
+                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
                             TypeDescription = reader.GetString(reader.GetOrdinal("type_desc")),
                             LastSeek = reader.GetDateTime(reader.GetOrdinal("lastSeek")),
                             LastScan = reader.GetDateTime(reader.GetOrdinal("lastScan")),
@@ -204,11 +204,11 @@ namespace SQLServerSearcher.DAL
                     while (reader.Read())
                     {
                         var parameterName = reader.GetString(reader.GetOrdinal("parameterName"));
-                        var procedure = new Procedure()
+                        var procedure = new Procedure
                         {
                             SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
-                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
+                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
                             LastExecutionTime = reader.GetDateTime(reader.GetOrdinal("lastExecutionTime")),
@@ -248,11 +248,11 @@ namespace SQLServerSearcher.DAL
                     while (reader.Read())
                     {
                         var parameterName = reader.GetString(reader.GetOrdinal("parameterName"));
-                        var function = new Function()
+                        var function = new Function
                         {
                             SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
                             Name = reader.GetString(reader.GetOrdinal("name")),
-                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
+                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
                             CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
                             ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
                             Definition = reader.GetString(reader.GetOrdinal("definition")),

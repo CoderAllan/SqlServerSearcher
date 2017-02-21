@@ -76,11 +76,9 @@ namespace SQLServerSearcher.Presenters
                 var tables = _searches.FindTables(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    tables = tables.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0)
-                                   .OrderBy(p => p.SchemaName)
-                                   .ThenBy(p => p.Name)
-                                   .ThenBy(p => p.ColumnName).ToList();
+                    tables = tables.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
                 }
+                tables = tables.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ColumnName).ToList();
                 _view.InsertTableIntoTreeview(tables);
                 rowCount += tables.Count;
             }
@@ -89,11 +87,9 @@ namespace SQLServerSearcher.Presenters
                 var views = _searches.FindViews(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    views = views.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0)
-                                 .OrderBy(p => p.SchemaName)
-                                 .ThenBy(p => p.Name)
-                                 .ThenBy(p => p.ColumnName).ToList();
+                    views = views.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
                 }
+                views = views.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ColumnName).ToList();
                 _view.InsertViewIntoTreeview(views);
                 rowCount += views.Count;
             }
@@ -102,11 +98,9 @@ namespace SQLServerSearcher.Presenters
                 var indexes = _searches.FindIndexes(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    indexes = indexes.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0)
-                                     .OrderBy(p => p.TableName)
-                                     .ThenBy(p => p.Name)
-                                     .ThenBy(p => p.ColumnName).ToList();
+                    indexes = indexes.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
                 }
+                indexes = indexes.OrderBy(p => p.TableName).ThenBy(p => p.Name).ThenBy(p => p.ColumnName).ToList();
                 _view.InsertIndexIntoTreeview(indexes);
                 rowCount += indexes.Count;
             }
@@ -115,11 +109,9 @@ namespace SQLServerSearcher.Presenters
                 var procedures = _searches.FindProcedures(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    procedures = procedures.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0)
-                                           .OrderBy(p => p.SchemaName)
-                                           .ThenBy(p => p.Name)
-                                           .ThenBy(p => p.ParameterName).ToList();
+                    procedures = procedures.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0).ToList();
                 }
+                procedures = procedures.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ParameterName).ToList();
                 _view.InsertProcedureIntoTreeview(procedures);
                 rowCount += procedures.Count;
             }
@@ -128,11 +120,9 @@ namespace SQLServerSearcher.Presenters
                 var functions = _searches.FindFunctions(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
-                    functions = functions.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0)
-                                         .OrderBy(p => p.SchemaName)
-                                         .ThenBy(p => p.Name)
-                                         .ThenBy(p => p.ParameterName).ToList();
+                    functions = functions.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0).ToList();
                 }
+                functions = functions.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ParameterName).ToList();
                 _view.InsertFunctionIntoTreeview(functions);
                 rowCount += functions.Count;
             }
@@ -185,37 +175,34 @@ namespace SQLServerSearcher.Presenters
             var sb = new StringBuilder();
             if (e.LookInTables)
             {
-                sb.AppendLine(_searches.GetFindTablesSql(e.Database, e.FindWhat));
-                sb.AppendLine("GO");
-                sb.AppendLine();
+                AppendSqlSection(_searches.GetFindTablesSql(e.Database, e.FindWhat), sb);
             }
             if (e.LookInViews)
             {
-                sb.AppendLine(_searches.GetFindViewsSql(e.Database, e.FindWhat));
-                sb.AppendLine("GO");
-                sb.AppendLine();
+                AppendSqlSection(_searches.GetFindViewsSql(e.Database, e.FindWhat), sb);
             }
             if (e.LookInIndexes)
             {
-                sb.AppendLine(_searches.GetFindIndexesSql(e.Database, e.FindWhat));
-                sb.AppendLine("GO");
-                sb.AppendLine();
+                AppendSqlSection(_searches.GetFindIndexesSql(e.Database, e.FindWhat), sb);
             }
             if (e.LookInStoredProcedures)
             {
-                sb.AppendLine(_searches.GetFindStoredProceduresSql(e.Database, e.FindWhat));
-                sb.AppendLine("GO");
-                sb.AppendLine();
+                AppendSqlSection(_searches.GetFindStoredProceduresSql(e.Database, e.FindWhat), sb);
             }
             if (e.LookInFunctions)
             {
-                sb.AppendLine(_searches.GetFindFunctionsSql(e.Database, e.FindWhat));
-                sb.AppendLine("GO");
-                sb.AppendLine();
+                AppendSqlSection(_searches.GetFindFunctionsSql(e.Database, e.FindWhat), sb);
             }
             string sql = sb.ToString();
             sql = Regex.Replace(sql, @"[ \t]+", " ");
             _view.CopyStringToSlipBoard(sql);
+        }
+
+        private void AppendSqlSection(string sql, StringBuilder sb)
+        {
+            sb.AppendLine(sql);
+            sb.AppendLine("GO");
+            sb.AppendLine();
         }
 
         private void DoCopyNameToClipboardToolStripMenuItemClick(object sender, CopyNameEventArgs e)

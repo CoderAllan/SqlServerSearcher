@@ -19,7 +19,8 @@
                 MajorVersion = 1,
                 MinorVersion = 2,
                 Changes = @"
-Bug: Object information listvie is now anchored correctly.
+Bug: Object information listview is now anchored correctly.
+Bug: The sorting of the found objects is now correct.
 "
             };
             _changeLogEntries.Add(changeLog);
