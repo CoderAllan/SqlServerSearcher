@@ -51,6 +51,7 @@
             chkViews.Checked = _appState.LookInViews;
             chkStoredProcedures.Checked = _appState.LookInStoredProcedures;
             chkFunctions.Checked = _appState.LookInFunctions;
+            chkExtendedProperties.Checked = _appState.LookInExtendedProperties;
             chkMatchCase.Checked = _appState.MatchCase;
             if (_appState.NameColumnWith > 0)
             {
@@ -108,6 +109,7 @@
             _appState.LookInStoredProcedures = chkStoredProcedures.Checked;
             _appState.LookInFunctions = chkFunctions.Checked;
             _appState.LookInIndexes = chkIndexes.Checked;
+            _appState.LookInExtendedProperties = chkExtendedProperties.Checked;
             _appState.NameColumnWith = colName.Width;
             _appState.ValueColumnWith = colValue.Width;
             _appState.ServerPropertyNameColumnWith = colServerPropertyName.Width;
@@ -139,7 +141,8 @@
                     LookInViews = chkViews.Checked,
                     LookInStoredProcedures = chkStoredProcedures.Checked,
                     LookInFunctions = chkFunctions.Checked,
-                    LookInIndexes = chkIndexes.Checked
+                    LookInIndexes = chkIndexes.Checked,
+                    LookInExtendedProperties = chkExtendedProperties.Checked
                 };
                 BtnFindClick(null, findArgs);
                 _appState.PersistComboBox(cmbFindText, _appState.PreviousSearches);
@@ -217,6 +220,7 @@
             chkViews.Enabled = enabled;
             chkStoredProcedures.Enabled = enabled;
             chkFunctions.Enabled = enabled;
+            chkExtendedProperties.Enabled = enabled;
             chkMatchCase.Enabled = enabled;
             tvResults.Enabled = enabled;
         }
@@ -313,8 +317,16 @@
             }
         }
 
-        private static string FormatNodeName(string part1, string part2, string part3){
-            var nodeName = !string.IsNullOrEmpty(part3) ? string.Format("{0}.{1}.{2}", part1, part2, part3) : string.Format("{0}.{1}", part1, part2);
+        private static string FormatNodeName(string part1, string part2, string part3, string part4 = null){
+            var nodeName = string.Format("{0}.{1}", part1, part2);
+            if (!string.IsNullOrEmpty(part3))
+            {
+                nodeName = string.Format("{0}.{1}", nodeName, part3);
+            } 
+            if (!string.IsNullOrEmpty(part4))
+            {
+                nodeName = string.Format("{0}.{1}", nodeName, part4);
+            }
             return nodeName;
         }
 
@@ -339,6 +351,32 @@
             AddObjectToListView(lvServerProperties, serverInfo);
         }
 
+        public void InsertTableExtendedPropertiesIntoTreeview(List<TableExtendedProperty> tableExtendedProperties)
+        {
+            if (tableExtendedProperties != null && tableExtendedProperties.Count > 0)
+            {
+                tvResults.BeginUpdate();
+                var tablesNodes = tvResults.Nodes["TablesNode"];
+                foreach (var property in tableExtendedProperties)
+                {
+                    var nodeName = FormatNodeName(property.SchemaName, property.TableName, property.ColumnName, property.Name);
+                    AddNewResultNode(nodeName, tablesNodes, property);
+                }
+                tablesNodes.ExpandAll();
+                tvResults.EndUpdate();
+            }
+        }
+
+        public void ShowTableInfo(Table table)
+        {
+            AddObjectToListView(lvObjectInformation, table);
+        }
+
+        public void ShowTableExtendedPropertyInfo(TableExtendedProperty tableExtendedProperty)
+        {
+            AddObjectToListView(lvObjectInformation, tableExtendedProperty);
+        }
+
         public void InsertTableIntoTreeview(List<Table> tables)
         {
             if (tables != null && tables.Count > 0)
@@ -353,11 +391,6 @@
                 tableNodes.ExpandAll();
                 tvResults.EndUpdate();
             }
-        }
-
-        public void ShowTableInfo(Table table)
-        {
-            AddObjectToListView(lvObjectInformation, table);
         }
 
         public void InsertViewIntoTreeview(List<Model.View> views)
@@ -418,9 +451,30 @@
             }
         }
 
+        public void InsertProcedureExtendedPropertiesIntoTreeview(List<ProcedureExtendedProperty> procedureExtendedProperties)
+        {
+            if (procedureExtendedProperties != null && procedureExtendedProperties.Count > 0)
+            {
+                tvResults.BeginUpdate();
+                var tablesNodes = tvResults.Nodes["StoredProceduresNode"];
+                foreach (var property in procedureExtendedProperties)
+                {
+                    var nodeName = FormatNodeName(property.SchemaName, property.ProcedureName, property.ParameterName, property.Name);
+                    AddNewResultNode(nodeName, tablesNodes, property);
+                }
+                tablesNodes.ExpandAll();
+                tvResults.EndUpdate();
+            }
+        }
+
         public void ShowProcedureInfo(Procedure procedure)
         {
             AddObjectToListView(lvObjectInformation, procedure);
+        }
+
+        public void ShowProcedureExtendedPropertyInfo(ProcedureExtendedProperty procedureExtendedProperty)
+        {
+            AddObjectToListView(lvObjectInformation, procedureExtendedProperty);
         }
 
         public void InsertFunctionIntoTreeview(List<Function> functions)

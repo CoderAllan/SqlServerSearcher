@@ -79,6 +79,7 @@
             this.changelogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ttSettings = new System.Windows.Forms.ToolTip(this.components);
+            this.chkExtendedProperties = new System.Windows.Forms.CheckBox();
             this.cmsResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -94,9 +95,9 @@
             // btnFind
             // 
             this.btnFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFind.Location = new System.Drawing.Point(869, 101);
+            this.btnFind.Location = new System.Drawing.Point(562, 85);
             this.btnFind.Name = "btnFind";
-            this.btnFind.Size = new System.Drawing.Size(138, 35);
+            this.btnFind.Size = new System.Drawing.Size(120, 35);
             this.btnFind.TabIndex = 10;
             this.btnFind.Text = "&Find";
             this.btnFind.UseVisualStyleBackColor = true;
@@ -118,7 +119,7 @@
             this.cmbFindText.FormattingEnabled = true;
             this.cmbFindText.Location = new System.Drawing.Point(97, 85);
             this.cmbFindText.Name = "cmbFindText";
-            this.cmbFindText.Size = new System.Drawing.Size(585, 28);
+            this.cmbFindText.Size = new System.Drawing.Size(459, 28);
             this.cmbFindText.TabIndex = 9;
             this.cmbFindText.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmbFindText_KeyUp);
             // 
@@ -516,11 +517,23 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // chkExtendedProperties
+            // 
+            this.chkExtendedProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkExtendedProperties.AutoSize = true;
+            this.chkExtendedProperties.Location = new System.Drawing.Point(802, 101);
+            this.chkExtendedProperties.Name = "chkExtendedProperties";
+            this.chkExtendedProperties.Size = new System.Drawing.Size(178, 24);
+            this.chkExtendedProperties.TabIndex = 21;
+            this.chkExtendedProperties.Text = "Extended properties";
+            this.chkExtendedProperties.UseVisualStyleBackColor = true;
+            // 
             // FrmSqlServerSearcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 776);
+            this.Controls.Add(this.chkExtendedProperties);
             this.Controls.Add(this.pbSettings);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.chkIndexes);
@@ -606,6 +619,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmCopyInformationToClipboardToolStripMenuItem2;
         private System.Windows.Forms.ContextMenuStrip cmsServerInformation;
         private System.Windows.Forms.ToolStripMenuItem tsmCopyServerInformation;
+        private System.Windows.Forms.CheckBox chkExtendedProperties;
     }
 }
 

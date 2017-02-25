@@ -32,7 +32,7 @@ Task list
 ----
 
 - [ ] Make it possible to use more than one search term
-- [ ] Search in extended properties
+- [x] Search in extended properties
 - [ ] Implement Find in the view definition dialog
 - [ ] Show column names in the information list
 - [ ] Show parameter names in the information list

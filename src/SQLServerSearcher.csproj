@@ -97,6 +97,7 @@
     <Compile Include="Model\EventArgs\CopyListToClipboardEventArgs.cs" />
     <Compile Include="Model\EventArgs\CopyNameEventArgs.cs" />
     <Compile Include="Model\EventArgs\FindEventArgs.cs" />
+    <Compile Include="Model\ExtendedProperty.cs" />
     <Compile Include="Model\FormLocationAndPosition.cs" />
     <Compile Include="Model\EventArgs\FrmViewSourceFrmLoadEventArgs.cs" />
     <Compile Include="Model\Function.cs" />
@@ -105,9 +106,11 @@
     <Compile Include="Model\EventArgs\LineOrColumnChangedEventArgs.cs" />
     <Compile Include="Model\EventArgs\LoginEventArgs.cs" />
     <Compile Include="Model\Procedure.cs" />
+    <Compile Include="Model\ProcedureExtendedProperty.cs" />
     <Compile Include="Model\ProcedureObject.cs" />
     <Compile Include="Model\ServerInfo.cs" />
     <Compile Include="Model\Table.cs" />
+    <Compile Include="Model\TableExtendedProperty.cs" />
     <Compile Include="Model\TableObject.cs" />
     <Compile Include="Model\EventArgs\TreeviewNodeClickEventArgs.cs" />
     <Compile Include="Model\View.cs" />

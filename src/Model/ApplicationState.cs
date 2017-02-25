@@ -30,6 +30,7 @@ namespace SQLServerSearcher.Model
         public bool LookInFunctions;
         public bool LookInStoredProcedures;
         public bool LookInIndexes;
+        public bool LookInExtendedProperties;
         public LastUsedLoginMethods LastUsedLoginMethod;
         public string LastUsedLogin;
         public string LastUsedBatabase;

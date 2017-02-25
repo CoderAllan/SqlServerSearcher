@@ -81,6 +81,13 @@ namespace SQLServerSearcher.Presenters
                 tables = tables.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ColumnName).ToList();
                 _view.InsertTableIntoTreeview(tables);
                 rowCount += tables.Count;
+                if (args.LookInExtendedProperties)
+                {
+                    var tableExtendedProperties = _searches.FindTableExtendedProperties(args.Database, args.FindWhat);
+                    tableExtendedProperties = tableExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.TableName).ThenBy(p => p.ColumnName).ThenBy(p => p.Name).ToList();
+                    _view.InsertTableExtendedPropertiesIntoTreeview(tableExtendedProperties);
+                    rowCount += tableExtendedProperties.Count;
+                }
             }
             if (args.LookInViews)
             {
@@ -114,6 +121,13 @@ namespace SQLServerSearcher.Presenters
                 procedures = procedures.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ParameterName).ToList();
                 _view.InsertProcedureIntoTreeview(procedures);
                 rowCount += procedures.Count;
+                if (args.LookInExtendedProperties)
+                {
+                    var procedureExtendedProperties = _searches.FindProcedureExtendedProperties(args.Database, args.FindWhat);
+                    procedureExtendedProperties = procedureExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.ProcedureName).ThenBy(p => p.ParameterName).ThenBy(p => p.Name).ToList();
+                    _view.InsertProcedureExtendedPropertiesIntoTreeview(procedureExtendedProperties);
+                    rowCount += procedureExtendedProperties.Count;
+                }
             }
             if (args.LookInFunctions)
             {
@@ -150,16 +164,38 @@ namespace SQLServerSearcher.Presenters
                     _view.ShowViewInfo(view);
                     break;
                 case "TablesNode":
-                    var table = (Table)args.NodeTag;
-                    _view.ShowTableInfo(table);
+                    var table = args.NodeTag as Table;
+                    if (table != null)
+                    {
+                        _view.ShowTableInfo(table);
+                    }
+                    else
+                    {
+                        var tableExtendedInfo = args.NodeTag as TableExtendedProperty;
+                        if (tableExtendedInfo != null)
+                        {
+                            _view.ShowTableExtendedPropertyInfo(tableExtendedInfo);
+                        }
+                    }
                     break;
                 case "IndexesNode":
                     var index = (Index)args.NodeTag;
                     _view.ShowIndexInfo(index);
                     break;
                 case "StoredProceduresNode":
-                    var procedure = (Procedure)args.NodeTag;
-                    _view.ShowProcedureInfo(procedure);
+                    var procedure = args.NodeTag as Procedure;
+                    if (procedure != null)
+                    {
+                        _view.ShowProcedureInfo(procedure);
+                    }
+                    else
+                    {
+                        var procedureExtendedInfo = args.NodeTag as ProcedureExtendedProperty;
+                        if (procedureExtendedInfo != null)
+                        {
+                            _view.ShowProcedureExtendedPropertyInfo(procedureExtendedInfo);
+                        }
+                    }
                     break;
                 case "FunctionsNode":
                     var function = (Function)args.NodeTag;

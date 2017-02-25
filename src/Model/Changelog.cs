@@ -17,6 +17,16 @@
             changeLog = new ChangelogEntry
             {
                 MajorVersion = 1,
+                MinorVersion = 3,
+                Changes = @"
+Implemented searching in extended properties.
+"
+            };
+            _changeLogEntries.Add(changeLog);
+
+            changeLog = new ChangelogEntry
+            {
+                MajorVersion = 1,
                 MinorVersion = 2,
                 Changes = @"
 Bug: Object information listview is now anchored correctly.

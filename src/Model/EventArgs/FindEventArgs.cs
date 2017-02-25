@@ -12,5 +12,6 @@ namespace SQLServerSearcher.Model.EventArgs
         public bool LookInStoredProcedures { get; set; }
         public bool LookInFunctions { get; set; }
         public bool LookInIndexes { get; set; }
+        public bool LookInExtendedProperties { get; set; }
     }
 }
