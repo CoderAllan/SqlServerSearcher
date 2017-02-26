@@ -93,11 +93,11 @@ namespace SQLServerSearcher.DAL
 										  INNER JOIN {0}.sys.extended_properties epp ON t.object_id = epp.major_id AND epp.minor_id=c.column_id
 										  WHERE s.name LIKE '%{1}%' OR t.name LIKE '%{1}%' OR c.name LIKE '%{1}%' OR cast(epp.value AS varchar) LIKE '%{1}%'
 										  UNION
-										 SELECT s.name AS schemaName, pr.name, '', ep.name, ep.value
-										   FROM {0}.sys.tables pr
-										  INNER JOIN {0}.sys.schemas s ON pr.schema_id = s.schema_id
-										  INNER JOIN {0}.sys.extended_properties ep ON pr.object_id = ep.major_id AND ep.minor_id = 0
-										  WHERE s.name LIKE '%{1}%' OR pr.name LIKE '%{1}%' OR cast(ep.value AS varchar) LIKE '%{1}%'", database, query);
+										 SELECT s.name AS schemaName, t.name, '', ep.name, ep.value
+										   FROM {0}.sys.tables t
+										  INNER JOIN {0}.sys.schemas s ON t.schema_id = s.schema_id
+										  INNER JOIN {0}.sys.extended_properties ep ON t.object_id = ep.major_id AND ep.minor_id = 0
+										  WHERE s.name LIKE '%{1}%' OR t.name LIKE '%{1}%' OR cast(ep.value AS varchar) LIKE '%{1}%'", database, query);
 			return sql;
 		}
 
@@ -112,7 +112,7 @@ namespace SQLServerSearcher.DAL
                     while (reader.Read())
                     {
                         var colName = reader.GetString(reader.GetOrdinal("columnName"));
-                        var property = new TableExtendedProperty()
+                        var property = new TableExtendedProperty
                         {
                             SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
                             TableName = reader.GetString(reader.GetOrdinal("tableName")),
@@ -174,7 +174,50 @@ namespace SQLServerSearcher.DAL
 			return views;
 		}
 
-		public string GetFindIndexesSql(string database, string query)
+        public string GetFindViewExtendedPropertiesSql(string database, string query)
+        {
+            string sql = string.Format(@"SELECT s.name AS schemaName, v.name AS tableName, ISNULL(c.name,'') AS columnName, epp.name, epp.value
+										   FROM {0}.sys.views v
+										  INNER JOIN {0}.sys.schemas s ON v.schema_id = s.schema_id
+										   LEFT OUTER JOIN {0}.sys.columns c ON v.object_id = c.object_id AND c.name LIKE '%{1}%'
+										  INNER JOIN {0}.sys.extended_properties epp ON v.object_id = epp.major_id AND epp.minor_id=c.column_id
+										  WHERE s.name LIKE '%{1}%' OR v.name LIKE '%{1}%' OR c.name LIKE '%{1}%' OR cast(epp.value AS varchar) LIKE '%{1}%'
+										  UNION
+										 SELECT s.name AS schemaName, v.name, '', ep.name, ep.value
+										   FROM {0}.sys.views v
+										  INNER JOIN {0}.sys.schemas s ON v.schema_id = s.schema_id
+										  INNER JOIN {0}.sys.extended_properties ep ON v.object_id = ep.major_id AND ep.minor_id = 0
+										  WHERE s.name LIKE '%{1}%' OR v.name LIKE '%{1}%' OR cast(ep.value AS varchar) LIKE '%{1}%'", database, query);
+            return sql;
+        }
+
+        public List<ViewExtendedProperty> FindViewExtendedProperties(string database, string query)
+        {
+            var properties = new List<ViewExtendedProperty>();
+            string sql = GetFindViewExtendedPropertiesSql(database, query);
+            using (var reader = ExecuteSql(sql))
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var colName = reader.GetString(reader.GetOrdinal("columnName"));
+                        var property = new ViewExtendedProperty
+                        {
+                            SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
+                            TableName = reader.GetString(reader.GetOrdinal("tableName")),
+                            ColumnName = !string.IsNullOrEmpty(query) && colName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? colName : null,
+                            Name = reader.GetString(reader.GetOrdinal("name")),
+                            Value = reader.GetString(reader.GetOrdinal("value")),
+                        };
+                        properties.Add(property);
+                    }
+                }
+            }
+            return properties;
+        }
+
+        public string GetFindIndexesSql(string database, string query)
 		{
 			string sql = string.Format(@"SELECT t.name AS tableName, i.name, ISNULL(c.name,'') AS columnName, o.create_date, ISNULL(o.modify_date,'') AS modifyDate, i.type_desc, ISNULL(iu.last_user_lookup,'') AS lastLookup, ISNULL(iu.last_user_scan,'') AS lastScan, ISNULL(iu.last_user_seek,'') AS lastSeek, ISNULL(iu.last_user_update,'') AS lastUpdate
 										   FROM {0}.sys.indexes i

@@ -114,6 +114,7 @@
     <Compile Include="Model\TableObject.cs" />
     <Compile Include="Model\EventArgs\TreeviewNodeClickEventArgs.cs" />
     <Compile Include="Model\View.cs" />
+    <Compile Include="Model\ViewExtendedProperty.cs" />
     <Compile Include="Presenters\BaseFormPresenter.cs" />
     <Compile Include="Presenters\FrmAboutPresenter.cs" />
     <Compile Include="Presenters\FrmChangelogPresenter.cs" />

@@ -46,13 +46,25 @@
             }
             _appState.ReadComboBoxElements(cmbServer, _appState.Servers, (server, i) => cmbServer.Items.Add(server));
             _appState.ReadComboBoxElements(cmbFindText, _appState.PreviousSearches, (query, i) => cmbFindText.Items.Add(query));
+            InitializeCheckBoxes();
+            InitializeColumnWidths();
+            tvResults.NodeMouseClick += (sender, args) => tvResults.SelectedNode = args.Node; // To make sure that when rightclicking a node it is selected. Solution found here: http://stackoverflow.com/questions/4784258/right-click-select-on-net-treenode
+            EnableDisableControls();
+        }
+
+        private void InitializeCheckBoxes()
+        {
             chkTables.Checked = _appState.LookInTables;
             chkIndexes.Checked = _appState.LookInIndexes;
             chkViews.Checked = _appState.LookInViews;
             chkStoredProcedures.Checked = _appState.LookInStoredProcedures;
             chkFunctions.Checked = _appState.LookInFunctions;
             chkExtendedProperties.Checked = _appState.LookInExtendedProperties;
-            chkMatchCase.Checked = _appState.MatchCase;
+            chkMatchCase.Checked = _appState.MatchCase;            
+        }
+
+        private void InitializeColumnWidths()
+        {
             if (_appState.NameColumnWith > 0)
             {
                 colName.Width = _appState.NameColumnWith;
@@ -68,9 +80,7 @@
             if (_appState.ServerPropertyValueColumnWith > 0)
             {
                 colServerPropertyValue.Width = _appState.ServerPropertyValueColumnWith;
-            }
-            tvResults.NodeMouseClick += (sender, args) => tvResults.SelectedNode = args.Node; // To make sure that when rightclicking a node it is selected. Solution found here: http://stackoverflow.com/questions/4784258/right-click-select-on-net-treenode
-            EnableDisableControls();
+            }            
         }
 
         public event EventHandler<BaseFormEventArgs> DoFormLoad;
@@ -409,9 +419,30 @@
             }
         }
 
+        public void InsertViewExtendedPropertiesIntoTreeview(List<ViewExtendedProperty> viewExtendedProperties)
+        {
+            if (viewExtendedProperties != null && viewExtendedProperties.Count > 0)
+            {
+                tvResults.BeginUpdate();
+                var viewsNodes = tvResults.Nodes["ViewsNode"];
+                foreach (var property in viewExtendedProperties)
+                {
+                    var nodeName = FormatNodeName(property.SchemaName, property.TableName, property.ColumnName, property.Name);
+                    AddNewResultNode(nodeName, viewsNodes, property);
+                }
+                viewsNodes.ExpandAll();
+                tvResults.EndUpdate();
+            }
+        }
+
         public void ShowViewInfo(Model.View view)
         {
             AddObjectToListView(lvObjectInformation, view);
+        }
+
+        public void ShowViewExtendedPropertyInfo(ViewExtendedProperty viewExtendedProperty)
+        {
+            AddObjectToListView(lvObjectInformation, viewExtendedProperty);
         }
 
         public void InsertIndexIntoTreeview(List<Index> indexes)
@@ -627,7 +658,7 @@
                     }
                     else
                     {
-                        if (selectedNode.Parent.Name.Equals("TablesNode") || selectedNode.Parent.Name.Equals("ViewsNode"))
+                        if (selectedNode.Parent.Name.Equals("StoredProceduresNode") || selectedNode.Parent.Name.Equals("FunctionsNode"))
                         {
                             var procedureObject = (ProcedureObject)selectedNode.Tag;
                             name = !string.IsNullOrEmpty(procedureObject.ParameterName) ? procedureObject.ParameterName : procedureObject.Name;
@@ -737,7 +768,7 @@
                 if (selectedNode != null && selectedNode.Tag != null && selectedNode.Parent != null)
                 {
                     var dbObject = (IDatabaseObject)selectedNode.Tag;
-                    var copyInformationEventArgs = new CopyInformationEventArgs()
+                    var copyInformationEventArgs = new CopyInformationEventArgs
                     {
                         DatabaseObject = dbObject
                     };

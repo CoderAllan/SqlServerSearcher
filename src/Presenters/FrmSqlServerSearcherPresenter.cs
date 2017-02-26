@@ -71,6 +71,24 @@ namespace SQLServerSearcher.Presenters
             _view.ClearObjectInformation();
             var startTime = DateTime.Now;
             int rowCount = 0;
+            rowCount += DoFindTables(args);
+            rowCount += DoFindViews(args);
+            rowCount += DoFindIndexes(args);
+            rowCount += DoFindStoredProcedures(args);
+            rowCount += DoFindFunctions(args);
+            _view.InsertSearchQueryIntoCombobox(args.FindWhat);
+            var executionTime = DateTime.Now - startTime;
+            _view.SetExecutionTime(executionTime);
+            _view.SetLblRowCount(rowCount);
+            if (rowCount == 0)
+            {
+                _view.ShowNoResultsFound();
+            }
+        }
+
+        private int DoFindTables(FindEventArgs args)
+        {
+            int rowCount = 0;
             if (args.LookInTables)
             {
                 var tables = _searches.FindTables(args.Database, args.FindWhat);
@@ -80,15 +98,28 @@ namespace SQLServerSearcher.Presenters
                 }
                 tables = tables.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ColumnName).ToList();
                 _view.InsertTableIntoTreeview(tables);
-                rowCount += tables.Count;
-                if (args.LookInExtendedProperties)
-                {
-                    var tableExtendedProperties = _searches.FindTableExtendedProperties(args.Database, args.FindWhat);
-                    tableExtendedProperties = tableExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.TableName).ThenBy(p => p.ColumnName).ThenBy(p => p.Name).ToList();
-                    _view.InsertTableExtendedPropertiesIntoTreeview(tableExtendedProperties);
-                    rowCount += tableExtendedProperties.Count;
-                }
+                rowCount = tables.Count;
+                rowCount += DoFindTableExtendedProperties(args);
             }
+            return rowCount;
+        }
+
+        private int DoFindTableExtendedProperties(FindEventArgs args)
+        {
+            int rowCount = 0;
+            if (args.LookInExtendedProperties)
+            {
+                var tableExtendedProperties = _searches.FindTableExtendedProperties(args.Database, args.FindWhat);
+                tableExtendedProperties = tableExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.TableName).ThenBy(p => p.ColumnName).ThenBy(p => p.Name).ToList();
+                _view.InsertTableExtendedPropertiesIntoTreeview(tableExtendedProperties);
+                rowCount = tableExtendedProperties.Count;
+            }
+            return rowCount;
+        }
+
+        private int DoFindViews(FindEventArgs args)
+        {
+            int rowCount = 0;
             if (args.LookInViews)
             {
                 var views = _searches.FindViews(args.Database, args.FindWhat);
@@ -98,8 +129,28 @@ namespace SQLServerSearcher.Presenters
                 }
                 views = views.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ColumnName).ToList();
                 _view.InsertViewIntoTreeview(views);
-                rowCount += views.Count;
+                rowCount = views.Count;
+                rowCount += DoFindViewExtendedProperties(args);
             }
+            return rowCount;
+        }
+
+        private int DoFindViewExtendedProperties(FindEventArgs args)
+        {
+            int rowCount = 0;
+            if (args.LookInExtendedProperties)
+            {
+                var viewExtendedProperties = _searches.FindViewExtendedProperties(args.Database, args.FindWhat);
+                viewExtendedProperties = viewExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.TableName).ThenBy(p => p.ColumnName).ThenBy(p => p.Name).ToList();
+                _view.InsertViewExtendedPropertiesIntoTreeview(viewExtendedProperties);
+                rowCount = viewExtendedProperties.Count;
+            }
+            return rowCount;
+        }
+
+        private int DoFindIndexes(FindEventArgs args)
+        {
+            int rowCount = 0;
             if (args.LookInIndexes)
             {
                 var indexes = _searches.FindIndexes(args.Database, args.FindWhat);
@@ -109,8 +160,14 @@ namespace SQLServerSearcher.Presenters
                 }
                 indexes = indexes.OrderBy(p => p.TableName).ThenBy(p => p.Name).ThenBy(p => p.ColumnName).ToList();
                 _view.InsertIndexIntoTreeview(indexes);
-                rowCount += indexes.Count;
+                rowCount = indexes.Count;
             }
+            return rowCount;
+        }
+
+        private int DoFindStoredProcedures(FindEventArgs args)
+        {
+            int rowCount = 0;
             if (args.LookInStoredProcedures)
             {
                 var procedures = _searches.FindProcedures(args.Database, args.FindWhat);
@@ -120,15 +177,28 @@ namespace SQLServerSearcher.Presenters
                 }
                 procedures = procedures.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ParameterName).ToList();
                 _view.InsertProcedureIntoTreeview(procedures);
-                rowCount += procedures.Count;
-                if (args.LookInExtendedProperties)
-                {
-                    var procedureExtendedProperties = _searches.FindProcedureExtendedProperties(args.Database, args.FindWhat);
-                    procedureExtendedProperties = procedureExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.ProcedureName).ThenBy(p => p.ParameterName).ThenBy(p => p.Name).ToList();
-                    _view.InsertProcedureExtendedPropertiesIntoTreeview(procedureExtendedProperties);
-                    rowCount += procedureExtendedProperties.Count;
-                }
+                rowCount = procedures.Count;
+                rowCount += DoFindStoredProcedureExtendedProperties(args);
             }
+            return rowCount;
+        }
+
+        private int DoFindStoredProcedureExtendedProperties(FindEventArgs args)
+        {
+            int rowCount = 0;
+            if (args.LookInExtendedProperties)
+            {
+                var procedureExtendedProperties = _searches.FindProcedureExtendedProperties(args.Database, args.FindWhat);
+                procedureExtendedProperties = procedureExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.ProcedureName).ThenBy(p => p.ParameterName).ThenBy(p => p.Name).ToList();
+                _view.InsertProcedureExtendedPropertiesIntoTreeview(procedureExtendedProperties);
+                rowCount = procedureExtendedProperties.Count;
+            }
+            return rowCount;
+        }
+
+        private int DoFindFunctions(FindEventArgs args)
+        {
+            int rowCount = 0;
             if (args.LookInFunctions)
             {
                 var functions = _searches.FindFunctions(args.Database, args.FindWhat);
@@ -138,16 +208,9 @@ namespace SQLServerSearcher.Presenters
                 }
                 functions = functions.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ParameterName).ToList();
                 _view.InsertFunctionIntoTreeview(functions);
-                rowCount += functions.Count;
+                rowCount = functions.Count;
             }
-            _view.InsertSearchQueryIntoCombobox(args.FindWhat);
-            var executionTime = DateTime.Now - startTime;
-            _view.SetExecutionTime(executionTime);
-            _view.SetLblRowCount(rowCount);
-            if (rowCount == 0)
-            {
-                _view.ShowNoResultsFound();
-            }
+            return rowCount;
         }
 
         private void DoEnableDisableBtnConnect(object sender, EventArgs e)
@@ -160,50 +223,87 @@ namespace SQLServerSearcher.Presenters
             switch (args.ParentNodeName)
             {
                 case "ViewsNode":
-                    var view = (View)args.NodeTag;
-                    _view.ShowViewInfo(view);
+                    ViewNodeClicked(args);
                     break;
                 case "TablesNode":
-                    var table = args.NodeTag as Table;
-                    if (table != null)
-                    {
-                        _view.ShowTableInfo(table);
-                    }
-                    else
-                    {
-                        var tableExtendedInfo = args.NodeTag as TableExtendedProperty;
-                        if (tableExtendedInfo != null)
-                        {
-                            _view.ShowTableExtendedPropertyInfo(tableExtendedInfo);
-                        }
-                    }
+                    TableNodeClicked(args);
                     break;
                 case "IndexesNode":
-                    var index = (Index)args.NodeTag;
-                    _view.ShowIndexInfo(index);
+                    IndexNodeClicked(args);
                     break;
                 case "StoredProceduresNode":
-                    var procedure = args.NodeTag as Procedure;
-                    if (procedure != null)
-                    {
-                        _view.ShowProcedureInfo(procedure);
-                    }
-                    else
-                    {
-                        var procedureExtendedInfo = args.NodeTag as ProcedureExtendedProperty;
-                        if (procedureExtendedInfo != null)
-                        {
-                            _view.ShowProcedureExtendedPropertyInfo(procedureExtendedInfo);
-                        }
-                    }
+                    StoredProcedureNodeClicked(args);
                     break;
                 case "FunctionsNode":
-                    var function = (Function)args.NodeTag;
-                    _view.ShowFunctionInfo(function);
+                    FunctionsNodeClicked(args);
                     break;
                 default:
                     return;
             }
+        }
+
+        private void TableNodeClicked(TreeviewNodeClickEventArgs args)
+        {
+            var table = args.NodeTag as Table;
+            if (table != null)
+            {
+                _view.ShowTableInfo(table);
+            }
+            else
+            {
+                var tableExtendedInfo = args.NodeTag as TableExtendedProperty;
+                if (tableExtendedInfo != null)
+                {
+                    _view.ShowTableExtendedPropertyInfo(tableExtendedInfo);
+                }
+            }
+        }
+
+        private void ViewNodeClicked(TreeviewNodeClickEventArgs args)
+        {
+            var view = args.NodeTag as View;
+            if (view != null)
+            {
+                _view.ShowViewInfo(view);
+            }
+            else
+            {
+                var viewExtendedInfo = args.NodeTag as ViewExtendedProperty;
+                if (viewExtendedInfo != null)
+                {
+                    _view.ShowViewExtendedPropertyInfo(viewExtendedInfo);
+                }
+            }
+        }
+
+
+        private void IndexNodeClicked(TreeviewNodeClickEventArgs args)
+        {
+            var index = (Index)args.NodeTag;
+            _view.ShowIndexInfo(index);
+        }
+
+        private void StoredProcedureNodeClicked(TreeviewNodeClickEventArgs args)
+        {
+            var procedure = args.NodeTag as Procedure;
+            if (procedure != null)
+            {
+                _view.ShowProcedureInfo(procedure);
+            }
+            else
+            {
+                var procedureExtendedInfo = args.NodeTag as ProcedureExtendedProperty;
+                if (procedureExtendedInfo != null)
+                {
+                    _view.ShowProcedureExtendedPropertyInfo(procedureExtendedInfo);
+                }
+            }
+        }
+
+        private void FunctionsNodeClicked(TreeviewNodeClickEventArgs args)
+        {
+            var function = (Function)args.NodeTag;
+            _view.ShowFunctionInfo(function);
         }
 
         private void DoCopyQueryToClipboardToolStripMenuItemClick(object sender, FindEventArgs e)

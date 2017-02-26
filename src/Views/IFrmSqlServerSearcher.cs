@@ -36,20 +36,28 @@
         void ClearResults();
         void ClearObjectInformation();
         void ShowServerInfo(ServerInfo serverInfo);
+        
         void InsertTableIntoTreeview(List<Table> tables);
         void InsertTableExtendedPropertiesIntoTreeview(List<TableExtendedProperty> tableExtendedProperties);
         void ShowTableInfo(Table table);
         void ShowTableExtendedPropertyInfo(TableExtendedProperty tableExtendedProperty);
+        
         void InsertViewIntoTreeview(List<View> views);
+        void InsertViewExtendedPropertiesIntoTreeview(List<ViewExtendedProperty> viewExtendedProperties);
         void ShowViewInfo(View view);
+        void ShowViewExtendedPropertyInfo(ViewExtendedProperty viewExtendedProperty);
+        
         void InsertIndexIntoTreeview(List<Index> indexes);
         void ShowIndexInfo(Index index);
+        
         void InsertProcedureIntoTreeview(List<Procedure> procedures);
         void InsertProcedureExtendedPropertiesIntoTreeview(List<ProcedureExtendedProperty> procedureExtendedProperties);
         void ShowProcedureInfo(Procedure procedure);
         void ShowProcedureExtendedPropertyInfo(ProcedureExtendedProperty procedureExtendedProperty);
+        
         void InsertFunctionIntoTreeview(List<Function> functions);
         void ShowFunctionInfo(Function function);
+        
         void CopyStringToSlipBoard(string text);
     }
 }
