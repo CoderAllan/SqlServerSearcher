@@ -101,6 +101,7 @@
     <Compile Include="Model\FormLocationAndPosition.cs" />
     <Compile Include="Model\EventArgs\FrmViewSourceFrmLoadEventArgs.cs" />
     <Compile Include="Model\Function.cs" />
+    <Compile Include="Model\FunctionExtendedProperty.cs" />
     <Compile Include="Model\IDatabaseObject.cs" />
     <Compile Include="Model\Index.cs" />
     <Compile Include="Model\EventArgs\LineOrColumnChangedEventArgs.cs" />

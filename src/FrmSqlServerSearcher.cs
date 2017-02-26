@@ -487,13 +487,13 @@
             if (procedureExtendedProperties != null && procedureExtendedProperties.Count > 0)
             {
                 tvResults.BeginUpdate();
-                var tablesNodes = tvResults.Nodes["StoredProceduresNode"];
+                var proceduresNode = tvResults.Nodes["StoredProceduresNode"];
                 foreach (var property in procedureExtendedProperties)
                 {
                     var nodeName = FormatNodeName(property.SchemaName, property.ProcedureName, property.ParameterName, property.Name);
-                    AddNewResultNode(nodeName, tablesNodes, property);
+                    AddNewResultNode(nodeName, proceduresNode, property);
                 }
-                tablesNodes.ExpandAll();
+                proceduresNode.ExpandAll();
                 tvResults.EndUpdate();
             }
         }
@@ -524,9 +524,30 @@
             }
         }
 
+        public void InsertFunctionExtendedPropertiesIntoTreeview(List<FunctionExtendedProperty> functionExtendedProperties)
+        {
+            if (functionExtendedProperties != null && functionExtendedProperties.Count > 0)
+            {
+                tvResults.BeginUpdate();
+                var functionsNodes = tvResults.Nodes["FunctionsNode"];
+                foreach (var property in functionExtendedProperties)
+                {
+                    var nodeName = FormatNodeName(property.SchemaName, property.ProcedureName, property.ParameterName, property.Name);
+                    AddNewResultNode(nodeName, functionsNodes, property);
+                }
+                functionsNodes.ExpandAll();
+                tvResults.EndUpdate();
+            }
+        }
+
         public void ShowFunctionInfo(Function function)
         {
             AddObjectToListView(lvObjectInformation, function);
+        }
+
+        public void ShowFunctionExtendedPropertyInfo(FunctionExtendedProperty functionExtendedProperty)
+        {
+            AddObjectToListView(lvObjectInformation, functionExtendedProperty);
         }
 
         private void tvResults_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

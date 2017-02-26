@@ -56,7 +56,9 @@
         void ShowProcedureExtendedPropertyInfo(ProcedureExtendedProperty procedureExtendedProperty);
         
         void InsertFunctionIntoTreeview(List<Function> functions);
+        void InsertFunctionExtendedPropertiesIntoTreeview(List<FunctionExtendedProperty> functionExtendedProperties);
         void ShowFunctionInfo(Function function);
+        void ShowFunctionExtendedPropertyInfo(FunctionExtendedProperty functionExtendedProperty);
         
         void CopyStringToSlipBoard(string text);
     }

@@ -209,6 +209,20 @@ namespace SQLServerSearcher.Presenters
                 functions = functions.OrderBy(p => p.SchemaName).ThenBy(p => p.Name).ThenBy(p => p.ParameterName).ToList();
                 _view.InsertFunctionIntoTreeview(functions);
                 rowCount = functions.Count;
+                rowCount += DoFindFunctionExtendedProperties(args);
+            }
+            return rowCount;
+        }
+
+        private int DoFindFunctionExtendedProperties(FindEventArgs args)
+        {
+            int rowCount = 0;
+            if (args.LookInExtendedProperties)
+            {
+                var functionExtendedProperties = _searches.FindFunctionExtendedProperties(args.Database, args.FindWhat);
+                functionExtendedProperties = functionExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.ProcedureName).ThenBy(p => p.ParameterName).ThenBy(p => p.Name).ToList();
+                _view.InsertFunctionExtendedPropertiesIntoTreeview(functionExtendedProperties);
+                rowCount = functionExtendedProperties.Count;
             }
             return rowCount;
         }
@@ -302,8 +316,19 @@ namespace SQLServerSearcher.Presenters
 
         private void FunctionsNodeClicked(TreeviewNodeClickEventArgs args)
         {
-            var function = (Function)args.NodeTag;
-            _view.ShowFunctionInfo(function);
+            var function = args.NodeTag as Function;
+            if (function != null)
+            {
+                _view.ShowFunctionInfo(function);
+            }
+            else
+            {
+                var functionExtendedInfo = args.NodeTag as FunctionExtendedProperty;
+                if (functionExtendedInfo != null)
+                {
+                    _view.ShowFunctionExtendedPropertyInfo(functionExtendedInfo);
+                }
+            }
         }
 
         private void DoCopyQueryToClipboardToolStripMenuItemClick(object sender, FindEventArgs e)
