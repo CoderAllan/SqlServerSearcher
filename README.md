@@ -14,6 +14,7 @@ I made this application to make it easier to search a Microsoft SQL Server datab
 * Function names
 * Function definitions
 * Function parameter names
+* Extended properties
 
 The application searches the specified database system views for the information.
 
@@ -39,6 +40,7 @@ Task list
 - [x] Implement the 'Match case' checkbox functionality
 - [x] Display metadata about the found element when clicking the TreeView node
 - [x] Display metadata about the connected server
+- [x] Display metadata about the selected database
 - [x] Right-click in treeview to find all references
 - [x] Right-click in treeview to show content of stored procedure or function
 - [x] Highlight the matches found in the definition of stored procedures and functions
