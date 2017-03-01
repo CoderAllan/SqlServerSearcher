@@ -35,6 +35,7 @@ namespace SQLServerSearcher.Presenters
             _view.CopyInformationToClipboardToolStripMenuItemClick += DoCopyInformationToClipboardToolStripMenuItemClick;
             _view.CopyServerInformationClick += DoCopyServerInformationClick;
             _view.CopyListToClipboardToolStripMenuItemClick += DoCopyListToClipboardToolStripMenuItemClick;
+            _view.DatabaseSelectedIndexChanged += DoDatabaseSelectedIndexChanged;
         }
 
         private void DoBtnConnectClick(object sender, ConnectEventArgs args)
@@ -63,6 +64,14 @@ namespace SQLServerSearcher.Presenters
                     _view.ShowErrorDialog(string.Format("Connection to server failed: {0}", ex));
                 }
             }
+        }
+
+        private void DoDatabaseSelectedIndexChanged(object sender, DatabaseChangedEventArgs args)
+        {
+            _view.ClearDatabaseInformation();
+            var databaseMetaInfo = _searches.FindDatabaseMetaInfo(args.Database);
+            _view.ShowDatabaseInfo(databaseMetaInfo);
+            _view.SetLblDatabase();
         }
 
         private void DoBtnFindClick(object sender, FindEventArgs args)

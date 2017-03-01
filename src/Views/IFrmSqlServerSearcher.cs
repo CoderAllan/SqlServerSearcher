@@ -19,6 +19,7 @@
         event EventHandler<CopyInformationEventArgs> CopyInformationToClipboardToolStripMenuItemClick;
         event EventHandler<EventArgs> CopyServerInformationClick;
         event EventHandler<CopyListToClipboardEventArgs> CopyListToClipboardToolStripMenuItemClick;
+        event EventHandler<DatabaseChangedEventArgs> DatabaseSelectedIndexChanged;
 
         bool BtnConnectEnabled { get; set; }
         string CmbServerText { get; }
@@ -35,7 +36,9 @@
         void SetLblRowCount(int rowCount);
         void ClearResults();
         void ClearObjectInformation();
+        void ClearDatabaseInformation();
         void ShowServerInfo(ServerInfo serverInfo);
+        void ShowDatabaseInfo(DatabaseMetaInfo databaseMetaInfo);
         
         void InsertTableIntoTreeview(List<Table> tables);
         void InsertTableExtendedPropertiesIntoTreeview(List<TableExtendedProperty> tableExtendedProperties);

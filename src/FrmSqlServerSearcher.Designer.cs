@@ -55,11 +55,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cmbServer = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lvDatabaseProperties = new System.Windows.Forms.ListView();
+            this.colDatabasePropertyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDatabasePropertyValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cmsServerInformation = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmCopyServerInformation = new System.Windows.Forms.ToolStripMenuItem();
             this.lvServerProperties = new System.Windows.Forms.ListView();
             this.colServerPropertyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colServerPropertyValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cmsServerInformation = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmCopyServerInformation = new System.Windows.Forms.ToolStripMenuItem();
             this.lvObjectInformation = new System.Windows.Forms.ListView();
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -304,11 +307,53 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lvDatabaseProperties);
             this.splitContainer1.Panel2.Controls.Add(this.lvServerProperties);
             this.splitContainer1.Panel2.Controls.Add(this.lvObjectInformation);
             this.splitContainer1.Size = new System.Drawing.Size(991, 591);
             this.splitContainer1.SplitterDistance = 329;
             this.splitContainer1.TabIndex = 14;
+            // 
+            // lvDatabaseProperties
+            // 
+            this.lvDatabaseProperties.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colDatabasePropertyName,
+            this.colDatabasePropertyValue});
+            this.lvDatabaseProperties.ContextMenuStrip = this.cmsServerInformation;
+            this.lvDatabaseProperties.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lvDatabaseProperties.FullRowSelect = true;
+            this.lvDatabaseProperties.GridLines = true;
+            this.lvDatabaseProperties.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvDatabaseProperties.Location = new System.Drawing.Point(0, 180);
+            this.lvDatabaseProperties.Name = "lvDatabaseProperties";
+            this.lvDatabaseProperties.Size = new System.Drawing.Size(658, 180);
+            this.lvDatabaseProperties.TabIndex = 15;
+            this.lvDatabaseProperties.UseCompatibleStateImageBehavior = false;
+            this.lvDatabaseProperties.View = System.Windows.Forms.View.Details;
+            // 
+            // colDatabasePropertyName
+            // 
+            this.colDatabasePropertyName.Text = "Property";
+            this.colDatabasePropertyName.Width = 135;
+            // 
+            // colDatabasePropertyValue
+            // 
+            this.colDatabasePropertyValue.Text = "Value";
+            this.colDatabasePropertyValue.Width = 170;
+            // 
+            // cmsServerInformation
+            // 
+            this.cmsServerInformation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmCopyServerInformation});
+            this.cmsServerInformation.Name = "cmsServerInformation";
+            this.cmsServerInformation.Size = new System.Drawing.Size(277, 34);
+            // 
+            // tsmCopyServerInformation
+            // 
+            this.tsmCopyServerInformation.Name = "tsmCopyServerInformation";
+            this.tsmCopyServerInformation.Size = new System.Drawing.Size(276, 30);
+            this.tsmCopyServerInformation.Text = "Copy server information";
+            this.tsmCopyServerInformation.Click += new System.EventHandler(this.tsmCopyServerInformation_Click);
             // 
             // lvServerProperties
             // 
@@ -337,20 +382,6 @@
             this.colServerPropertyValue.Text = "Value";
             this.colServerPropertyValue.Width = 170;
             // 
-            // cmsServerInformation
-            // 
-            this.cmsServerInformation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmCopyServerInformation});
-            this.cmsServerInformation.Name = "cmsServerInformation";
-            this.cmsServerInformation.Size = new System.Drawing.Size(277, 34);
-            // 
-            // tsmCopyServerInformation
-            // 
-            this.tsmCopyServerInformation.Name = "tsmCopyServerInformation";
-            this.tsmCopyServerInformation.Size = new System.Drawing.Size(276, 30);
-            this.tsmCopyServerInformation.Text = "Copy server information";
-            this.tsmCopyServerInformation.Click += new System.EventHandler(this.tsmCopyServerInformation_Click);
-            // 
             // lvObjectInformation
             // 
             this.lvObjectInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -364,10 +395,10 @@
             this.lvObjectInformation.GridLines = true;
             this.lvObjectInformation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvObjectInformation.HideSelection = false;
-            this.lvObjectInformation.Location = new System.Drawing.Point(0, 186);
+            this.lvObjectInformation.Location = new System.Drawing.Point(0, 360);
             this.lvObjectInformation.MultiSelect = false;
             this.lvObjectInformation.Name = "lvObjectInformation";
-            this.lvObjectInformation.Size = new System.Drawing.Size(655, 409);
+            this.lvObjectInformation.Size = new System.Drawing.Size(655, 235);
             this.lvObjectInformation.TabIndex = 14;
             this.lvObjectInformation.UseCompatibleStateImageBehavior = false;
             this.lvObjectInformation.View = System.Windows.Forms.View.Details;
@@ -620,6 +651,9 @@
         private System.Windows.Forms.ContextMenuStrip cmsServerInformation;
         private System.Windows.Forms.ToolStripMenuItem tsmCopyServerInformation;
         private System.Windows.Forms.CheckBox chkExtendedProperties;
+        private System.Windows.Forms.ListView lvDatabaseProperties;
+        private System.Windows.Forms.ColumnHeader colDatabasePropertyName;
+        private System.Windows.Forms.ColumnHeader colDatabasePropertyValue;
     }
 }
 

@@ -17,6 +17,16 @@
             changeLog = new ChangelogEntry
             {
                 MajorVersion = 1,
+                MinorVersion = 4,
+                Changes = @"
+Database information is now shown when selecting a database in the dropdown box.
+"
+            };
+            _changeLogEntries.Add(changeLog);
+
+            changeLog = new ChangelogEntry
+            {
+                MajorVersion = 1,
                 MinorVersion = 3,
                 Changes = @"
 Implemented searching in extended properties.
@@ -127,6 +137,12 @@ Project created.
                 sb.Append(changelogEntry + Environment.NewLine + Environment.NewLine);
             }
             return sb.ToString();
+        }
+
+        public string CurrentVersion()
+        {
+            var entry = _changeLogEntries.OrderByDescending(p => p.MajorVersion).ThenByDescending(p => p.MinorVersion).FirstOrDefault();
+            return string.Format("{0}.{1}", entry.MajorVersion, entry.MinorVersion);
         }
     }
 }

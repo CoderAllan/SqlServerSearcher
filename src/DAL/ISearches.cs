@@ -7,6 +7,7 @@
     public interface ISearches
     {
         List<Database> GetDatabases();
+        DatabaseMetaInfo FindDatabaseMetaInfo(string database);
         List<Table> FindTables(string database, string query = null);
         List<TableExtendedProperty> FindTableExtendedProperties(string database, string query);
         List<View> FindViews(string database, string query = null);
@@ -17,6 +18,7 @@
         List<Function> FindFunctions(string database, string query = null);
         List<FunctionExtendedProperty> FindFunctionExtendedProperties(string database, string query);
         ServerInfo GetServerInfo();
+        string GetFindDatabaseMetaInfo(string database);
         string GetFindTablesSql(string database, string query);
         string GetFindTableExtendedPropertiesSql(string database, string query);
         string GetFindViewsSql(string database, string query);

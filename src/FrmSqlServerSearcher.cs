@@ -49,6 +49,7 @@
             InitializeCheckBoxes();
             InitializeColumnWidths();
             tvResults.NodeMouseClick += (sender, args) => tvResults.SelectedNode = args.Node; // To make sure that when rightclicking a node it is selected. Solution found here: http://stackoverflow.com/questions/4784258/right-click-select-on-net-treenode
+            InitializeTooltips();
             EnableDisableControls();
         }
 
@@ -80,7 +81,21 @@
             if (_appState.ServerPropertyValueColumnWith > 0)
             {
                 colServerPropertyValue.Width = _appState.ServerPropertyValueColumnWith;
-            }            
+            }
+            if (_appState.DatabasePropertyNameColumnWith > 0)
+            {
+                colDatabasePropertyName.Width = _appState.DatabasePropertyNameColumnWith;
+            }
+            if (_appState.DatabasePropertyValueColumnWith > 0)
+            {
+                colDatabasePropertyValue.Width = _appState.DatabasePropertyValueColumnWith;
+            }
+        }
+
+        private void InitializeTooltips()
+        {
+            var changeLog = new Changelog();
+            ttSettings.SetToolTip(pbSettings, string.Format("{0} - v{1}", Text, changeLog.CurrentVersion()));
         }
 
         public event EventHandler<BaseFormEventArgs> DoFormLoad;
@@ -93,6 +108,7 @@
         public event EventHandler<CopyInformationEventArgs> CopyInformationToClipboardToolStripMenuItemClick;
         public event EventHandler<EventArgs> CopyServerInformationClick;
         public event EventHandler<CopyListToClipboardEventArgs> CopyListToClipboardToolStripMenuItemClick;
+        public event EventHandler<DatabaseChangedEventArgs> DatabaseSelectedIndexChanged;
 
         public ApplicationState AppState
         {
@@ -124,6 +140,8 @@
             _appState.ValueColumnWith = colValue.Width;
             _appState.ServerPropertyNameColumnWith = colServerPropertyName.Width;
             _appState.ServerPropertyValueColumnWith = colServerPropertyValue.Width;
+            _appState.DatabasePropertyNameColumnWith = colDatabasePropertyName.Width;
+            _appState.DatabasePropertyValueColumnWith = colDatabasePropertyValue.Width;
             _appState.PersistComboBox(cmbServer, _appState.Servers);
             if (cmbDatabase.SelectedItem != null)
             {
@@ -245,7 +263,14 @@
 
         private void cmbDatabase_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetLblDatabase();
+            if (DatabaseSelectedIndexChanged != null)
+            {
+                var args = new DatabaseChangedEventArgs
+                {
+                    Database = cmbDatabase.SelectedItem.ToString()
+                };
+                DatabaseSelectedIndexChanged(sender, args);
+            }
         }
 
         public void InsertServerIntoCombobox(string server)
@@ -313,6 +338,11 @@
             lvObjectInformation.Items.Clear();
         }
 
+        public void ClearDatabaseInformation()
+        {
+            lvDatabaseProperties.Items.Clear();
+        }
+
         private static void AddNewResultNode(string nodeName, TreeNode resultNode, object result)
         {
             if (!resultNode.Nodes.ContainsKey(nodeName))
@@ -343,14 +373,16 @@
         private void AddObjectToListView(ListView listView, IDatabaseObject dbObject)
         {
             listView.BeginUpdate();
-            listView.Items.Clear();
             foreach (var row in dbObject.ToArrayList())
             {
                 var item = new ListViewItem
                 {
                     Text = row[0]
                 };
-                item.SubItems.Add(row[1]);
+                for (int i = 1; i < row.Count(); i++)
+                {
+                    item.SubItems.Add(row[i]);
+                }
                 listView.Items.Add(item);
             }
             listView.EndUpdate();            
@@ -359,6 +391,15 @@
         public void ShowServerInfo(ServerInfo serverInfo)
         {
             AddObjectToListView(lvServerProperties, serverInfo);
+        }
+
+        public void ShowDatabaseInfo(DatabaseMetaInfo databaseMetaInfo)
+        {
+            AddObjectToListView(lvDatabaseProperties, databaseMetaInfo);
+            foreach (var databaseFile in databaseMetaInfo.DatabaseFiles)
+            {
+                AddObjectToListView(lvDatabaseProperties, databaseFile);
+            }
         }
 
         public void InsertTableExtendedPropertiesIntoTreeview(List<TableExtendedProperty> tableExtendedProperties)

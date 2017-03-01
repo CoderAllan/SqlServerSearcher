@@ -41,6 +41,8 @@ namespace SQLServerSearcher.Model
         public int ValueColumnWith;
         public int ServerPropertyNameColumnWith;
         public int ServerPropertyValueColumnWith;
+        public int DatabasePropertyNameColumnWith;
+        public int DatabasePropertyValueColumnWith;
 
         [XmlIgnore]
         public SqlConnection CurrentConnection;

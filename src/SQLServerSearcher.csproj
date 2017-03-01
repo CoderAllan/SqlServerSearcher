@@ -88,6 +88,8 @@
     <Compile Include="FrmSqlServerSearcher.Designer.cs">
       <DependentUpon>FrmSqlServerSearcher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\DatabaseFile.cs" />
+    <Compile Include="Model\DatabaseMetaInfo.cs" />
     <Compile Include="Model\EventArgs\BaseFormEventArgs.cs" />
     <Compile Include="Model\Changelog.cs" />
     <Compile Include="Model\ChangelogEntry.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Model\EventArgs\CopyInformationEventArgs.cs" />
     <Compile Include="Model\EventArgs\CopyListToClipboardEventArgs.cs" />
     <Compile Include="Model\EventArgs\CopyNameEventArgs.cs" />
+    <Compile Include="Model\EventArgs\DatabaseChangedEventArgs.cs" />
     <Compile Include="Model\EventArgs\FindEventArgs.cs" />
     <Compile Include="Model\ExtendedProperty.cs" />
     <Compile Include="Model\FormLocationAndPosition.cs" />

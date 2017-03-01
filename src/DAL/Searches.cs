@@ -39,6 +39,66 @@ namespace SQLServerSearcher.DAL
 			return databases;
 		}
 
+        public string GetFindDatabaseMetaInfo(string database)
+        {
+            string sql = string.Format(@"SELECT (SELECT COUNT(*) FROM {0}.sys.tables) AS tableCount, 
+	                                            (SELECT COUNT(*) FROM {0}.sys.views) AS viewCount, 
+	                                            (SELECT COUNT(*) FROM {0}.sys.procedures) AS procedureCount, 
+	                                            (SELECT COUNT(*) FROM {0}.sys.objects o WHERE o.type_desc LIKE '%FUNCTION%') AS functionCount, 
+	                                            (SELECT COUNT(*) FROM {0}.sys.extended_properties) AS extendedPropertiesCount", database);
+            return sql;
+        }
+
+        public DatabaseMetaInfo FindDatabaseMetaInfo(string database)
+        {
+            var databaseMetaInfo = new DatabaseMetaInfo();
+            string sql = GetFindDatabaseMetaInfo(database);
+            using (var reader = ExecuteSql(sql))
+            {
+                if (reader.HasRows)
+                {
+                    if(reader.Read())
+                    {
+                        databaseMetaInfo.Name = database;
+                        databaseMetaInfo.TableCount = reader.GetInt32(reader.GetOrdinal("tableCount"));
+                        databaseMetaInfo.ViewCount = reader.GetInt32(reader.GetOrdinal("viewCount"));
+                        databaseMetaInfo.StoredProcedureCount = reader.GetInt32(reader.GetOrdinal("procedureCount"));
+                        databaseMetaInfo.FunctionCount = reader.GetInt32(reader.GetOrdinal("functionCount"));
+                        databaseMetaInfo.ExtendedPropertiesCount = reader.GetInt32(reader.GetOrdinal("extendedPropertiesCount"));
+                    }
+                }
+            }
+            databaseMetaInfo.DatabaseFiles = FindDatabaseFiles(database);
+            return databaseMetaInfo;
+        }
+
+        public string GetFindDatabaseFileSizes(string database)
+        {
+            string sql = string.Format(@"select name, physical_name, (size*8)/1024 SizeMb from {0}.sys.database_files", database);
+            return sql;
+        }
+
+        public List<DatabaseFile> FindDatabaseFiles(string database)
+        {
+            var databasefiles = new List<DatabaseFile>();
+            string sql = GetFindDatabaseFileSizes(database);
+            using (var reader = ExecuteSql(sql))
+            {
+                if (reader.HasRows)
+                {
+                    var databaseFile = new DatabaseFile();
+                    if (reader.Read())
+                    {
+                        databaseFile.Name = reader.GetString(reader.GetOrdinal("name"));
+                        databaseFile.PhysicalName = reader.GetString(reader.GetOrdinal("physical_name"));
+                        databaseFile.SizeMb = reader.GetInt32(reader.GetOrdinal("SizeMb"));
+                    }
+                    databasefiles.Add(databaseFile);
+                }
+            }
+            return databasefiles;
+        }
+
 		public string GetFindTablesSql(string database, string query)
 		{
 			string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, t.name, ISNULL(c.name, '') AS columnName, t.create_date, ISNULL(t.modify_date,'') AS modifyDate, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate
