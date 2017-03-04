@@ -187,6 +187,33 @@ namespace SQLServerSearcher.DAL
             return properties;
         }
 
+        public string GetFindTableRowCountSql(string database, string table)
+        {
+            string sql = string.Format(@"DECLARE @rowCount BIGINT
+                                         SELECT @rowCount=SUM(st.row_count) FROM {0}.sys.dm_db_partition_stats st WHERE st.[object_id] = object_id('{0}.{1}') AND (st.index_id < 2)
+                                         IF @rowCount < 5000000 BEGIN
+	                                         SELECT CAST(COUNT(1) AS BIGINT) AS [tableRowCount] FROM {0}.{1}
+                                         END ELSE BEGIN 
+	                                         SELECT CAST(@rowCount AS BIGINT) AS [tableRowCount]
+                                         END", database, table);
+            return sql;
+        }
+
+        public long FindTableRowCount(string database, string table)
+        {
+            string sql = GetFindTableRowCountSql(database, table);
+            long rowCount = 0;
+            using (var reader = ExecuteSql(sql))
+            {
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    rowCount = reader.GetInt64(reader.GetOrdinal("tableRowCount"));
+                }
+            }
+            return rowCount;
+        }
+
 		public string GetFindViewsSql(string database, string query)
 		{
 			string sql = string.Format(@" SELECT DISTINCT s.name AS schemaName, v.name, ISNULL(c.name,'') AS columnName, v.create_date, ISNULL(v.modify_date,'') AS modifyDate, ISNULL(iu.lastSeek, '') AS lastSeek, ISNULL(iu.lastScan, '') AS lastScan, ISNULL(iu.lastLookup, '') AS lastLookup, ISNULL(iu.lastUpdate, '') AS lastUpdate, m.definition

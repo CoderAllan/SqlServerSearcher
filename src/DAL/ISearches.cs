@@ -10,6 +10,7 @@
         DatabaseMetaInfo FindDatabaseMetaInfo(string database);
         List<Table> FindTables(string database, string query = null);
         List<TableExtendedProperty> FindTableExtendedProperties(string database, string query);
+        long FindTableRowCount(string database, string table);
         List<View> FindViews(string database, string query = null);
         List<ViewExtendedProperty> FindViewExtendedProperties(string database, string query);
         List<Index> FindIndexes(string database, string query = null);
@@ -21,6 +22,7 @@
         string GetFindDatabaseMetaInfo(string database);
         string GetFindTablesSql(string database, string query);
         string GetFindTableExtendedPropertiesSql(string database, string query);
+        string GetFindTableRowCountSql(string database, string table);
         string GetFindViewsSql(string database, string query);
         string GetFindViewExtendedPropertiesSql(string database, string query);
         string GetFindIndexesSql(string database, string query);

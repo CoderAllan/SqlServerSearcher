@@ -1,13 +1,12 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SQLServerSearcher")]
-[assembly: AssemblyDescription(@"Tool for searching for tables, views, indexes, stored procedures and function in Microsoft SQL Server.
-The application searches the specified database system views for the information.
+[assembly: AssemblyDescription(@"Tool for searching for tables, views, indexes, stored procedures, functions and extended properties in Microsoft SQL Server.
+The application searches the specified database system tables and views for the information.
 
 More info at: https://github.com/CoderAllan/SqlServerSearcher")]
 [assembly: AssemblyConfiguration("")]
@@ -35,5 +34,5 @@ More info at: https://github.com/CoderAllan/SqlServerSearcher")]
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4")]
-[assembly: AssemblyFileVersion("1.4")]
+[assembly: AssemblyVersion("1.5")]
+[assembly: AssemblyFileVersion("1.5")]

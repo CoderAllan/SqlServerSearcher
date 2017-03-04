@@ -4,6 +4,7 @@ namespace SQLServerSearcher.Model.EventArgs
 
     public class TreeviewNodeClickEventArgs : EventArgs
     {
+        public string Database { get; set; }
         public string ParentNodeName { get; set; }
         public object NodeTag { get; set; }
     }

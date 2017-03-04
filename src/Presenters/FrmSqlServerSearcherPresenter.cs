@@ -270,6 +270,7 @@ namespace SQLServerSearcher.Presenters
             var table = args.NodeTag as Table;
             if (table != null)
             {
+                table.RowCount = _searches.FindTableRowCount(args.Database, table.SchemaName + ".[" + table.Name + "]");
                 _view.ShowTableInfo(table);
             }
             else

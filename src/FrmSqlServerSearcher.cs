@@ -595,14 +595,15 @@
         {
             if (TreeviewNodeClick != null)
             {
+                ClearObjectInformation();
                 var parentNode = e.Node.Parent;
                 if (parentNode == null)
                 {
-                    ClearObjectInformation();
                     return;
                 }
                 var treeviewNodeClickEventrgs = new TreeviewNodeClickEventArgs
                 {
+                    Database = cmbDatabase.SelectedItem.ToString(),
                     ParentNodeName = parentNode.Name,
                     NodeTag = e.Node.Tag
                 };
@@ -630,6 +631,7 @@
                     }
                     var treeviewNodeClickEventrgs = new TreeviewNodeClickEventArgs
                     {
+                        Database = cmbDatabase.SelectedItem.ToString(),
                         ParentNodeName = parentNode.Name,
                         NodeTag = selectedNode.Tag
                     };

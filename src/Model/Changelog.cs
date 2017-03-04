@@ -17,6 +17,16 @@
             changeLog = new ChangelogEntry
             {
                 MajorVersion = 1,
+                MinorVersion = 5,
+                Changes = @"
+Number of rows in tables are now shown in the object information listview.
+"
+            };
+            _changeLogEntries.Add(changeLog);
+
+            changeLog = new ChangelogEntry
+            {
+                MajorVersion = 1,
                 MinorVersion = 4,
                 Changes = @"
 Database information is now shown when selecting a database in the dropdown box.
