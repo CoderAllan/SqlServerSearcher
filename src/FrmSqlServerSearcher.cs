@@ -33,8 +33,7 @@
         {
             _appState = ApplicationState.ReadApplicationState();
             _baseFormPresenter = new BaseFormPresenter(this);
-            var searches = new DAL.Searches(_appState);
-            _frmSqlServerSearcherPresenter = new FrmSqlServerSearcherPresenter(this, searches);
+            _frmSqlServerSearcherPresenter = new FrmSqlServerSearcherPresenter(this);
 
             InitializeComponent();
 

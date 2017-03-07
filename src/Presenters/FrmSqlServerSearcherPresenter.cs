@@ -7,6 +7,7 @@ namespace SQLServerSearcher.Presenters
     using System.Text.RegularExpressions;
 
     using DAL;
+    using DAL.Contracts;
     using Model;
     using Model.EventArgs;
     using Views;
@@ -14,14 +15,38 @@ namespace SQLServerSearcher.Presenters
     public class FrmSqlServerSearcherPresenter
     {
         private readonly IFrmSqlServerSearcher _view;
-        private readonly ISearches _searches;
+        private readonly IServer _server;
+        private readonly IDatabases _databases;
+        private readonly ITables _tables;
+        private readonly IViews _views;
+        private readonly IIndexes _indexes;
+        private readonly IStoredProcedures _storedProcedures;
+        private readonly IFunctions _functions;
 
-        public FrmSqlServerSearcherPresenter(IFrmSqlServerSearcher view, ISearches searches)
+        public FrmSqlServerSearcherPresenter(IFrmSqlServerSearcher view, IServer server, IDatabases databases, ITables tables, IViews views, IIndexes indexes, IStoredProcedures storedProcedures, IFunctions functions)
         {
             _view = view;
-            _searches = searches;
+            _server = server;
+            _databases = databases;
+            _tables = tables;
+            _views = views;
+            _indexes = indexes;
+            _storedProcedures = storedProcedures;
+            _functions = functions;
 
             Initialize();
+        }
+        public FrmSqlServerSearcherPresenter(IFrmSqlServerSearcher view) : this(
+            view, 
+            new Server(view.AppState),  
+            new Databases(view.AppState),
+            new Tables(view.AppState),
+            new Views(view.AppState),
+            new Indexes(view.AppState),
+            new StoredProcedures(view.AppState),
+            new Functions(view.AppState)
+            )
+        {
         }
 
         private void Initialize()
@@ -46,12 +71,12 @@ namespace SQLServerSearcher.Presenters
                 try
                 {
                     _view.AppState.CurrentConnection.Open();
-                    var databases = _searches.GetDatabases();
+                    var databases = _databases.GetDatabases();
                     foreach (var database in databases.OrderBy(p => p.Name))
                     {
                         _view.InsertDatabaseIntoCombobox(database.Name);
                     }
-                    var serverInfo = _searches.GetServerInfo();
+                    var serverInfo = _server.GetServerInfo();
                     _view.ShowServerInfo(serverInfo);
                     _view.SetLblServerName();
                 }
@@ -69,7 +94,7 @@ namespace SQLServerSearcher.Presenters
         private void DoDatabaseSelectedIndexChanged(object sender, DatabaseChangedEventArgs args)
         {
             _view.ClearDatabaseInformation();
-            var databaseMetaInfo = _searches.FindDatabaseMetaInfo(args.Database);
+            var databaseMetaInfo = _databases.FindDatabaseMetaInfo(args.Database);
             _view.ShowDatabaseInfo(databaseMetaInfo);
             _view.SetLblDatabase();
         }
@@ -100,7 +125,7 @@ namespace SQLServerSearcher.Presenters
             int rowCount = 0;
             if (args.LookInTables)
             {
-                var tables = _searches.FindTables(args.Database, args.FindWhat);
+                var tables = _tables.FindTables(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
                     tables = tables.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
@@ -118,7 +143,7 @@ namespace SQLServerSearcher.Presenters
             int rowCount = 0;
             if (args.LookInExtendedProperties)
             {
-                var tableExtendedProperties = _searches.FindTableExtendedProperties(args.Database, args.FindWhat);
+                var tableExtendedProperties = _tables.FindTableExtendedProperties(args.Database, args.FindWhat);
                 tableExtendedProperties = tableExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.TableName).ThenBy(p => p.ColumnName).ThenBy(p => p.Name).ToList();
                 _view.InsertTableExtendedPropertiesIntoTreeview(tableExtendedProperties);
                 rowCount = tableExtendedProperties.Count;
@@ -131,7 +156,7 @@ namespace SQLServerSearcher.Presenters
             int rowCount = 0;
             if (args.LookInViews)
             {
-                var views = _searches.FindViews(args.Database, args.FindWhat);
+                var views = _views.FindViews(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
                     views = views.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
@@ -149,7 +174,7 @@ namespace SQLServerSearcher.Presenters
             int rowCount = 0;
             if (args.LookInExtendedProperties)
             {
-                var viewExtendedProperties = _searches.FindViewExtendedProperties(args.Database, args.FindWhat);
+                var viewExtendedProperties = _views.FindViewExtendedProperties(args.Database, args.FindWhat);
                 viewExtendedProperties = viewExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.TableName).ThenBy(p => p.ColumnName).ThenBy(p => p.Name).ToList();
                 _view.InsertViewExtendedPropertiesIntoTreeview(viewExtendedProperties);
                 rowCount = viewExtendedProperties.Count;
@@ -162,7 +187,7 @@ namespace SQLServerSearcher.Presenters
             int rowCount = 0;
             if (args.LookInIndexes)
             {
-                var indexes = _searches.FindIndexes(args.Database, args.FindWhat);
+                var indexes = _indexes.FindIndexes(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
                     indexes = indexes.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
@@ -179,7 +204,7 @@ namespace SQLServerSearcher.Presenters
             int rowCount = 0;
             if (args.LookInStoredProcedures)
             {
-                var procedures = _searches.FindProcedures(args.Database, args.FindWhat);
+                var procedures = _storedProcedures.FindProcedures(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
                     procedures = procedures.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0).ToList();
@@ -197,7 +222,7 @@ namespace SQLServerSearcher.Presenters
             int rowCount = 0;
             if (args.LookInExtendedProperties)
             {
-                var procedureExtendedProperties = _searches.FindProcedureExtendedProperties(args.Database, args.FindWhat);
+                var procedureExtendedProperties = _storedProcedures.FindProcedureExtendedProperties(args.Database, args.FindWhat);
                 procedureExtendedProperties = procedureExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.ProcedureName).ThenBy(p => p.ParameterName).ThenBy(p => p.Name).ToList();
                 _view.InsertProcedureExtendedPropertiesIntoTreeview(procedureExtendedProperties);
                 rowCount = procedureExtendedProperties.Count;
@@ -210,7 +235,7 @@ namespace SQLServerSearcher.Presenters
             int rowCount = 0;
             if (args.LookInFunctions)
             {
-                var functions = _searches.FindFunctions(args.Database, args.FindWhat);
+                var functions = _functions.FindFunctions(args.Database, args.FindWhat);
                 if (args.MatchCase)
                 {
                     functions = functions.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0 || p.Definition.IndexOf(args.FindWhat, StringComparison.Ordinal) >= 0).ToList();
@@ -228,7 +253,7 @@ namespace SQLServerSearcher.Presenters
             int rowCount = 0;
             if (args.LookInExtendedProperties)
             {
-                var functionExtendedProperties = _searches.FindFunctionExtendedProperties(args.Database, args.FindWhat);
+                var functionExtendedProperties = _functions.FindFunctionExtendedProperties(args.Database, args.FindWhat);
                 functionExtendedProperties = functionExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.ProcedureName).ThenBy(p => p.ParameterName).ThenBy(p => p.Name).ToList();
                 _view.InsertFunctionExtendedPropertiesIntoTreeview(functionExtendedProperties);
                 rowCount = functionExtendedProperties.Count;
@@ -270,7 +295,7 @@ namespace SQLServerSearcher.Presenters
             var table = args.NodeTag as Table;
             if (table != null)
             {
-                table.RowCount = _searches.FindTableRowCount(args.Database, table.SchemaName + ".[" + table.Name + "]");
+                table.RowCount = _tables.FindTableRowCount(args.Database, table.SchemaName + ".[" + table.Name + "]");
                 _view.ShowTableInfo(table);
             }
             else
@@ -346,23 +371,23 @@ namespace SQLServerSearcher.Presenters
             var sb = new StringBuilder();
             if (e.LookInTables)
             {
-                AppendSqlSection(_searches.GetFindTablesSql(e.Database, e.FindWhat), sb);
+                AppendSqlSection(_tables.GetFindTablesSql(e.Database, e.FindWhat), sb);
             }
             if (e.LookInViews)
             {
-                AppendSqlSection(_searches.GetFindViewsSql(e.Database, e.FindWhat), sb);
+                AppendSqlSection(_views.GetFindViewsSql(e.Database, e.FindWhat), sb);
             }
             if (e.LookInIndexes)
             {
-                AppendSqlSection(_searches.GetFindIndexesSql(e.Database, e.FindWhat), sb);
+                AppendSqlSection(_indexes.GetFindIndexesSql(e.Database, e.FindWhat), sb);
             }
             if (e.LookInStoredProcedures)
             {
-                AppendSqlSection(_searches.GetFindStoredProceduresSql(e.Database, e.FindWhat), sb);
+                AppendSqlSection(_storedProcedures.GetFindStoredProceduresSql(e.Database, e.FindWhat), sb);
             }
             if (e.LookInFunctions)
             {
-                AppendSqlSection(_searches.GetFindFunctionsSql(e.Database, e.FindWhat), sb);
+                AppendSqlSection(_functions.GetFindFunctionsSql(e.Database, e.FindWhat), sb);
             }
             string sql = sb.ToString();
             sql = Regex.Replace(sql, @"[ \t]+", " ");
@@ -393,7 +418,7 @@ namespace SQLServerSearcher.Presenters
 
         private void DoCopyServerInformationClick(object sender, EventArgs e)
         {
-            var serverInfo = _searches.GetServerInfo();
+            var serverInfo = _server.GetServerInfo();
             string serverInformation = "";
             foreach (var arr in serverInfo.ToArrayList())
             {

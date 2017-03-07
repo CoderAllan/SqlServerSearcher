@@ -55,8 +55,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\ISearches.cs" />
+    <Compile Include="DAL\Contracts\IDatabases.cs" />
+    <Compile Include="DAL\Contracts\IFunctions.cs" />
+    <Compile Include="DAL\Contracts\IIndexes.cs" />
+    <Compile Include="DAL\Contracts\IServer.cs" />
+    <Compile Include="DAL\Contracts\IStoredProcedures.cs" />
+    <Compile Include="DAL\Contracts\ITables.cs" />
+    <Compile Include="DAL\Contracts\IViews.cs" />
+    <Compile Include="DAL\Databases.cs" />
+    <Compile Include="DAL\Functions.cs" />
+    <Compile Include="DAL\Indexes.cs" />
     <Compile Include="DAL\Searches.cs" />
+    <Compile Include="DAL\Server.cs" />
+    <Compile Include="DAL\StoredProcedures.cs" />
+    <Compile Include="DAL\Tables.cs" />
+    <Compile Include="DAL\Views.cs" />
     <Compile Include="FrmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
