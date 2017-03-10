@@ -17,6 +17,16 @@
             changeLog = new ChangelogEntry
             {
                 MajorVersion = 1,
+                MinorVersion = 6,
+                Changes = @"
+Implemented search in the view definition dialog.
+"
+            };
+            _changeLogEntries.Add(changeLog);
+
+            changeLog = new ChangelogEntry
+            {
+                MajorVersion = 1,
                 MinorVersion = 5,
                 Changes = @"
 Number of rows in tables are now shown in the object information listview.

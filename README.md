@@ -20,7 +20,7 @@ The application searches the specified database system views for the information
 
 When right-clicking a found stored procedure name og function name in the treeview, its possible to get the definition shown.
 
-When right-clicking any found object and choosing 'Find all references', a search is performed for that objects name. 
+When right-clicking any found object and choosing 'Find all references', a search is performed for that objects name.
 
 Shortcut keys
 ----
@@ -34,7 +34,7 @@ Task list
 
 - [ ] Make it possible to use more than one search term
 - [x] Search in extended properties
-- [ ] Implement Find in the view definition dialog
+- [x] Implement Find in the view definition dialog
 - [ ] Show column names in the information list
 - [ ] Show parameter names in the information list
 - [x] Implement the 'Match case' checkbox functionality
@@ -81,7 +81,8 @@ Icons
 
 Icons for the application is from: [https://github.com/ioBroker/ioBroker.icons-open-icon-library-png]([https://github.com/ioBroker/ioBroker.icons-open-icon-library-png])
 
-Packages used
+Packages/Components used
 ----
 
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET)
+* [ScintillaNET-FindReplaceDialog](https://github.com/Stumpii/ScintillaNET-FindReplaceDialog)

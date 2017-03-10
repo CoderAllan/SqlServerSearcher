@@ -1,10 +1,10 @@
-﻿
-namespace SQLServerSearcher
+﻿namespace SQLServerSearcher
 {
     using System;
     using System.Drawing;
     using System.Windows.Forms;
     using ScintillaNET;
+    using ScintillaNET_FindReplaceDialog;
 
     using Model;
     using Model.EventArgs;
@@ -19,6 +19,7 @@ namespace SQLServerSearcher
         private readonly FrmViewSourcePresenter _frmViewSourcePresenter;
 
         private Scintilla _textArea;
+        private FindReplace _findReplace;
         private const int NumberMargin = 1;
 
         public event EventHandler<BaseFormEventArgs> DoFormLoad;
@@ -66,6 +67,9 @@ namespace SQLServerSearcher
             _textArea.Styles[Style.LineNumber].ForeColor = Color.DimGray;
             _textArea.Styles[Style.IndentGuide].BackColor = Color.LightGray;
             _textArea.Styles[Style.IndentGuide].ForeColor = Color.DimGray;
+
+            _findReplace = new FindReplace(_textArea);
+            _findReplace.Scintilla = _textArea;
 
             var nums = _textArea.Margins[NumberMargin];
             nums.Width = 30;
@@ -176,7 +180,7 @@ namespace SQLServerSearcher
                         Close();
                         break;
                     case Keys.Control | Keys.F:
-                        
+                        _findReplace.ShowIncrementalSearch();
                         break;
                 }
             }
