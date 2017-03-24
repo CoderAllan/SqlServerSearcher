@@ -1,7 +1,7 @@
 SqlServerSearcher
 ====
 
-I made this application to make it easier to search a Microsoft SQL Server database. The application makes it possible to search in:
+This application has been implemented in order to make it easier to quickly search a Microsoft SQL Server database. The application makes it possible to search in:
 
 * Table names
 * Table column names
@@ -18,9 +18,11 @@ I made this application to make it easier to search a Microsoft SQL Server datab
 
 The application searches the specified database system views for the information.
 
-When right-clicking a found stored procedure name og function name in the treeview, its possible to get the definition shown.
+When right-clicking a found stored procedure name og function name in the treeview, it is possible to show the definition of the object.
 
 When right-clicking any found object and choosing 'Find all references', a search is performed for that objects name.
+
+Some of information the application shows, is only accessible to logins that have sysadmin permissions. When informations is not available then the peroperty is shown as 'N/A' (Not available) in the listviews.
 
 Shortcut keys
 ----
@@ -69,9 +71,9 @@ Binaries
 
 A zipfile with the latest build can be here: [https://github.com/CoderAllan/SqlServerSearcher/tree/master/binaries]([https://github.com/CoderAllan/SqlServerSearcher/tree/master/binaries])
 
-To install the tool, just unzip the file and doubleclick the SQLServerSearcher.exe file.
+To install the application, just unzip the file and doubleclick the SQLServerSearcher.exe file.
 
-The tool saves all user settings in a AppState.xml file that is placed in the current users Roaming folder: 
+The application saves all user settings in a AppState.xml file that is placed in the current users Roaming folder:
 `C:\Users\##USER NAME##\AppData\Roaming\SQLServerSearcher\`
 This folder has to be deleted manually to remove all traces of the tool if you decide not to keep the tool.
 
