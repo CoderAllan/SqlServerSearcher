@@ -72,6 +72,7 @@ namespace SQLServerSearcher.Presenters
                 {
                     _view.AppState.CurrentConnection.Open();
                     var databases = _databases.GetDatabases();
+                    _view.ClearDatabasesCombobox();
                     foreach (var database in databases.OrderBy(p => p.Name))
                     {
                         _view.InsertDatabaseIntoCombobox(database.Name);

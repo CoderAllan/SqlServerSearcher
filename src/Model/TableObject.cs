@@ -4,7 +4,7 @@ namespace SQLServerSearcher.Model
     using System.Collections.Generic;
     using System.Globalization;
 
-    public class TableObject
+    public class TableObject : DatabaseObject
     {
         public string Name { get; set; }
         public string ColumnName { get; set; }
@@ -21,11 +21,23 @@ namespace SQLServerSearcher.Model
             {
                 new[] {"Created:", CreatedDate.ToString(CultureInfo.CurrentCulture)},
                 new[] {"Modified:", ModifiedDate.ToString(CultureInfo.CurrentCulture)},
-                new[] {"Last update:", LastUpdate.ToString(CultureInfo.CurrentCulture)},
-                new[] {"Last lookup:", LastLookup.ToString(CultureInfo.CurrentCulture)},
-                new[] {"Last scan:", LastScan.ToString(CultureInfo.CurrentCulture)},
-                new[] {"Last seek:", LastSeek.ToString(CultureInfo.CurrentCulture)},
             };
+            if (LastUpdate != DateTime.MaxValue)
+            {
+                result.Add(new[] {"Last update:", LastUpdate == DateTime.MinValue ? "N/A" : LastUpdate.ToString(CultureInfo.CurrentCulture)});
+            }
+            if (LastLookup != DateTime.MinValue)
+            {
+                result.Add(new[] { "Last lookup:", LastLookup == DateTime.MinValue ? "N/A" : LastLookup.ToString(CultureInfo.CurrentCulture) });
+            }
+            if (LastScan != DateTime.MinValue)
+            {
+                result.Add(new[] { "Last scan:", LastScan == DateTime.MinValue ? "N/A" : LastScan.ToString(CultureInfo.CurrentCulture) });
+            }
+            if (LastSeek != DateTime.MinValue)
+            {
+                result.Add(new[] { "Last seek:", LastSeek == DateTime.MinValue ? "N/A" : LastSeek.ToString(CultureInfo.CurrentCulture) });
+            }
             return result;
         }
     }

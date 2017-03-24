@@ -18,10 +18,10 @@ namespace SQLServerSearcher.Model
             var result = new List<string[]>
             {
                 new[] { "Server version:", ServerVersion },
-                new[] { "Start time:", StartTime.ToString(CultureInfo.CurrentCulture) },
-                new[] { "CPU count:", CPUCount.ToString(CultureInfo.InvariantCulture) },
-                new[] { "Physical memory:", PhysicalMemory.ToString(CultureInfo.InvariantCulture) + " Kb" },
-                new[] { "Available memory:", AvailablePhysicalMemory.ToString(CultureInfo.InvariantCulture)  + " Kb"},
+                new[] { "Start time:", StartTime == DateTime.MinValue ? "N/A" : StartTime.ToString(CultureInfo.CurrentCulture) },
+                new[] { "CPU count:", CPUCount == -1 ? "N/A" : CPUCount.ToString(CultureInfo.InvariantCulture) },
+                new[] { "Physical memory:", PhysicalMemory == -1 ? "N/A" : PhysicalMemory.ToString(CultureInfo.InvariantCulture) + " Kb" },
+                new[] { "Available memory:", AvailablePhysicalMemory == -1 ? "N/A" : AvailablePhysicalMemory.ToString(CultureInfo.InvariantCulture)  + " Kb"},
             };
             return result;
         }

@@ -279,6 +279,11 @@
             cmbServer.SelectedIndex = 0;
         }
 
+        public void ClearDatabasesCombobox()
+        {
+            cmbDatabase.Items.Clear();
+        }
+
         public void InsertDatabaseIntoCombobox(string database)
         {
             cmbDatabase.Items.Add(database);
@@ -371,20 +376,23 @@
 
         private void AddObjectToListView(ListView listView, IDatabaseObject dbObject)
         {
-            listView.BeginUpdate();
-            foreach (var row in dbObject.ToArrayList())
+            if (dbObject != null)
             {
-                var item = new ListViewItem
+                listView.BeginUpdate();
+                foreach (var row in dbObject.ToArrayList())
                 {
-                    Text = row[0]
-                };
-                for (int i = 1; i < row.Count(); i++)
-                {
-                    item.SubItems.Add(row[i]);
+                    var item = new ListViewItem
+                    {
+                        Text = row[0]
+                    };
+                    for (int i = 1; i < row.Count(); i++)
+                    {
+                        item.SubItems.Add(row[i]);
+                    }
+                    listView.Items.Add(item);
                 }
-                listView.Items.Add(item);
+                listView.EndUpdate();
             }
-            listView.EndUpdate();            
         }
 
         public void ShowServerInfo(ServerInfo serverInfo)
@@ -395,9 +403,12 @@
         public void ShowDatabaseInfo(DatabaseMetaInfo databaseMetaInfo)
         {
             AddObjectToListView(lvDatabaseProperties, databaseMetaInfo);
-            foreach (var databaseFile in databaseMetaInfo.DatabaseFiles)
+            if (databaseMetaInfo.DatabaseFiles != null)
             {
-                AddObjectToListView(lvDatabaseProperties, databaseFile);
+                foreach (var databaseFile in databaseMetaInfo.DatabaseFiles)
+                {
+                    AddObjectToListView(lvDatabaseProperties, databaseFile);
+                }
             }
         }
 

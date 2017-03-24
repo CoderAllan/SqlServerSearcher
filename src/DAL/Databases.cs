@@ -48,22 +48,34 @@ namespace SQLServerSearcher.DAL
         {
             var databaseMetaInfo = new DatabaseMetaInfo();
             string sql = GetFindDatabaseMetaInfo(database);
-            using (var reader = ExecuteSql(sql))
+            try
             {
-                if (reader.HasRows)
+                using (var reader = ExecuteSql(sql))
                 {
-                    if (reader.Read())
+                    if (reader.HasRows)
                     {
-                        databaseMetaInfo.Name = database;
-                        databaseMetaInfo.TableCount = reader.GetInt32(reader.GetOrdinal("tableCount"));
-                        databaseMetaInfo.ViewCount = reader.GetInt32(reader.GetOrdinal("viewCount"));
-                        databaseMetaInfo.StoredProcedureCount = reader.GetInt32(reader.GetOrdinal("procedureCount"));
-                        databaseMetaInfo.FunctionCount = reader.GetInt32(reader.GetOrdinal("functionCount"));
-                        databaseMetaInfo.ExtendedPropertiesCount = reader.GetInt32(reader.GetOrdinal("extendedPropertiesCount"));
+                        if (reader.Read())
+                        {
+                            databaseMetaInfo.Name = database;
+                            databaseMetaInfo.TableCount = reader.GetInt32(reader.GetOrdinal("tableCount"));
+                            databaseMetaInfo.ViewCount = reader.GetInt32(reader.GetOrdinal("viewCount"));
+                            databaseMetaInfo.StoredProcedureCount = reader.GetInt32(reader.GetOrdinal("procedureCount"));
+                            databaseMetaInfo.FunctionCount = reader.GetInt32(reader.GetOrdinal("functionCount"));
+                            databaseMetaInfo.ExtendedPropertiesCount = reader.GetInt32(reader.GetOrdinal("extendedPropertiesCount"));
+                        }
                     }
                 }
+                databaseMetaInfo.DatabaseFiles = FindDatabaseFiles(database);
             }
-            databaseMetaInfo.DatabaseFiles = FindDatabaseFiles(database);
+            catch
+            {
+                databaseMetaInfo.Name = "N/A";
+                databaseMetaInfo.TableCount = -1;
+                databaseMetaInfo.ViewCount = -1;
+                databaseMetaInfo.StoredProcedureCount = -1;
+                databaseMetaInfo.FunctionCount = -1;
+                databaseMetaInfo.ExtendedPropertiesCount = -1;
+            }
             return databaseMetaInfo;
         }
 

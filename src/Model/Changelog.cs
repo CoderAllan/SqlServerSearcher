@@ -17,6 +17,17 @@
             changeLog = new ChangelogEntry
             {
                 MajorVersion = 1,
+                MinorVersion = 7,
+                Changes = @"
+Bug: The Databases dropdownbox is now cleared correctly when changing server.
+Bug: The application can now handle users that dont have permission to view information from the system views.
+"
+            };
+            _changeLogEntries.Add(changeLog);
+
+            changeLog = new ChangelogEntry
+            {
+                MajorVersion = 1,
                 MinorVersion = 6,
                 Changes = @"
 Implemented search in the view definition dialog.

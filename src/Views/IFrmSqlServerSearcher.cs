@@ -28,6 +28,7 @@
         void ShowNoResultsFound();
         void ShowErrorDialog(string text);
         void InsertServerIntoCombobox(string server);
+        void ClearDatabasesCombobox();
         void InsertDatabaseIntoCombobox(string database);
         void InsertSearchQueryIntoCombobox(string searchQuery);
         void SetLblServerName();

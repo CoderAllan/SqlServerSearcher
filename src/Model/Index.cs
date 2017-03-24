@@ -4,6 +4,7 @@ namespace SQLServerSearcher.Model
 
     public class Index : TableObject, IDatabaseObject
     {
+        public long IndexId { get; set; }
         public string TableName { get; set; }
         public string TypeDescription { get; set; }
 

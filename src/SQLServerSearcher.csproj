@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="Model\DatabaseFile.cs" />
     <Compile Include="Model\DatabaseMetaInfo.cs" />
+    <Compile Include="Model\DatabaseObject.cs" />
     <Compile Include="Model\EventArgs\BaseFormEventArgs.cs" />
     <Compile Include="Model\Changelog.cs" />
     <Compile Include="Model\ChangelogEntry.cs" />

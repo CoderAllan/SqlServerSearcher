@@ -2,6 +2,7 @@ namespace SQLServerSearcher.DAL
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Contracts;
     using Model;
@@ -14,11 +15,10 @@ namespace SQLServerSearcher.DAL
 
         public string GetFindFunctionsSql(string database, string query)
         {
-            string sql = string.Format(@"SELECT s.name AS schemaName, o.name, ISNULL(pa.name,'') AS parameterName, o.create_date, ISNULL(o.modify_date,'') AS modifyDate, m.definition
+            string sql = string.Format(@"SELECT o.object_id, s.name AS schemaName, o.name, ISNULL(pa.name,'') AS parameterName, o.create_date, ISNULL(o.modify_date,'') AS modifyDate, m.definition
 										   FROM {0}.sys.objects o
 										  INNER JOIN {0}.sys.schemas s ON o.schema_id = s.schema_id
-										  INNER JOIN {0}.sys.sql_modules m ON o.object_id = m.object_id
-										   LEFT OUTER JOIN {0}.sys.dm_exec_procedure_stats st on o.object_id = st.object_id", database);
+										  INNER JOIN {0}.sys.sql_modules m ON o.object_id = m.object_id", database);
             if (!string.IsNullOrEmpty(query))
             {
                 sql += Environment.NewLine;
@@ -32,27 +32,71 @@ namespace SQLServerSearcher.DAL
         {
             var functions = new List<Function>();
             string sql = GetFindFunctionsSql(database, query);
-            using (var reader = ExecuteSql(sql))
+            try
             {
-                if (reader.HasRows)
+                using (var reader = ExecuteSql(sql))
                 {
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        var parameterName = reader.GetString(reader.GetOrdinal("parameterName"));
-                        var function = new Function
+                        while (reader.Read())
                         {
-                            SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
-                            Name = reader.GetString(reader.GetOrdinal("name")),
-                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
-                            CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
-                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
-                            Definition = reader.GetString(reader.GetOrdinal("definition")),
-                        };
-                        functions.Add(function);
+                            var parameterName = reader.GetString(reader.GetOrdinal("parameterName"));
+                            var function = new Function
+                            {
+                                ObjectId = reader.GetInt32(reader.GetOrdinal("object_id")),
+                                SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
+                                Name = reader.GetString(reader.GetOrdinal("name")),
+                                ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
+                                CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
+                                ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
+                                Definition = reader.GetString(reader.GetOrdinal("definition")),
+                            };
+                            functions.Add(function);
+                        }
                     }
                 }
             }
+            catch
+            {
+                // Do nothing
+            }
             return functions;
+        }
+
+        public string GetLastInteractionInfoSql(string database, IEnumerable<long> objectIds)
+        {
+            string sql = string.Format(@"SELECT ius.object_id, ISNULL(st.last_execution_time,'') AS lastExecutionTime
+                                           FROM {0}.sys.dm_exec_procedure_stats st 
+                                          WHERE st.object_id IN ({1})", database, String.Join(",", objectIds));
+            return sql;
+        }
+
+        public void FindLastInteractionInfo(string database, List<Function> functionList)
+        {
+            try
+            {
+                var objectIds = functionList.Select(p => p.ObjectId);
+                string sql = GetLastInteractionInfoSql(database, objectIds);
+                using (var reader = ExecuteSql(sql))
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var objectId = reader.GetInt64(reader.GetOrdinal("object_id"));
+                            var view = functionList.FirstOrDefault(p => p.ObjectId == objectId);
+                            if (view != null)
+                            {
+                                view.LastExecutionTime = reader.GetDateTime(reader.GetOrdinal("lastExecutionTime"));
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Do nothing
+            }
         }
 
         public string GetFindFunctionExtendedPropertiesSql(string database, string query)
@@ -78,23 +122,30 @@ namespace SQLServerSearcher.DAL
         {
             var properties = new List<FunctionExtendedProperty>();
             string sql = GetFindFunctionExtendedPropertiesSql(database, query);
-            using (var reader = ExecuteSql(sql))
+            try
             {
-                if (reader.HasRows)
+                using (var reader = ExecuteSql(sql))
                 {
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        var property = new FunctionExtendedProperty
+                        while (reader.Read())
                         {
-                            SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
-                            ProcedureName = reader.GetString(reader.GetOrdinal("procName")),
-                            ParameterName = reader.GetString(reader.GetOrdinal("parameterName")),
-                            Name = reader.GetString(reader.GetOrdinal("name")),
-                            Value = reader.GetString(reader.GetOrdinal("value")),
-                        };
-                        properties.Add(property);
+                            var property = new FunctionExtendedProperty
+                            {
+                                SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
+                                ProcedureName = reader.GetString(reader.GetOrdinal("procName")),
+                                ParameterName = reader.GetString(reader.GetOrdinal("parameterName")),
+                                Name = reader.GetString(reader.GetOrdinal("name")),
+                                Value = reader.GetString(reader.GetOrdinal("value")),
+                            };
+                            properties.Add(property);
+                        }
                     }
                 }
+            }
+            catch
+            {
+                // Do nothing
             }
             return properties;
         }

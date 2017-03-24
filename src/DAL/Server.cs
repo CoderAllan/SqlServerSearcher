@@ -16,22 +16,35 @@ namespace SQLServerSearcher.DAL
         {
             const string sql = "SELECT i.sqlserver_start_time, i.cpu_count, m.total_physical_memory_kb, m.available_physical_memory_kb FROM sys.dm_os_sys_info i join [sys].[dm_os_sys_memory] m on 1=1";
             ServerInfo serverInfo = null;
-            using (var reader = ExecuteSql(sql))
+            try
             {
-                if (reader.HasRows)
+                using (var reader = ExecuteSql(sql))
                 {
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        serverInfo = new ServerInfo
+                        while (reader.Read())
                         {
-                            ServerVersion = _appState.CurrentConnection.ServerVersion,
-                            PhysicalMemory = reader.GetInt64(reader.GetOrdinal("total_physical_memory_kb")),
-                            AvailablePhysicalMemory = reader.GetInt64(reader.GetOrdinal("available_physical_memory_kb")),
-                            StartTime = reader.GetDateTime(reader.GetOrdinal("sqlserver_start_time")),
-                            CPUCount = reader.GetInt32(reader.GetOrdinal("cpu_count")),
-                        };
+                            serverInfo = new ServerInfo
+                            {
+                                ServerVersion = _appState.CurrentConnection.ServerVersion,
+                                PhysicalMemory = reader.GetInt64(reader.GetOrdinal("total_physical_memory_kb")),
+                                AvailablePhysicalMemory = reader.GetInt64(reader.GetOrdinal("available_physical_memory_kb")),
+                                StartTime = reader.GetDateTime(reader.GetOrdinal("sqlserver_start_time")),
+                                CPUCount = reader.GetInt32(reader.GetOrdinal("cpu_count")),
+                            };
+                        }
                     }
                 }
+            }
+            catch
+            {
+                serverInfo = new ServerInfo
+                {
+                    ServerVersion = _appState.CurrentConnection.ServerVersion,
+                    PhysicalMemory = -1,
+                    AvailablePhysicalMemory = -1,
+                    CPUCount = -1,
+                };
             }
             return serverInfo;
         }

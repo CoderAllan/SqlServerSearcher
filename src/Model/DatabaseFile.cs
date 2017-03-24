@@ -15,7 +15,7 @@ namespace SQLServerSearcher.Model
             {
                 new[] { "File name:", Name },
                 new[] { "File physical path:", PhysicalName },
-                new[] { "Filesize in Mb:", SizeMb.ToString(CultureInfo.InvariantCulture) },
+                new[] { "Filesize in Mb:", SizeMb == -1 ? "N/A" : SizeMb.ToString(CultureInfo.InvariantCulture) },
             };
             return result;
         }

@@ -13,7 +13,7 @@ namespace SQLServerSearcher.Model
             var result = base.ToArrayList();
             var name = string.IsNullOrEmpty(ColumnName) ? string.Format("{0}.{1}", SchemaName, Name) : string.Format("{0}.{1}.{2}", SchemaName, Name, ColumnName);
             result.Insert(0, new[] {"Name:", name});
-            result.Add(new[] {"Row count:", RowCount.ToString(CultureInfo.InvariantCulture)});
+            result.Add(new[] {"Row count:", RowCount == -1 ? "N/A" : RowCount.ToString(CultureInfo.InvariantCulture)});
             return result;
         }
     }

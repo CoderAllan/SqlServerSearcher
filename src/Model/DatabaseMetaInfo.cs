@@ -18,11 +18,11 @@ namespace SQLServerSearcher.Model
             var result = new List<string[]>
             {
                 new []{ "Database name:", Name },
-                new []{ "Tables:", TableCount.ToString(CultureInfo.InvariantCulture) },
-                new []{ "Views:", ViewCount.ToString(CultureInfo.InvariantCulture) },
-                new []{ "Stored procedures:", StoredProcedureCount.ToString(CultureInfo.InvariantCulture) },
-                new []{ "Functions:", FunctionCount.ToString(CultureInfo.InvariantCulture) },
-                new []{ "Extended properties:", ExtendedPropertiesCount.ToString(CultureInfo.InvariantCulture) },
+                new []{ "Tables:", TableCount == -1 ? "N/A" : TableCount.ToString(CultureInfo.InvariantCulture) },
+                new []{ "Views:", ViewCount == -1 ? "N/A" : ViewCount.ToString(CultureInfo.InvariantCulture) },
+                new []{ "Stored procedures:", StoredProcedureCount == -1 ? "N/A" : StoredProcedureCount.ToString(CultureInfo.InvariantCulture) },
+                new []{ "Functions:", FunctionCount == -1 ? "N/A" : FunctionCount.ToString(CultureInfo.InvariantCulture) },
+                new []{ "Extended properties:", ExtendedPropertiesCount == -1 ? "N/A" : ExtendedPropertiesCount.ToString(CultureInfo.InvariantCulture) },
             };
             return result;
         }

@@ -2,6 +2,7 @@ namespace SQLServerSearcher.DAL
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Contracts;
     using Model;
@@ -14,11 +15,10 @@ namespace SQLServerSearcher.DAL
 
         public string GetFindStoredProceduresSql(string database, string query)
         {
-            string sql = string.Format(@"SELECT s.name AS schemaName, pr.name, ISNULL(pa.name,'') AS parameterName, pr.create_date, ISNULL(pr.modify_date,'') AS modifyDate, ISNULL(st.last_execution_time,'') AS lastExecutionTime, m.definition
+            string sql = string.Format(@"SELECT pr.object_id, s.name AS schemaName, pr.name, ISNULL(pa.name,'') AS parameterName, pr.create_date, ISNULL(pr.modify_date,'') AS modifyDate, m.definition
 										   FROM {0}.sys.procedures pr
 										  INNER JOIN {0}.sys.schemas s ON pr.schema_id = s.schema_id
-										  INNER JOIN {0}.sys.sql_modules m ON pr.object_id = m.object_id
-										   LEFT OUTER JOIN {0}.sys.dm_exec_procedure_stats st on pr.object_id = st.object_id", database);
+										  INNER JOIN {0}.sys.sql_modules m ON pr.object_id = m.object_id", database);
             if (!string.IsNullOrEmpty(query))
             {
                 sql += Environment.NewLine;
@@ -32,28 +32,73 @@ namespace SQLServerSearcher.DAL
         {
             var procedures = new List<Procedure>();
             string sql = GetFindStoredProceduresSql(database, query);
-            using (var reader = ExecuteSql(sql))
+            try
             {
-                if (reader.HasRows)
+                using (var reader = ExecuteSql(sql))
                 {
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        var parameterName = reader.GetString(reader.GetOrdinal("parameterName"));
-                        var procedure = new Procedure
+                        while (reader.Read())
                         {
-                            SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
-                            Name = reader.GetString(reader.GetOrdinal("name")),
-                            ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
-                            CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
-                            ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
-                            LastExecutionTime = reader.GetDateTime(reader.GetOrdinal("lastExecutionTime")),
-                            Definition = reader.GetString(reader.GetOrdinal("definition")),
-                        };
-                        procedures.Add(procedure);
+                            var parameterName = reader.GetString(reader.GetOrdinal("parameterName"));
+                            var procedure = new Procedure
+                            {
+                                ObjectId = reader.GetInt32(reader.GetOrdinal("object_id")),
+                                SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
+                                Name = reader.GetString(reader.GetOrdinal("name")),
+                                ParameterName = !string.IsNullOrEmpty(query) && parameterName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ? parameterName : null,
+                                CreatedDate = reader.GetDateTime(reader.GetOrdinal("create_date")),
+                                ModifiedDate = reader.GetDateTime(reader.GetOrdinal("modifyDate")),
+                                LastExecutionTime = reader.GetDateTime(reader.GetOrdinal("lastExecutionTime")),
+                                Definition = reader.GetString(reader.GetOrdinal("definition")),
+                            };
+                            procedures.Add(procedure);
+                        }
+                        FindLastInteractionInfo(database, procedures);
                     }
                 }
             }
+            catch
+            {
+                // Do nothing
+            }
             return procedures;
+        }
+
+        public string GetLastInteractionInfoSql(string database, IEnumerable<long> objectIds)
+        {
+            string sql = string.Format(@"SELECT ius.object_id, ISNULL(st.last_execution_time,'') AS lastExecutionTime
+                                           FROM {0}.sys.dm_exec_procedure_stats st 
+                                          WHERE st.object_id IN ({1})", database, String.Join(",", objectIds));
+            return sql;
+        }
+
+        public void FindLastInteractionInfo(string database, List<Procedure> procedureList)
+        {
+            try
+            {
+                var objectIds = procedureList.Select(p => p.ObjectId);
+                string sql = GetLastInteractionInfoSql(database, objectIds);
+                using (var reader = ExecuteSql(sql))
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var objectId = reader.GetInt64(reader.GetOrdinal("object_id"));
+                            var view = procedureList.FirstOrDefault(p => p.ObjectId == objectId);
+                            if (view != null)
+                            {
+                                view.LastExecutionTime = reader.GetDateTime(reader.GetOrdinal("lastExecutionTime"));
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Do nothing
+            }
         }
 
         public string GetFindStoredProcedureExtendedPropertiesSql(string database, string query)
@@ -78,26 +123,32 @@ namespace SQLServerSearcher.DAL
         {
             var properties = new List<ProcedureExtendedProperty>();
             string sql = GetFindStoredProcedureExtendedPropertiesSql(database, query);
-            using (var reader = ExecuteSql(sql))
+            try
             {
-                if (reader.HasRows)
+                using (var reader = ExecuteSql(sql))
                 {
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        var property = new ProcedureExtendedProperty
+                        while (reader.Read())
                         {
-                            SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
-                            ProcedureName = reader.GetString(reader.GetOrdinal("procName")),
-                            ParameterName = reader.GetString(reader.GetOrdinal("parameterName")),
-                            Name = reader.GetString(reader.GetOrdinal("name")),
-                            Value = reader.GetString(reader.GetOrdinal("value")),
-                        };
-                        properties.Add(property);
+                            var property = new ProcedureExtendedProperty
+                            {
+                                SchemaName = reader.GetString(reader.GetOrdinal("schemaName")),
+                                ProcedureName = reader.GetString(reader.GetOrdinal("procName")),
+                                ParameterName = reader.GetString(reader.GetOrdinal("parameterName")),
+                                Name = reader.GetString(reader.GetOrdinal("name")),
+                                Value = reader.GetString(reader.GetOrdinal("value")),
+                            };
+                            properties.Add(property);
+                        }
                     }
                 }
             }
+            catch
+            {
+                // Do nothing
+            }
             return properties;
         }
-
     }
 }
