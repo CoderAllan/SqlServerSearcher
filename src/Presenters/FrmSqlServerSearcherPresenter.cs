@@ -11,6 +11,7 @@ namespace SQLServerSearcher.Presenters
     using Model;
     using Model.EventArgs;
     using Views;
+    using Index = Model.Index;
 
     public class FrmSqlServerSearcherPresenter
     {

@@ -1,36 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FC45ADA5-263C-4BE8-ABAF-B81D236EBC85}</ProjectGuid>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SQLServerSearcher</RootNamespace>
-    <AssemblyName>SQLServerSearcher</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>SQLServerSearcher.FrmSqlServerSearcher</StartupObject>
@@ -42,155 +18,13 @@
     <Reference Include="ScintillaNET FindReplaceDialog">
       <HintPath>..\lib\ScintillaNET FindReplaceDialog.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="DAL\Contracts\IDatabases.cs" />
-    <Compile Include="DAL\Contracts\IFunctions.cs" />
-    <Compile Include="DAL\Contracts\IIndexes.cs" />
-    <Compile Include="DAL\Contracts\IServer.cs" />
-    <Compile Include="DAL\Contracts\IStoredProcedures.cs" />
-    <Compile Include="DAL\Contracts\ITables.cs" />
-    <Compile Include="DAL\Contracts\IViews.cs" />
-    <Compile Include="DAL\Databases.cs" />
-    <Compile Include="DAL\Functions.cs" />
-    <Compile Include="DAL\Indexes.cs" />
-    <Compile Include="DAL\Searches.cs" />
-    <Compile Include="DAL\Server.cs" />
-    <Compile Include="DAL\StoredProcedures.cs" />
-    <Compile Include="DAL\Tables.cs" />
-    <Compile Include="DAL\Views.cs" />
-    <Compile Include="FrmAbout.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmAbout.Designer.cs">
-      <DependentUpon>FrmAbout.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmChangelog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmChangelog.Designer.cs">
-      <DependentUpon>FrmChangelog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmLogin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmLogin.Designer.cs">
-      <DependentUpon>FrmLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmViewSource.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmViewSource.Designer.cs">
-      <DependentUpon>FrmViewSource.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ApplicationState.cs" />
-    <Compile Include="FrmSqlServerSearcher.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmSqlServerSearcher.Designer.cs">
-      <DependentUpon>FrmSqlServerSearcher.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DatabaseFile.cs" />
-    <Compile Include="Model\DatabaseMetaInfo.cs" />
-    <Compile Include="Model\DatabaseObject.cs" />
-    <Compile Include="Model\EventArgs\BaseFormEventArgs.cs" />
-    <Compile Include="Model\Changelog.cs" />
-    <Compile Include="Model\ChangelogEntry.cs" />
-    <Compile Include="Model\EventArgs\ConnectEventArgs.cs" />
-    <Compile Include="Model\Database.cs" />
-    <Compile Include="Model\EventArgs\CopyInformationEventArgs.cs" />
-    <Compile Include="Model\EventArgs\CopyListToClipboardEventArgs.cs" />
-    <Compile Include="Model\EventArgs\CopyNameEventArgs.cs" />
-    <Compile Include="Model\EventArgs\DatabaseChangedEventArgs.cs" />
-    <Compile Include="Model\EventArgs\FindEventArgs.cs" />
-    <Compile Include="Model\ExtendedProperty.cs" />
-    <Compile Include="Model\FormLocationAndPosition.cs" />
-    <Compile Include="Model\EventArgs\FrmViewSourceFrmLoadEventArgs.cs" />
-    <Compile Include="Model\Function.cs" />
-    <Compile Include="Model\FunctionExtendedProperty.cs" />
-    <Compile Include="Model\IDatabaseObject.cs" />
-    <Compile Include="Model\Index.cs" />
-    <Compile Include="Model\EventArgs\LineOrColumnChangedEventArgs.cs" />
-    <Compile Include="Model\EventArgs\LoginEventArgs.cs" />
-    <Compile Include="Model\Procedure.cs" />
-    <Compile Include="Model\ProcedureExtendedProperty.cs" />
-    <Compile Include="Model\ProcedureObject.cs" />
-    <Compile Include="Model\ServerInfo.cs" />
-    <Compile Include="Model\Table.cs" />
-    <Compile Include="Model\TableExtendedProperty.cs" />
-    <Compile Include="Model\TableObject.cs" />
-    <Compile Include="Model\EventArgs\TreeviewNodeClickEventArgs.cs" />
-    <Compile Include="Model\View.cs" />
-    <Compile Include="Model\ViewExtendedProperty.cs" />
-    <Compile Include="Presenters\BaseFormPresenter.cs" />
-    <Compile Include="Presenters\FrmAboutPresenter.cs" />
-    <Compile Include="Presenters\FrmChangelogPresenter.cs" />
-    <Compile Include="Presenters\FrmLoginPresenter.cs" />
-    <Compile Include="Presenters\FrmSqlServerSearcherPresenter.cs" />
-    <Compile Include="Presenters\FrmViewSourcePresenter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\IBaseForm.cs" />
-    <Compile Include="Views\IFrmAbout.cs" />
-    <Compile Include="Views\IFrmChangelog.cs" />
-    <Compile Include="Views\IFrmLogin.cs" />
-    <Compile Include="Views\IFrmSqlServerSearcher.cs" />
-    <Compile Include="Views\IFrmViewSource.cs" />
-    <EmbeddedResource Include="FrmAbout.resx">
-      <DependentUpon>FrmAbout.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmChangelog.resx">
-      <DependentUpon>FrmChangelog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmLogin.resx">
-      <DependentUpon>FrmLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmSqlServerSearcher.resx">
-      <DependentUpon>FrmSqlServerSearcher.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmViewSource.resx">
-      <DependentUpon>FrmViewSource.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\database-search.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\settings_32x32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\database-search.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="jacobslusser.ScintillaNET">
-      <Version>3.5.10</Version>
+      <Version>3.6.3</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

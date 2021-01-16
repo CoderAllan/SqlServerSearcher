@@ -6,6 +6,7 @@ namespace SQLServerSearcher.DAL
 
     using Contracts;
     using Model;
+    using Index = Model.Index;
 
     public class Indexes : Searches, IIndexes
     {

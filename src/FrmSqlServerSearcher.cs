@@ -12,6 +12,7 @@
     using Model.EventArgs;
     using Presenters;
     using Views;
+    using Index = Model.Index;
 
     public partial class FrmSqlServerSearcher : Form, IBaseForm, IFrmSqlServerSearcher
     {

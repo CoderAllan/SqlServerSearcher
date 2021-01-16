@@ -5,6 +5,7 @@
 
     using Model;
     using Model.EventArgs;
+    using Index = Model.Index;
 
     public interface IFrmSqlServerSearcher
     {
