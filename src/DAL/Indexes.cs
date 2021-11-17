@@ -24,8 +24,8 @@ namespace SQLServerSearcher.DAL
             {
                 sql += Environment.NewLine;
                 sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.index_columns ic ON i.object_id = ic.object_id and i.index_id = ic.index_id
-											LEFT OUTER JOIN {0}.sys.columns c on ic.object_id=c.object_id AND ic.column_id=c.column_id AND c.name LIKE '%{1}%'
-											WHERE i.name LIKE '%{1}%' OR c.name LIKE '%{1}%'", database, query);
+											LEFT OUTER JOIN {0}.sys.columns c on ic.object_id=c.object_id AND ic.column_id=c.column_id AND c.name COLLATE sql_latin1_general_cp1_ci_as LIKE '%{1}%'
+											WHERE i.name COLLATE sql_latin1_general_cp1_ci_as LIKE '%{1}%' OR c.name COLLATE sql_latin1_general_cp1_ci_as LIKE '%{1}%'", database, query);
             }
             return sql;
         }

@@ -38,8 +38,8 @@ namespace SQLServerSearcher.Presenters
             Initialize();
         }
         public FrmSqlServerSearcherPresenter(IFrmSqlServerSearcher view) : this(
-            view, 
-            new Server(view.AppState),  
+            view,
+            new Server(view.AppState),
             new Databases(view.AppState),
             new Tables(view.AppState),
             new Views(view.AppState),
@@ -146,6 +146,10 @@ namespace SQLServerSearcher.Presenters
             if (args.LookInExtendedProperties)
             {
                 var tableExtendedProperties = _tables.FindTableExtendedProperties(args.Database, args.FindWhat);
+                if (args.MatchCase)
+                {
+                    tableExtendedProperties = tableExtendedProperties.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                }
                 tableExtendedProperties = tableExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.TableName).ThenBy(p => p.ColumnName).ThenBy(p => p.Name).ToList();
                 _view.InsertTableExtendedPropertiesIntoTreeview(tableExtendedProperties);
                 rowCount = tableExtendedProperties.Count;
@@ -177,6 +181,10 @@ namespace SQLServerSearcher.Presenters
             if (args.LookInExtendedProperties)
             {
                 var viewExtendedProperties = _views.FindViewExtendedProperties(args.Database, args.FindWhat);
+                if (args.MatchCase)
+                {
+                    viewExtendedProperties = viewExtendedProperties.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                }
                 viewExtendedProperties = viewExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.TableName).ThenBy(p => p.ColumnName).ThenBy(p => p.Name).ToList();
                 _view.InsertViewExtendedPropertiesIntoTreeview(viewExtendedProperties);
                 rowCount = viewExtendedProperties.Count;
@@ -225,6 +233,10 @@ namespace SQLServerSearcher.Presenters
             if (args.LookInExtendedProperties)
             {
                 var procedureExtendedProperties = _storedProcedures.FindProcedureExtendedProperties(args.Database, args.FindWhat);
+                if (args.MatchCase)
+                {
+                    procedureExtendedProperties = procedureExtendedProperties.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                }
                 procedureExtendedProperties = procedureExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.ProcedureName).ThenBy(p => p.ParameterName).ThenBy(p => p.Name).ToList();
                 _view.InsertProcedureExtendedPropertiesIntoTreeview(procedureExtendedProperties);
                 rowCount = procedureExtendedProperties.Count;
@@ -256,6 +268,10 @@ namespace SQLServerSearcher.Presenters
             if (args.LookInExtendedProperties)
             {
                 var functionExtendedProperties = _functions.FindFunctionExtendedProperties(args.Database, args.FindWhat);
+                if (args.MatchCase)
+                {
+                    functionExtendedProperties = functionExtendedProperties.Where(p => string.Compare(p.Name, args.FindWhat, StringComparison.Ordinal) == 0).ToList();
+                }
                 functionExtendedProperties = functionExtendedProperties.OrderBy(p => p.SchemaName).ThenBy(p => p.ProcedureName).ThenBy(p => p.ParameterName).ThenBy(p => p.Name).ToList();
                 _view.InsertFunctionExtendedPropertiesIntoTreeview(functionExtendedProperties);
                 rowCount = functionExtendedProperties.Count;
@@ -398,9 +414,13 @@ namespace SQLServerSearcher.Presenters
 
         private void AppendSqlSection(string sql, StringBuilder sb)
         {
-            sb.AppendLine(sql);
-            sb.AppendLine("GO");
-            sb.AppendLine();
+            if (!string.IsNullOrEmpty(sql))
+            {
+                sb.AppendLine(sql);
+                sb.AppendLine("GO");
+                sb.AppendLine();
+            }
+
         }
 
         private void DoCopyNameToClipboardToolStripMenuItemClick(object sender, CopyNameEventArgs e)

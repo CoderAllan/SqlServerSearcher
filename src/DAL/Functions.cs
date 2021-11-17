@@ -22,8 +22,8 @@ namespace SQLServerSearcher.DAL
             if (!string.IsNullOrEmpty(query))
             {
                 sql += Environment.NewLine;
-                sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.parameters pa ON o.object_id = pa.object_id AND pa.name LIKE '%{1}%' 
-										   WHERE o.type_desc like '%FUNCTION%' AND (s.name LIKE '%{1}%' OR o.name LIKE '%{1}%' OR pa.name LIKE '%{1}%' OR m.definition LIKE '%{1}%')", database, query);
+                sql += string.Format(@"   LEFT OUTER JOIN {0}.sys.parameters pa ON o.object_id = pa.object_id AND pa.name COLLATE sql_latin1_general_cp1_ci_as LIKE '%{1}%' 
+										   WHERE o.type_desc COLLATE sql_latin1_general_cp1_ci_as LIKE '%FUNCTION%' AND (s.name COLLATE sql_latin1_general_cp1_ci_as LIKE '%{1}%' OR o.name COLLATE sql_latin1_general_cp1_ci_as LIKE '%{1}%' OR pa.name COLLATE sql_latin1_general_cp1_ci_as LIKE '%{1}%' OR m.definition COLLATE sql_latin1_general_cp1_ci_as LIKE '%{1}%')", database, query);
             }
             return sql;
         }
